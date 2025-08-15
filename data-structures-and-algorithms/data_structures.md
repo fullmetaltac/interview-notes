@@ -1,5 +1,17 @@
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Arrays and strings](#arrays-and-strings)
+  - [References](#references)
 
-[Big O](leetcode/Big-O.md)
+## Introduction
+
+📝[Big O](leetcode/Introduction/Big-O.md)
+
+## Arrays and strings
+
+💻[Reverse String](leetcode/Arrays-and-strings/Reverse-String.md)
+
 
 
 ## References
