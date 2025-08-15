@@ -13,6 +13,7 @@
 - ---
 ### Data Engineering
 - [SQL](data-engineering/sql.md)
+- [SQLZoo](data-engineering/sql-zoo.md)
 - ---
 ### Networking
 - [Networking](networking/networking.md)
@@ -24,8 +25,3 @@
 - [QA](qauality-assurance/qa.md)
 - [ISTQB](qauality-assurance/istqb.md)
 - ---
-
-**Note-taking rules:**
-1. Keep it concise.
-1. Make it useful.
-1. Do now, refine later.
