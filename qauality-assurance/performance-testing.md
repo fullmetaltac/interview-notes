@@ -12,6 +12,9 @@
     - [Performance Testing](#performance-testing)
     - [Load Testing](#load-testing)
     - [Stress Testing](#stress-testing)
+    - [Endurance (Soak) Testing](#endurance-soak-testing)
+    - [Spike Testing](#spike-testing)
+    - [Scalability Testing](#scalability-testing)
   - [SLO, SLA and SLI](#slo-sla-and-sli)
   - [References](#references)
 
@@ -38,15 +41,15 @@ If the value of the standard deviation is small, this indicates that all the val
 
 ### Percentiles: p90, p95, and p99
 
-**The 90th Percentile (p90)**
+- **The 90th Percentile (p90)**
 
 The 90th percentile (p90) indicates that 90% of the sample values are below this threshold, while the remaining 10% are above it. This is useful for identifying the majority of user experiences and boosting that most users have acceptable response times.
 
-**The 95th Percentile (p95)**
+- **The 95th Percentile (p95)**
 
 The 95th percentile (**p95**) shows that 95% of the sample values fall below this threshold, with the remaining 5% above it. This provides a more stringent measure of performance, enabling nearly all users to have a good experience.
 
-**The 99th Percentile (p99)**
+- **The 99th Percentile (p99)**
 
 The 99th percentile (**p99**) represents the value below which 99% of the sample falls, leaving only 1% above it. This is particularly useful for identifying outliers and making it possible that even the worst-case scenarios are within acceptable limits.
 
@@ -110,15 +113,15 @@ Checks how a system behaves under the expected user load. Usually involves gradu
 
 Pushes the system beyond normal load to find its breaking point and observe how it fails and recovers.
 
-1. Endurance (Soak) Testing
+### Endurance (Soak) Testing
 
 Also known as soak testing. The system is tested for hours or days under normal or peak load to detect memory leaks, performance degradation, or other long-term issues.
 
-1. Spike Testing
+### Spike Testing
 
 Checks system response to sudden and extreme load spikes — user numbers rise sharply and then drop just as quickly. Useful for scenarios like flash sales or viral events.
 
-1. Scalability Testing
+### Scalability Testing
 
 Focuses on evaluating how well a system can scale with increased load — both vertically (more powerful hardware) and horizontally (more servers) — while maintaining performance
 
