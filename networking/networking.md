@@ -50,6 +50,10 @@
         - [X-Content-Type-Options](#x-content-type-options)
         - [Referrer-Policy](#referrer-policy)
       - [HTTP Over TLS](#http-over-tls)
+    - [WebSockets](#websockets)
+      - [WebSocket vs HTTP](#websocket-vs-http)
+      - [WebSocket connection establishment](#websocket-connection-establishment)
+      - [WebSocket Protocol](#websocket-protocol)
     - [FTP](#ftp)
     - [SMTP](#smtp)
     - [POP3](#pop3)
@@ -952,6 +956,85 @@ HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over T
 - Establish a TLS session
 - Communicate using the HTTP protocol; for example, issue HTTP requests, such as `GET / HTTP/1.1`
 
+### WebSockets
+
+WebSocket is a network protocol that provides **full-duplex communication over a single, persistent TCP connection**. Unlike HTTP which follows a request-response model, WebSockets enable continuous, low-latency, bi-directional communication between client and server.
+
+![websockets](images/websockets.webp)
+
+This makes them perfect for realtime use cases like:
+
+- Live chat applications
+- Multiplayer gaming
+- Collaborative document editing
+- IoT device updates
+- Financial dashboards
+
+#### WebSocket vs HTTP
+
+As WebSocket protocol is capable to support continual data transmission, it’s majorly used in real-time application development. HTTP is stateless and is used for the development of RESTful and SOAP applications.
+
+In WebSocket, communication occurs at both ends, which makes it a faster protocol. In HTTP, the connection is built at one end, making it a bit sluggish than WebSocket.
+
+WebSocket uses a unified TCP connection and needs one party to terminate the connection. Until it happens, the connection remains active. HTTP needs to build a distinct connection for separate requests. Once the request is completed, the connection breaks automatically. 
+
+![sockets_vs_http](images/sockets_vs_http.png)
+
+#### WebSocket connection establishment
+
+The process starts with a WebSocket handshake that involves using a new scheme ws or wss. To understand quickly, you may consider them equivalent to HTTP and secure HTTP (HTTPS) respectively.
+
+The WebSocket connection establishment begins with HTTP request upgrading that features a couple of headers such as Connection: Upgrade, Upgrade: WebSocket, Sec-WebSocket- Key, and so on. 
+
+- **The Request**
+
+**Connection**: **Upgrade** header denotes the WebSocket handshake while the **Sec-WebSocket-Key** features Base64-encoded random value. This value is arbitrarily generated during every WebSocket handshake. Besides the above, the key header is also a part of this request.
+
+The above-listed headers, when combined, form an HTTP GET request. It will have similar data in it:
+```http
+GET ws://websocketexample.com:8181/ HTTP/1.1
+Host: localhost:8181
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Key: b6gjhT32u488lpuRwKaOWs==
+```
+
+- **The Response**
+
+The response header, **Sec-WebSocket-Accept**, features the zest of value submitted in the **Sec-WebSocket-Key** request header. This is connected with a particular protocol specification and is used widely to keep misleading information at bay. In other words, it enhances the API security and stops ill-configured servers from creating blunders in the application development. 
+
+On the success of the previously-sent request, a response similar to the below-mentioned text sequence will be received:
+
+```http
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: rG8wsswmHTJ85lJgAE3M5RTmcCE=
+```
+
+#### WebSocket Protocol
+
+WebSocket protocol is a type of framed protocol that involves various discrete chucks with each data. It also deploys a frame type, data portion, and payload length for proper functioning. To have a detailed understanding of WebSocket protocol, knowing its building block is crucial. The foremost bits are mentioned below.
+
+- **Fin Bit** is the fundamental bit of the WebSocket. It will be automatically generated when one begins the connection. 
+
+- **RSV1, RSV2, RSV3 Bits** are bits reserved for further opportunities. 
+
+- **Opcode** is the part of every frame and explains the process of interpreting the payload data of a particular frame. Some of the common opcode values are 0x00, 0x0, 0x02, 0x0a, 0x08, and many more. 
+
+- **Mask bit** activates when one bit is set to 1. 
+
+WebSocket demands the use of a client-picked random key for all the payload data. Masking key, when combined with payload data, assists payload data sharing in an XOR operation. Doing so holds great importance from the application API security as masking keeps cache misinterpreting or cache poisoning at bay. 
+
+- **Payload len**. This is used for the total length encoding of the payload data in WebSocket. Payload len is displayed when the encoded data length is less than 126 bytes. Once the payload data length is exceeded from 126 bytes, additional fields are used for describing the payload length. 
+
+- **Masking-key**. Every frame that the client sends to the server is masked with a 32-bit value. The masking key displays when the mask bit is 1. In the case of 0 as the mask bit, the masking key will be zero. 
+
+- **Payload data**. All sorts of arbitrary application data and extension data are known as payload data. The client and servers use this data for negotiation and are used in the early WebSocket handshakes. 
+
 ### FTP
 
 Unlike HTTP, which is designed to retrieve web pages, File Transfer Protocol (FTP) is designed to transfer files. As a result, FTP is very efficient for file transfer, and when all conditions are equal, it can achieve higher speeds than HTTP.
@@ -1265,3 +1348,4 @@ Finally, some countries consider using VPNs illegal and even punishable. Please 
 - https://tryhackme.com/room/networkingcoreprotocols
 - https://tryhackme.com/room/networkingsecureprotocols
 - https://tryhackme.com/room/webapplicationbasics
+- https://www.wallarm.com/what/a-simple-explanation-of-what-a-websocket-is
