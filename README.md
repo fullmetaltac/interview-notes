@@ -2,7 +2,7 @@
 - [Python](programming/python/python.md)
 - ---
 ### Data Structures and Algorithms
-- **[Data structures](data-structures-and-algorithms/data_structures.md)*
+- **[Data Structures and Algorithms](data-structures-and-algorithms/data_structures.md)*
 - ---
 ### Software Design
 - [SOLID](software-design/solid.md)
@@ -24,4 +24,5 @@
 ### Quality Assurance
 - [QA](qauality-assurance/qa.md)
 - [ISTQB](qauality-assurance/istqb.md)
+- [Performance Testing](qauality-assurance/performance-testing.md)
 - ---

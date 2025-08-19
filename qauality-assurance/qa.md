@@ -8,10 +8,10 @@
     - [Test Design Techniques](#test-design-techniques)
       - [Equivalent class partitioning](#equivalent-class-partitioning)
       - [Boundary value analysis](#boundary-value-analysis)
-    - [State transition](#state-transition)
+      - [State transition](#state-transition)
       - [Pairwise testing](#pairwise-testing)
       - [Error guessing](#error-guessing)
-    - [Test Strategy vs Test Plan.](#test-strategy-vs-test-plan)
+    - [Test Strategy vs Test Plan](#test-strategy-vs-test-plan)
     - [Test Coverage Metrics](#test-coverage-metrics)
     - [Classification of Different Types of Testing](#classification-of-different-types-of-testing)
   - [References](#references)
@@ -136,7 +136,7 @@ Let’s take the previous scenario with varying shipping rates. We have the same
 
 ![boundary-value-analysis](images/boundary-value-analysis.png)
 
-### State transition
+#### State transition
 
 The state transition visualizes the states of a software system at different time frames and stages of usage. Visual information is simpler to perceive compared to verbal description. Therefore, the state transition allows you to come up with ultimate test coverage more quickly. This technique is effective for creating test suites for systems that have many state variations. It will be helpful if you test a sequence of events with a finite number of input options.
 
@@ -181,7 +181,7 @@ Error guessing is the most experimental practice of all, usually applied along w
 - Uploading files that exceed the maximum limit.
 - ... and so on.
 
-### Test Strategy vs Test Plan.
+### Test Strategy vs Test Plan
 
 Simply put, both the Test Plan and Test Strategy are essential documents in the testing process, but they serve different purposes and address different levels of detail. The Test Plan focuses on the specifics of testing for a particular project, while the Test Strategy sets the overarching approach and principles for testing across projects or the entire organization.
 
