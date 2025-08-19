@@ -49,6 +49,9 @@
         - [Strict-Transport-Security (HSTS)](#strict-transport-security-hsts)
         - [X-Content-Type-Options](#x-content-type-options)
         - [Referrer-Policy](#referrer-policy)
+      - [HTTP cache](#http-cache)
+        - [Cacheability of HTTP Methods](#cacheability-of-http-methods)
+        - [Cache levels](#cache-levels)
       - [HTTP Over TLS](#http-over-tls)
     - [WebSockets](#websockets)
       - [WebSocket vs HTTP](#websocket-vs-http)
@@ -951,6 +954,58 @@ Here’s a breakdown of the Referrer-Policy header by directives:
 **strict-origin-when-cross-origin**
 - This is similar to strict-origin except for same-origin requests, where it sends the full URL path in the origin header.
 
+#### HTTP cache
+
+The HTTP cache stores a response associated with a request and reuses the stored response for subsequent requests.
+
+##### Cacheability of HTTP Methods
+
+| Method   | Cacheable?          | Notes                      |
+| -------- | ------------------- | -------------------------- |
+| **GET**  | ✅ Yes               | Main method for caching    |
+| **HEAD** | ✅ Yes               | Same as GET without body   |
+| **POST** | ⚠️ Theoretically yes | Only if explicitly allowed |
+| PUT      | ❌ No                | Modifies resource          |
+| DELETE   | ❌ No                | Removes resource           |
+| PATCH    | ❌ No                | Modifies resource          |
+| OPTIONS  | ❌ No                | Service method             |
+| CONNECT  | ❌ No                | Proxy tunneling            |
+| TRACE    | ❌ No                | Diagnostic                 |
+
+##### Cache levels
+
+![type-of-cache.svg](images/type-of-cache.svg)
+
+- **Private cache (user’s browser)**
+
+Used only for a single client. Typically applied to personalized data (e.g., profile pages).
+
+```http
+Cache-Control: private, max-age=3600
+```
+
+The resource will be stored only in the user’s browser, and won’t be cached by proxies or CDNs.
+
+- **Shared cache (proxy, corporate cache, CDN)**
+
+A cache shared by multiple users. Well-suited for static content (images, JS, CSS).
+
+```http
+Cache-Control: public, max-age=86400
+```
+
+The resource can be stored both in the browser and in any intermediate caches (CDN, ISP proxy).
+
+- **Reverse proxy cache (e.g., CDN, Varnish)**
+
+This is more of an architectural level (not only headers). The server provides directives, and the reverse proxy decides whether to cache.
+
+```http
+Cache-Control: public, s-maxage=600
+```
+- `s-maxage` — defines a TTL specifically for shared caches (CDNs, proxies).
+- `public` — allows caching anywhere.
+
 #### HTTP Over TLS
 
 HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over TLS. Consequently, requesting a page over HTTPS will require the following three steps (after resolving the domain name):
@@ -1397,6 +1452,7 @@ Finally, some countries consider using VPNs illegal and even punishable. Please 
 - https://tryhackme.com/room/networkingessentials
 - https://tryhackme.com/room/networkingcoreprotocols
 - https://tryhackme.com/room/networkingsecureprotocols
+- https://www.wallarm.com/what/the-concept-of-grpc
 - https://tryhackme.com/room/webapplicationbasics
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching
 - https://www.wallarm.com/what/a-simple-explanation-of-what-a-websocket-is
-- https://www.wallarm.com/what/the-concept-of-grpc?utm_source=chatgpt.com
