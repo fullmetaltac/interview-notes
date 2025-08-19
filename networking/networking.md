@@ -54,6 +54,9 @@
       - [WebSocket vs HTTP](#websocket-vs-http)
       - [WebSocket connection establishment](#websocket-connection-establishment)
       - [WebSocket Protocol](#websocket-protocol)
+    - [gRPC](#grpc)
+      - [Protocol Buffers](#protocol-buffers)
+      - [Streaming](#streaming)
     - [FTP](#ftp)
     - [SMTP](#smtp)
     - [POP3](#pop3)
@@ -1035,6 +1038,53 @@ WebSocket demands the use of a client-picked random key for all the payload data
 
 - **Payload data**. All sorts of arbitrary application data and extension data are known as payload data. The client and servers use this data for negotiation and are used in the early WebSocket handshakes. 
 
+### gRPC
+
+- gRPC is a robust open-source RPC (Remote Procedure Call) framework used to build scalable and fast APIs.
+- In 2015, Google developed gRPC as an extension of the RPC framework to link many microservices created with different technologies.
+- gRPC owes its development and success to the use of the leading technologies that perform better than JSON and XML and provide increased API security.
+
+![What-is-gRPC](images/What-is-gRPC.webp)
+
+#### Protocol Buffers
+
+Protocol buffers, or Protobuf, is Google’s serialization/deserialization protocol that enables the easy definition of services and auto-generation of client libraries. gRPC uses this protocol as their Interface Definition Language (IDL) and serialization toolset. Its current version is proto3, which has the latest features and is easier to use.
+
+![Protocol-Buffers](images/Protocol-Buffers.jpeg)
+
+A schema for a particular use of protocol buffers associates data types with field names, using integers to identify each field. (The protocol buffer data contains only the numbers, not the field names, providing some bandwidth/storage savings compared with systems that include the field names in the data.)
+
+```proto
+// polyline.proto
+syntax = "proto2";
+
+message Point {
+  required int32 x = 1;
+  required int32 y = 2;
+  optional string label = 3;
+}
+
+message Line {
+  required Point start = 1;
+  required Point end = 2;
+  optional string label = 3;
+}
+
+message Polyline {
+  repeated Point point = 1;
+  optional string label = 2;
+}
+```
+
+#### Streaming
+Streaming is another key concept of gRPC, where many processes can take place in a single request. The multiplexing capability (sending multiple responses or receiving multiple requests together over a single TCP connection) of HTTP/2 makes it possible. Here are the main types of streaming:
+
+- **Server-streaming** RPCs – The client sends a single request to the server and receives back a stream of data sequences. The sequence is preserved, and server messages continuously stream until there are no messages left.
+
+- **Client-streaming** RPCs – The client sends a stream of data sequences to the server, which then processes and returns a single response to the client. Once again, gRPC guarantees message sequencing within an independent RPC call.
+
+- **Bidirectional-streaming** RPCs – It is two-way streaming where both client and server sends a sequence of messages to each other. Both streams operate independently; thus, they can transmit messages in any sequence. The sequence of messages in each stream is preserved.
+
 ### FTP
 
 Unlike HTTP, which is designed to retrieve web pages, File Transfer Protocol (FTP) is designed to transfer files. As a result, FTP is very efficient for file transfer, and when all conditions are equal, it can achieve higher speeds than HTTP.
@@ -1349,3 +1399,4 @@ Finally, some countries consider using VPNs illegal and even punishable. Please 
 - https://tryhackme.com/room/networkingsecureprotocols
 - https://tryhackme.com/room/webapplicationbasics
 - https://www.wallarm.com/what/a-simple-explanation-of-what-a-websocket-is
+- https://www.wallarm.com/what/the-concept-of-grpc?utm_source=chatgpt.com
