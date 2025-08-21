@@ -9,8 +9,6 @@
     - [Superuser](#superuser)
     - [Groups](#groups)
     - [Ownership and Permissions](#ownership-and-permissions)
-      - [File Type](#file-type)
-      - [Permissions Classes](#permissions-classes)
   - [Directory Structure](#directory-structure)
   - [References](#references)
 
@@ -115,7 +113,7 @@ Here is a breakdown of the mode metadata of the first file in the above example:
 
 ![mode](images/mode.png)
 
-#### File Type
+**File Type**
 
 In Linux, there are two types of files: **normal** and **special**. The file type is indicated by the first character of the mode of a file — in this guide, this will be referred to as the “file type field”.
 
@@ -123,7 +121,7 @@ Normal files can be identified by a hyphen (`-`) in their file type fields. Norm
 
 Special files can be identified by a non-hyphen character, such as a letter, in their file type fields, and are handled by the OS differently than normal files. The character that appears in the file type field indicates the kind of special file a particular file is. For example, a directory, which is the most common kind of special file, is identified by the `d` character that appears in its file type field.
 
-#### Permissions Classes
+**Permissions Classes**
 
 From the diagram, you can see that the mode column indicates the file type, followed by three triads, or classes, of permissions: user (owner), group, and other. The order of the classes is consistent across all Linux systems.
 
@@ -151,7 +149,7 @@ Everything, all the files and directories, in Linux are located under 'root' rep
 
 - **/bin – Binaries**
 
-The `/bin` directly contains the executable files of many basic shell commands like ls, cp, cd etc.
+The '/bin' directly contains the executable files of many basic shell commands like ls, cp, cd etc.
 
 - **/dev – Device files**
 
