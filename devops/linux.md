@@ -141,8 +141,6 @@ A hyphen (`-`) in the place of one of these characters indicates that the respec
 
 ## Directory Structure
 
-![Linux Directory Structure](images/Directory-Structure.png)
-
 - **/ – The root directory**
 
 Everything, all the files and directories, in Linux are located under 'root' represented by '/'. If you look at the directory structure, you'll realize that it is similar to a plant's root.
@@ -158,8 +156,8 @@ This directory only contains special files, including those relating to the devi
 Some interesting examples of these files are:
 
   1. /dev/null: can be sent to destroy any file or string
-  1. /dev/zero: contains an infinite sequence of 0
-  1. /dev/random: contains an infinite sequence of random values
+  2. /dev/zero: contains an infinite sequence of 0
+  3. /dev/random: contains an infinite sequence of random values
 
 - **/etc – Configuration files**
 
