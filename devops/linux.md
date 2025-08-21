@@ -140,92 +140,25 @@ In each triad, read, write, and execute permissions are represented in the follo
 A hyphen (`-`) in the place of one of these characters indicates that the respective permission is not available for the respective class. For example, if the group (second) triad for a file is r--, the file is “read-only” to the group that is associated with the file.
 
 ## Directory Structure
-
-- **/ – The root directory**
-
-Everything, all the files and directories, in Linux are located under 'root' represented by '/'. If you look at the directory structure, you'll realize that it is similar to a plant's root.
-
-- **/bin – Binaries**
-
-The '/bin' directly contains the executable files of many basic shell commands like ls, cp, cd etc.
-
-- **/dev – Device files**
-
-This directory only contains special files, including those relating to the devices. These are virtual files, not physically on the disk.
-
-Some interesting examples of these files are:
-
-  1. /dev/null: can be sent to destroy any file or string
-  2. /dev/zero: contains an infinite sequence of 0
-  3. /dev/random: contains an infinite sequence of random values
-
-- **/etc – Configuration files**
-
-The /etc directory contains the core configuration files of the system, use primarily by the administrator and services, such as the password file and networking files.
-
-If you need to make changes in system configuration (for example, changing the hostname), the etc folder is where you'll find the respective files.
-
-
-- **/usr – User binaries and program data**
-in '/usr' go all the executable files, libraries, source of most of the system programs. For this reason, most of the files contained therein is read­only (for the normal user)
-
-  1. '/usr/bin' contains basic user commands
-  1. '/usr/sbin' contains additional commands for the administrator
-  1. '/usr/lib' contains the system libraries
-  1. '/usr/share' contains documentation or common to all libraries, for example '/usr/share/man' contains the text of the manpage
-
-- **/home – User personal data**
-
-Home directory contains personal directories for the users. The home directory contains the user data and user-specific configuration files. As a user, you'll put your personal files, notes, programs etc in your home directory.
-
-- **/lib – Shared libraries**
-
-Libraries are basically codes that can be used by the executable binaries. The /lib directory holds the libraries needed by the binaries in /bin and /sbin directories.
-
-Libraries needed by the binaries in the /usr/bin and /usr/sbin are located in the directory /usr/lib.
-
-- **/sbin – System binaries**
-This is similar to the /bin directory. The only difference is that is contains the binaries that can only be run by root or a sudo user. You can think of the ‘s' in ‘sbin' as super or sudo.
-
-- **/tmp – Temporary files**
-
-As the name suggests, this directory holds temporary files. Many applications use this directory to store temporary files. Even you can use directory to store temporary files.
-
-But do note that the contains of the /tmp directories are deleted when your system restarts. Some Linux system also delete files old files automatically so don' store anything important here.
-
-- **/var – Variable data files**
-
-Var, short for variable, is where programs store runtime information like system logging, user tracking, caches, and other files that system programs create and manage.
-
-- **/boot – Boot files**
-
-The '/boot' directory contains the files of the kernel and boot image, in addition to LILO and Grub. It is often advisable that the directory resides in a partition at the beginning of the disc.
-
-- **/proc – Process and kernel files**
-
-The '/proc' directory contains the information about currently running processes and kernel parameters. The content of the proc directory is used by a number of tools to get runtime system information.
-
-- **/opt – Optional software**
-
-Traditionally, the /opt directory is used for installing/storing the files of third-party applications that are not available from the distribution's repository.
-
-The normal practice is to keep the software code in opt and then link the binary file in the /bin directory so that all the users can run it.
-
-- **/root – The home directory of the root**
-
-There is /root directory as well and it works as the home directory of the root user. So instead of /home/root, the home of root is located at /root. Do not confuse it with the root directory (/).
-
-- **/media – Mount point for removable media**
-
-When you connect a removable media such as USB disk, SD card or DVD, a directory is automatically created under the /media directory for them. You can access the content of the removable media from this directory.
-
-- **/mnt – Mount directory**
-
-This is similar to the /media directory but instead of automatically mounting the removable media, mnt is used by system administrators to manually mount a filesystem.
-
-- **/srv – Service data**
-
-The /srv directory contains data for services provided by the system. For example, if you run a HTTP server, it's a good practice to store the website data in the /srv directory.
+| Directory | Description                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| /         | The root directory. Everything, all the files and directories, in Linux are located under 'root' represented by '/'. Similar to a plant's root.                           |
+| /bin      | Binaries. Contains executable files of basic shell commands like `ls`, `cp`, `cd`, etc.                                                                                   |
+| /dev      | Device files. Contains special virtual files related to devices, not physically on the disk. Examples: `/dev/null`, `/dev/zero`, `/dev/random`.                           |
+| /etc      | Configuration files. Contains core system configuration files, used primarily by administrator and services.                                                              |
+| /usr      | User binaries and program data. Contains executable files, libraries, sources of most system programs. Subdirectories: `/usr/bin`, `/usr/sbin`, `/usr/lib`, `/usr/share`. |
+| /home     | User personal data. Contains personal directories for users with their data and configuration files.                                                                      |
+| /lib      | Shared libraries. Holds libraries needed by binaries in `/bin` and `/sbin`. Libraries for `/usr/bin` and `/usr/sbin` are in `/usr/lib`.                                   |
+| /sbin     | System binaries. Similar to `/bin` but contains binaries that can only be run by root or sudo users.                                                                      |
+| /tmp      | Temporary files. Holds temporary files; contents are deleted on system restart. Some systems delete old files automatically.                                              |
+| /var      | Variable data files. Stores runtime information like logs, caches, and files created/managed by system programs.                                                          |
+| /boot     | Boot files. Contains kernel files and boot images (LILO, GRUB). Usually on a partition at the beginning of the disk.                                                      |
+| /proc     | Process and kernel files. Contains information about currently running processes and kernel parameters.                                                                   |
+| /opt      | Optional software. Used for third-party applications not in the distribution's repository. Code is stored here, binaries often linked to `/bin`.                          |
+| /root     | Home directory of the root user. Not to be confused with the root directory `/`.                                                                                          |
+| /media    | Mount point for removable media. Directories are created automatically for USB, SD cards, DVDs, etc.                                                                      |
+| /mnt      | Mount directory. Used by system administrators to manually mount filesystems.                                                                                             |
+| /srv      | Service data. Contains data for system services (e.g., web server files).                                                                                                 |
 
 --- 
 
