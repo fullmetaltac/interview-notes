@@ -10,6 +10,10 @@
     - [Groups](#groups)
     - [Ownership and Permissions](#ownership-and-permissions)
   - [Directory Structure](#directory-structure)
+  - [Linux Processes](#linux-processes)
+    - [Types of Linux Processes](#types-of-linux-processes)
+    - [Process States](#process-states)
+    - [Essential Commands](#essential-commands)
   - [References](#references)
 
 ## Interacting With the Filesystem
@@ -159,6 +163,75 @@ A hyphen (`-`) in the place of one of these characters indicates that the respec
 | /media    | Mount point for removable media. Directories are created automatically for USB, SD cards, DVDs, etc.                                                                      |
 | /mnt      | Mount directory. Used by system administrators to manually mount filesystems.                                                                                             |
 | /srv      | Service data. Contains data for system services (e.g., web server files).                                                                                                 |
+
+## Linux Processes
+
+In the Linux operating system, a process is defined as a program in execution. It represents an instance of a running program, encompassing both the program code and its current activity. Each process in Linux is assigned a unique Process ID (PID), which allows the operating system to manage and track it effectively.
+
+### Types of Linux Processes
+
+Linux processes can be broadly categorized into two main types:
+
+- **Foreground Processes**: These are interactive processes that require user input and are executed in the foreground. They are directly associated with a terminal and can be managed using job control commands. Foreground processes typically occupy the terminal until they complete or are manually suspended.
+
+- **Background Processes**: These processes run independently of user interaction and are often used for system services and long-running tasks. Background processes can be initiated by appending the `&` symbol at the end of a command or by using the `nohup` command to ensure they continue running even after the user logs out.
+
+### Process States
+
+Throughout its lifecycle, a Linux process can transition through several states:
+
+- **Running**: The process is currently being executed by the CPU.
+- **Sleeping**: The process is waiting for an event to occur, such as I/O completion.
+- **Stopped**: The process has been halted, usually by receiving a signal.
+- **Zombie**: The process has completed execution, but its parent has not yet read its exit status.
+
+### Essential Commands
+
+**The `ps` Command: Process Status**
+
+The `ps` command, short for “process status,” is used to display information about currently running processes on a Linux system. It provides a snapshot of the processes at the time the command is executed.
+
+- `ps -A` or `ps -e`: Lists all processes on the system.
+- `ps -u username`: Displays processes for a specific user.
+- `ps -f`: Shows a full-format listing, including parent-child relationships.
+- `ps aux`: Provides a detailed list of all processes with information such as CPU and memory usage.
+
+**The `top` Command: Real-time Process Monitoring**
+
+When you run `top`, you'll see a dynamic list of processes that updates regularly. The output includes:
+
+- Process ID (PID)
+- User
+- Priority
+- CPU and memory usage
+- Command name
+
+You can interact with the `top` interface using various keyboard commands:
+
+- Press `k` to kill a process (you’ll need to enter the PID)
+- Press `r` to renice a process (change its priority)
+- Press `q` to quit the `top` command
+
+**The `jobs` Command: Managing Background Jobs**
+
+This command will display a list of all jobs with their statuses (running, stopped, etc.). You can use additional options for more specific information:
+
+- `jobs -l`: Lists process IDs in addition to the normal information.
+- `jobs -r`: Restricts output to running jobs.
+- `jobs -s`: Restricts output to stopped jobs.
+
+The `jobs` command is essential for keeping track of background processes and managing multiple tasks simultaneously.
+
+
+**The `bg` Command: Resuming Background Jobs**
+
+The `bg` command is used to resume a suspended job in the background. This is particularly useful when a process has been stopped (e.g., using `Ctrl+Z`) and you want it to continue running without occupying the terminal.
+
+```shell
+bg %job_id
+```
+
+After suspending a job with `Ctrl+Z`, you can use `bg` followed by the job ID (which you can find using the `jobs` command) to resume it in the background. This allows for multitasking by letting users continue working on other tasks while the background job runs.
 
 --- 
 

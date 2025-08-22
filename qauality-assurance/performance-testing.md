@@ -134,6 +134,7 @@ Focuses on evaluating how well a system can scale with increased load — both v
 - **SLA (Service Level Agreement)** — a formal or legal agreement between the service provider and the client. It includes SLOs but adds accountability: penalties, compensation, and commitments. For example: “If uptime drops below 99.5%, the client receives a discount.” SLA is the external framework, SLO is the internal target, and SLI is the measurement of reality.
 
 ## References
+- https://university.blazemeter.com/learn/courses/491/apache-jmeter-pro
 - https://codoid.com/performance-testing/jmeter-tutorial-an-end-to-end-guide/
 - https://krython.com/tutorial/python/performance-testing-load-testing-with-locust
   
