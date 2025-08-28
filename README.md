@@ -22,7 +22,7 @@
 - **[DevOps](devops/devops.md)*
 - ---
 ### Quality Assurance
-- [QA](qauality-assurance/qa.md)
-- [ISTQB](qauality-assurance/istqb.md)
-- [Performance Testing](qauality-assurance/performance-testing.md)
+- [QA](quality-assurance/qa.md)
+- [ISTQB](quality-assurance/istqb.md)
+- [Performance Testing](quality-assurance/performance-testing.md)
 - ---
