@@ -8,6 +8,13 @@
   - [Configuration](#configuration)
     - [Required Fields](#required-fields)
     - [Configuring Resources](#configuring-resources)
+  - [Kubectl](#kubectl)
+    - [Kubectl apply](#kubectl-apply)
+    - [Kubectl get](#kubectl-get)
+    - [Kubectl describe](#kubectl-describe)
+    - [Kubectl logs](#kubectl-logs)
+    - [Kubectl exec](#kubectl-exec)
+    - [Kubectl port-forward](#kubectl-port-forward)
   - [References](#references)
 
 ## Kubernetes Architecture
@@ -94,6 +101,120 @@ Kubernetes config files are typically written in YAML. They can also be made int
 **spec**: The desired state of the object (for deployment, this might be 3 nginx pods).
 
 ### Configuring Resources 
+
+Those are the very basics of Kubernetes YAML configuration files. Let's consider those and look now at the two files. We're going to take a look at the service config file first, as when defining a deployment and service, it is generally best practice to first define the service before the back-end deployment/replicaset that it points to (this is because when Kubernetes starts a container, it creates an env variable for each service that was running when a container started). Here is what example-service.yaml file looks like:
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+  type: ClusterIP
+```
+
+Let's break that down: **apiVersion** is set to v1 (the version of the Kubernetes API best used for this simple service example), and **kind** is set to service. For the **metadata**, we just called this service "example-nginx-service". The **spec** is where it gets more interesting, under 'selector', we have 'app: nginx'. This is going to be important going forward when we define our deployment configuration, as is the **ports** information, as we are essentially saying here: "This service will look for apps with the nginx label and will target port 80. An important distinction to make here is between the 'port' and 'targetPort' fields. The 'targetPort' is the port to which the service will send requests, i.e., the port the pods will be listening on. The 'port' is the port the service is exposed on. Finally, the 'type' is defined as ClusterIP, which is the default service type. Now let's take a look at the Deployment YAML and define the back end which this service will point to:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```
+The first thing you might notice is that inside the 'spec' field, there is a nested field called 'template', which itself contains a 'metadata' and 'spec' field. To understand this, remember the image at the start of this task. We are defining a deployment which controls a ReplicaSet; here, in the outer 'spec' field, we tell Kubernetes we want 3 replicas (identical pods) in this ReplicaSet. This template field is the template that Kubernetes will use to create those pods and so requires its own metadata field (so the pod can be identified) and spec field (so Kubernetes knows what image to run and which port to listen on). Note that the port defined here is the same as the one in the service YAML. This is because the service's target port is 80 and needs to match. As well as this, in the outer 'spec' field, you can see we have also set the 'selector' field to have a 'matchLabels', which matches what we defined in the 'selector' field for the service YAML. This is so the service is mapped to the correct pods. With these two config YAML files, we have defined a deployment that controls a ReplicaSet that manages 3 pods, all of which are exposed to a service.
+
+These config files are used to define the desired state of Kubernetes components; Kubernetes will constantly be checking this desired state against the current state of the cluster. Using the etcd (one of the control plane processes mentioned in an earlier task), Kubernetes populates these configuration files with the current state and does this comparison. For example, if we have told Kubernetes we want 3 nginx pods running, and it detects in the status that there are only 2 running pods, it will begin the actions to correct this.
+
+## Kubectl 
+
+Simply, kubectl is a command line tool provided by Kubernetes that allows us to communicate with a Kubernetes cluster's control plane. 
+
+### Kubectl apply 
+
+Once you have defined your deployment and service configurations in the YAML file, the next step would be to apply them so Kubernetes can take the desired configuration and turn it into a running process(s). This is done using the aptly named apply command.
+
+```shell
+kubectl apply -f example-deployment.yaml
+```
+
+### Kubectl get 
+
+Once both configurations have been applied, you'll want to check the status of both to ensure things are running as expected. This would be done using the Kubectl get command. This is a very versatile command, and you will be using it a lot in your time with Kubernetes. The get command can be used to check the state of resources. The resource type will follow 'get', then `-n` or `--namespace` followed by the namespace (unless you are checking a cluster-level resource like a node). For example, to check the state of a deployment, you would use:
+
+```shell
+user@tryhackme$ kubectl get pods -n example-namespace
+NAME          READY   STATUS              RESTARTS   AGE
+example-pod   1/1     Running             0          2m18s
+```
+
+As mentioned, this command can be used to check on a variety of resources such as deployments, services, pods, and ReplicaSets.
+
+### Kubectl describe 
+
+This command can be used to show the details of a resource (or a group of resources). These details can help in troubleshooting or analysis situations. For example, say one of the pods in your cluster has started erroring out, and you want to get more information about the pod to try to determine why it has crashed. You would run the following command:
+
+```shell
+user@tryhackme$ kubectl describe pod example-pod -n example-namespace
+
+Name:             example-pod
+Namespace:        example-namespace
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Mon, 22 Jan 2024 14:01:14 +0000
+Labels:           <none>
+Annotations:      <none>
+Status:           Running
+IP:               10.244.0.21
+...
+...
+```
+
+### Kubectl logs 
+
+Say you want to view the application logs of the erroring pods. Maybe you want to view the logs surrounding the event error. For this, we would use the kubectl logs command. Here is an example of how this would be used:
+
+```shell
+kubectl logs example-pod -n example-namespace
+```
+
+### Kubectl exec
+
+Now, let's say the log information was helpful, but there are still some unanswered questions, and you want to dig deeper and access the container's shell. The kubectl exec command will allow you to get inside a container and do this! If a pod has more than one container, you can specify a container using the `-c` or `--container` flag. The command for this is (the `-it` flag runs the command in interactive mode, everything after `--` will be run inside the container): 
+
+```shell
+kubectl exec -it example-pod -n example-namespace -- sh
+```
+
+### Kubectl port-forward 
+
+Another handy command is kubectl port-forward. This command allows you to create a secure tunnel between your local machine and a running pod in your cluster. An example of when this might be useful is when testing an application. Let's imagine we have an nginx web application running across 3 pods which are exposed by a web application service. We take the port that is used to expose these pods and map it to one of our local ports. For example, matching the target port (the port the service is exposed on, which in our configuration example was 8080) to local port 8090 would make this web application accessible on our local machine at `http://localhost:8090`. The resources specified are `resource-type/resource-name`. This would be done using the kubectl port-forward command with the following syntax : 
+
+```shell
+kubectl port-forward service/example-service 8090:8080
+```
+
 
 ## References
  - https://tryhackme.com/room/introtok8s
