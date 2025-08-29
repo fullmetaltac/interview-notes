@@ -24,5 +24,4 @@
 ### Quality Assurance
 - [QA](quality-assurance/qa.md)
 - [ISTQB](quality-assurance/istqb.md)
-- [Performance Testing](quality-assurance/performance-testing.md)
 - ---
