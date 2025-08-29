@@ -373,13 +373,19 @@ Focuses on evaluating how well a system can scale with increased load — both v
 - **SLA (Service Level Agreement)** — a formal or legal agreement between the service provider and the client. It includes SLOs but adds accountability: penalties, compensation, and commitments. For example: “If uptime drops below 99.5%, the client receives a discount.” SLA is the external framework, SLO is the internal target, and SLI is the measurement of reality.
 
 ## References
-
-- https://docs.pytest.org/en/stable/
 - https://semaphoreci.com/blog/testing-pyramid
-- https://testsigma.com/blog/qa-interview-questions/#
+- https://testsigma.com/blog/qa-interview-questions
 - https://katalon.com/resources-center/blog/test-plan   
 - https://www.browserstack.com/guide/types-of-testing
 - https://www.browserstack.com/guide/how-to-write-a-bug-report
-- https://www.testrail.com/blog/effective-test-cases-templates/
-- https://www.qamadness.com/5-test-design-techniques-qa-engineers-should-know/
-- https://www.browserstack.com/guide/test-coverage-metrics-in-software-testing
+- https://www.testrail.com/blog/effective-test-cases-templates
+- https://www.qamadness.com/5-test-design-techniques-qa-engineers-should-know
+
+- https://www.browserstack.com/guide/test-coverage-metrics-in-software-testing 
+- https://www.atlassian.com/incident-management/kpis/sla-vs-slo-vs-sli
+- https://abstracta.us/blog/performance-testing/performance-testing-metrics/
+- https://abstracta.us/blog/performance-testing/types-of-performance-testing/
+- https://www.blazemeter.com/blog/performance-testing-vs-load-testing-vs-stress-testing
+
+- https://codoid.com/performance-testing/jmeter-tutorial-an-end-to-end-guide/
+- https://krython.com/tutorial/python/performance-testing-load-testing-with-locust

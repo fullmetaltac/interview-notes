@@ -6,6 +6,7 @@
     - [Docker Image ls](#docker-image-ls)
     - [Docker Image rm](#docker-image-rm)
   - [Running Container](#running-container)
+    - [Containerisation](#containerisation)
     - [Simply Running a Container](#simply-running-a-container)
     - [Running Containers...Continued](#running-containerscontinued)
     - [Listing Running Containers](#listing-running-containers)
@@ -104,6 +105,17 @@ cmnatic@thm:~$
 ---
 
 ## Running Container
+
+### Containerisation
+
+Namespaces essentially segregate system resources such as processes, files and memory away from other namespaces.
+
+Every process running on Linux will be assigned two things:
+
+- A namespace
+- A process identifier (PID)
+
+Namespaces are how containerisation is achieved! Processes can only "see" other processes that are in the same namespace - no conflicts in theory. Take Docker, for example, every new container will be running as a new namespace, although the container may be running multiple applications (and in turn, processes).
 
 ### Simply Running a Container
 
