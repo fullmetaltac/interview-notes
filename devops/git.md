@@ -17,6 +17,12 @@
   - [Undoing Committed Changes](#undoing-committed-changes)
   - [Removing Commits from a Branch](#removing-commits-from-a-branch)
   - [Remove the oops tag](#remove-the-oops-tag)
+  - [Amending Commits](#amending-commits)
+  - [Moving Files](#moving-files)
+  - [More Structure](#more-structure)
+  - [Git Internals: The .git directory](#git-internals-the-git-directory)
+  - [Git Internals: Working directly with Git Objects](#git-internals-working-directly-with-git-objects)
+  - [Creating a Branch](#creating-a-branch)
   - [References](#references)
 
 ## Setup
@@ -813,6 +819,316 @@ However, if the branch is shared on remote repositories, resetting can confuse o
 ---
 
 ## Remove the oops tag
+
+The oops tag has served its purpose. Let’s remove it and allow the commits it referenced to be garbage collected.
+
+```shell
+$ git tag -d oops
+Deleted tag 'oops' (was 8b71812)
+$ git hist --all
+* e4e3645 2023-06-10 | Added a comment (HEAD -> main, tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+## Amending Commits
+
+**Change the program then commit**
+
+Add an author comment to the program.
+
+```ruby
+# hello.rb
+# Default is World
+# Author: Jim Weirich
+name = ARGV.first || "World"
+
+puts "Hello, #{name}!"
+```
+
+```shell
+git add hello.rb
+git commit -m "Add an author comment"
+```
+
+**Amend the Previous Commit**
+
+We really don’t want a separate commit for just the email. Let’s amend the previous commit to include the email change.
+
+```shell
+$ git add hello.rb
+$ git commit --amend -m "Add an author/email comment"
+[main 186488e] Add an author/email comment
+ Date: Sat Jun 10 03:49:14 2023 -0400
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+```
+
+**Review the History**
+
+```shell
+$ git hist
+* 186488e 2023-06-10 | Add an author/email comment (HEAD -> main) [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+We can see the original “author” commit is now gone, and it is replaced by the “author/email” commit. You can achieve the same effect by resetting the branch back one commit and then recommitting the new changes.
+
+
+## Moving Files
+
+**Move the hello.rb file into a lib directory.**
+
+We are now going to build up the structure of our little repository. Let’s move the program into a lib directory.
+
+```shell
+$ mkdir lib
+$ git mv hello.rb lib
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    hello.rb -> lib/hello.rb
+```
+
+By using git to do the move, we inform git of 2 things
+1. That the file `hello.rb` has been deleted.
+1. The file `lib/hello.rb` has been created.
+
+Both of these bits of information are immediately staged and ready to be committed. The git status command reports that the file has been moved.
+
+**Another way of moving files**
+
+One of the nice things about git is that you can forget about source control until the point you are ready to start committing code. What would happen if we used the operating system command to move the file instead of the git command?
+
+It turns out the following set of commands is identical to what we just did. It’s a bit more work, but the result is the same.
+
+We could have done:
+
+```shell
+mkdir lib
+mv hello.rb lib
+git add lib/hello.rb
+git rm hello.rb
+```
+
+**Commit the new directory**
+
+Let’s commit this move.
+
+```shell
+git commit -m "Moved hello.rb to lib"
+```
+
+## More Structure
+
+**Now add a Rakefile**
+
+```shell
+gem install rake
+```
+Let’s add a Rakefile to our repository. The following one will do nicely.
+
+```ruby
+# Rakefile
+#!/usr/bin/ruby -wKU
+
+task :default => :run
+
+task :run do
+  require './lib/hello'
+end
+```
+
+Add and commit the change.
+
+```shell
+git add Rakefile
+git commit -m "Added a Rakefile."
+```
+
+You should be able to use Rake to run your hello program now.
+
+```shell
+$ rake
+Hello, World!
+```
+
+## Git Internals: The .git directory
+
+**The .git Directory**
+
+Time to do some exploring. First, from the root of your project directory…
+
+```shell
+$ ls -C .git
+COMMIT_EDITMSG	config		index		objects
+HEAD		description	info		packed-refs
+ORIG_HEAD	hooks		logs		refs
+```
+
+This is the magic directory where all the git “stuff” is stored. Let’s peek in the objects directory.
+
+**The Object Store**
+
+```shell
+$ ls -C .git/objects
+09	17	24	43	6b	97	af	c4	e7	pack
+11	18	27	59	78	9c	b0	cd	f7
+14	22	28	69	8b	a6	b5	e4	info
+```
+
+You should see a bunch of directories with 2 letter names. The directory names are the first two letters of the sha1 hash of the object stored in git.  
+
+**Deeper into the Object Store**
+
+```shell
+$ ls -C .git/objects/09
+6b74c56bfc6b40e754fc0725b8c70b2038b91e	9fb6f9d3a104feb32fcac22354c4d0e8a182c1
+```
+
+Look in one of the two-letter directories. You should see some files with 38-character names. These are the files that contain the objects stored in git. These files are compressed and encoded, so looking at their contents directly won’t be very helpful, but we will take a closer look in a bit.
+
+
+**Config File**
+
+```shell
+$ cat .git/config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[user]
+	name = Jim Weirich
+	email = jim (at) edgecase.com
+```
+
+This is a project-specific configuration file. Config entries in here will override the config entries in the .gitconfig file in your home directory, at least for this project.
+
+**Branches and Tags**
+
+```shell
+$ ls .git/refs
+heads
+tags
+$ ls .git/refs/heads
+main
+$ ls .git/refs/tags
+v1
+v1-beta
+$ cat .git/refs/tags/v1
+e4e3645637546103e72f0deb9abdd22dd256601e
+```
+
+You should recognize the files in the tags subdirectory. Each file corresponds to a tag you created with the git tag command earlier. Its content is just the hash of the commit tied to the tag.
+
+The heads directory is similar, but is used for branches rather than tags. We only have one branch at the moment, so all you will see is main in this directory.
+
+**The HEAD File**
+
+```shell
+$ cat .git/HEAD
+ref: refs/heads/main
+```
+
+The HEAD file contains a reference to the current branch. It should be a reference to main at this point.
+
+## Git Internals: Working directly with Git Objects
+
+**Finding the Latest Commit**
+
+This should show the latest commit made in the repository. The SHA1 hash on your system is probably different from what is on mine, but you should see something like this.
+
+```shell
+$ git hist --max-count=1
+* cdceefa 2023-06-10 | Added a Rakefile. (HEAD -> main) [Jim Weirich]
+```
+
+**Dumping the Latest Commit**
+
+Using the SHA1 hash from the commit listed above ...
+
+```shell
+$ git cat-file -t cdceefa
+commit
+$ git cat-file -p cdceefa
+tree 096b74c56bfc6b40e754fc0725b8c70b2038b91e
+parent 22273f2a02983d905df7b4154b00447934034338
+author Jim Weirich <jim (at) edgecase.com> 1686383357 -0400
+committer Jim Weirich <jim (at) edgecase.com> 1686383357 -0400
+
+Added a Rakefile.
+```
+
+This is the dump of the commit object that is at the head of the main branch. It looks a lot like the commit object from the presentation earlier.
+
+**Finding the Tree**
+
+We can dump the directory tree referenced in the commit. This should be a description of the (top level) files in our project (for that commit). Use the SHA1 hash from the “tree” line listed above.
+
+```shell
+$ git cat-file -p 096b74c
+100644 blob 28e0e9d6ea7e25f35ec64a43f569b550e8386f90	Rakefile
+040000 tree e46f374f5b36c6f02fb3e9e922b79044f754d795	lib
+```
+
+**Dumping the lib directory**
+
+```shell
+$ git cat-file -p e46f374
+100644 blob c45f26b6fdc7db6ba779fc4c385d9d24fc12cf72	hello.rb
+```
+
+There’s the hello.rb file.
+
+**Dumping the hello.rb file**
+
+```shell
+$ git cat-file -p c45f26b
+# Default is World
+# Author: Jim Weirich (jim@somewhere.com)
+name = ARGV.first || "World"
+
+puts "Hello, #{name}!"
+```
+
+There you have it. We’ve dumped commit objects, tree objects and blob objects directly from the git repository. That’s all there is to it, blobs, trees and commits.
+
+## Creating a Branch
+
+Let’s call our new branch ‘greet’.
+
+```shell
+git checkout -b greet
+git status
+```
+
+`git checkout -b <branchname>` is a shortcut for `git branch <branchname>` followed by a `git checkout <branchname>`.
+
+**Changes for Greet: Add a Greeter class.**
+
+```ruby
+# lib/greeter.rb
+class Greeter
+  def initialize(who)
+    @who = who
+  end
+  def greet
+    "Hello, #{@who}"
+  end
+end
+```
+
+```shell
+git add lib/greeter.rb
+git commit -m "Added greeter class"
+```
 
 ## References
  - https://gitimmersion.com
