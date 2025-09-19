@@ -15,7 +15,9 @@
 - 💻[Reverse String](leetcode/Arrays-and-strings/Reverse-String.md)
 - 💻[Squares of a Sorted Array](leetcode/Arrays-and-strings/Squares-of-a-Sorted-Array.md)
 - 📝[Sliding window](leetcode/Arrays-and-strings/Sliding-window.md)
-- 💻[Maximum Average Subarray I](leetcode/Arrays-and-strings/Maximum-Average-Subarray-I.md) 
+- 💻[Maximum Average Subarray I](leetcode/Arrays-and-strings/Maximum-Average-Subarray-I.md)
+- 💻[Max Consecutive Ones III](leetcode/Arrays-and-strings/Max-Consecutive-Ones-III.md) 
+- 📝[Prefix sum](leetcode/Arrays-and-strings/Prefix-sum.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
