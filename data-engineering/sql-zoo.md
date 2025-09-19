@@ -246,6 +246,154 @@ AND name NOT LIKE '% %'
 
 ## 3 SELECT from Nobel
 
+**Winners from 1950**
+
+```sql
+SELECT yr, subject, winner
+  FROM nobel
+ WHERE yr = 1950
+```
+
+**1962 Literature**
+
+```sql
+SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'literature'
+```
+
+**Albert Einstein**
+
+```sql
+SELECT yr, subject
+  FROM nobel
+WHERE winner = 'Albert Einstein'
+```
+
+**Recent Peace Prizes**
+
+```sql
+SELECT winner
+FROM   nobel
+WHERE  subject = 'peace'
+       AND yr >= 2000 
+```
+
+**Literature in the 1980's**
+
+```sql
+SELECT yr,
+       subject,
+       winner
+FROM   nobel
+WHERE  subject = 'literature'
+       AND yr >= 1980
+       AND yr <= 1989 
+```
+
+**Only Presidents**
+
+```sql
+SELECT *
+FROM nobel
+WHERE winner IN ('Theodore Roosevelt',
+                 'Thomas Woodrow Wilson',
+                 'Jimmy Carter',
+                 'Barack Obama')
+```
+
+**John**
+
+```sql
+SELECT winner
+FROM nobel
+WHERE winner like 'John %'
+```
+
+**Chemistry and Physics from different years**
+
+```sql
+SELECT yr,
+       subject,
+       winner
+FROM nobel
+WHERE (yr = 1984
+       AND subject = 'chemistry')
+  OR (yr = 1980
+      AND subject = 'physics')
+```
+
+**Exclude Chemists and Medics**
+
+```sql
+SELECT yr,
+       subject,
+       winner
+FROM nobel
+WHERE yr = 1980
+  AND subject != 'chemistry'
+  AND subject != 'medicine'
+```
+
+**Early Medicine, Late Literature**
+
+```sql
+SELECT yr,
+       subject,
+       winner
+FROM nobel
+WHERE yr = 1980
+  AND subject != 'chemistry'
+  AND subject != 'medicine'
+  SELECT yr,
+         subject,
+         winner
+  FROM nobel WHERE (subject = 'medicine'
+                    AND yr < 1910)
+  OR (yr >= 2004
+      AND subject ='literature')
+```
+
+**Umlaut**
+
+```sql
+SELECT *
+FROM nobel
+WHERE winner = 'PETER GRÜNBERG'
+```
+
+**Apostrophe**
+
+```sql
+SELECT *
+FROM nobel
+WHERE winner = 'EUGENE O\'NEILL'
+```
+
+**Knights of the realm**
+
+```sql
+SELECT winner,
+       yr,
+       subject
+FROM nobel
+WHERE winner like 'Sir%'
+ORDER BY yr DESC,
+         winner
+```
+
+**Chemistry and Physics last**
+
+```sql
+SELECT winner,
+       subject
+FROM nobel
+WHERE yr=1984
+ORDER BY subject IN ('physics',
+                     'chemistry'), subject,
+                                   winner
+```
 
 ## References
 - https://sqlzoo.net/wiki/SQL_Tutorial
