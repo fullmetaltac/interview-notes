@@ -2,6 +2,7 @@
 - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Arrays and strings](#arrays-and-strings)
+  - [Hashing](#hashing)
   - [References](#references)
 
 ## Introduction
@@ -21,5 +22,11 @@
 - 💻[Running Sum of 1d Array](leetcode/Arrays-and-strings/Running-Sum-of-1d-Array.md)
 - 💻[Minimum Value to Get Positive Step by Step Sum](leetcode/Arrays-and-strings/Minimum-Value-to-Get-Positive-Step-by-Step-Sum.md)
 - 💻[K Radius Subarray Averages](leetcode/Arrays-and-strings/K-Radius-Subarray-Averages.md)
+- 📝[More common patterns](leetcode/Arrays-and-strings/More-common-patterns.md)
+
+## Hashing
+
+- 📝[Hashing](leetcode/Hashing/Hashing.md)
+
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
