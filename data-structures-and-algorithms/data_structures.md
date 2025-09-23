@@ -18,6 +18,8 @@
 - 💻[Maximum Average Subarray I](leetcode/Arrays-and-strings/Maximum-Average-Subarray-I.md)
 - 💻[Max Consecutive Ones III](leetcode/Arrays-and-strings/Max-Consecutive-Ones-III.md) 
 - 📝[Prefix sum](leetcode/Arrays-and-strings/Prefix-sum.md)
+- 💻[Running Sum of 1d Array](leetcode/Arrays-and-strings/Running-Sum-of-1d-Array.md)
+- 💻[Minimum Value to Get Positive Step by Step Sum](leetcode/Arrays-and-strings/Minimum-Value-to-Get-Positive-Step-by-Step-Sum.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
