@@ -31,6 +31,7 @@
 - 💻[Check if the Sentence Is Pangram](leetcode/Hashing/Check-if-the-Sentence-Is-Pangram.md)
 - 💻[Missing Number](leetcode/Hashing/Missing-Number.md)
 - 💻[Counting Elements](leetcode/Hashing/Counting-Elements.md)
+- 📝[Counting](leetcode/Hashing/Counting.md)
   
 
 ## References
