@@ -27,6 +27,11 @@
 ## Hashing
 
 - 📝[Hashing](leetcode/Hashing/Hashing.md)
+- 📝[Checking for existence](leetcode/Hashing/Checking-for-existence.md)
+- 💻[Check if the Sentence Is Pangram](leetcode/Hashing/Check-if-the-Sentence-Is-Pangram.md)
+- 💻[Missing Number](leetcode/Hashing/Missing-Number.md)
+- 💻[Counting Elements](leetcode/Hashing/Counting-Elements.md)
+  
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
