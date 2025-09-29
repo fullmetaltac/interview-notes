@@ -2,6 +2,7 @@
 - [Table of Contents](#table-of-contents)
   - [Install sandbox db with docker](#install-sandbox-db-with-docker)
   - [SQL](#sql)
+    - [SQL query logical order](#sql-query-logical-order)
     - [What is Data Integrity?](#what-is-data-integrity)
     - [What is an ALIAS in SQL?](#what-is-an-alias-in-sql)
     - [What are the TRUNCATE, DELETE and DROP statements?](#what-are-the-truncate-delete-and-drop-statements)
@@ -62,6 +63,17 @@ docker exec -it pg psql -h localhost -U postgres -d dvdrental
 ---
 
 ## SQL
+
+### SQL query logical order
+
+
+SQL statements are executed by the database system in several steps, including:
+- Parsing the SQL statement and checking its validity
+- Transforming the SQL into an internal representation, such as relational algebra
+- Optimizing the internal representation and creating an execution plan that utilizes index information
+- Executing the plan and returning the results
+
+![sql-query-logical-order](images/sql-query-logical-order.webp)
 
 ### What is Data Integrity?
 Data Integrity is the assurance of accuracy and consistency of data over its entire life-cycle and is a critical aspect of the design, implementation, and usage of any system which stores, processes, or retrieves data. It also defines integrity constraints to enforce business rules on the data when it is entered into an application or a database.
