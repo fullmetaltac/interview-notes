@@ -32,7 +32,11 @@
 - 💻[Missing Number](leetcode/Hashing/Missing-Number.md)
 - 💻[Counting Elements](leetcode/Hashing/Counting-Elements.md)
 - 📝[Counting](leetcode/Hashing/Counting.md)
-  
+- 💻[Find Players With Zero or One Losses](leetcode/Hashing/Find-Players-With-Zero-or-One-Losses.md)  
+- 💻[Largest Unique Number](leetcode/Hashing/Largest-Unique-Number.md)
+- 💻[Maximum Number of Balloons](leetcode/Hashing/Maximum-Number-of-Balloons.md)
+- 💻[Contiguous Array](leetcode/Hashing/Contiguous-Array.md)
+- 📝[More hashing examples](leetcode/Hashing/More-hashing-examples.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
