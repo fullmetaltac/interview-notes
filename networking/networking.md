@@ -187,6 +187,8 @@ Many modern networking textbooks show the TCP/IP model as five layers instead of
 - Link
 - Physical
 
+![osi-vs-tcp-ip](images/osi-vs-tcp-ip.png)
+
 ### IP Addresses and Subnets
 
 When you hear the word IP address, you might think of an address like `192.168.0.1` or something less common, such as `172.16.159.243`. In both cases, you are right. Both of these are IP addresses; IPv4 (IP version 4) addresses to be specific.

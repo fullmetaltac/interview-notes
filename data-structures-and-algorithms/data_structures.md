@@ -37,6 +37,9 @@
 - 💻[Maximum Number of Balloons](leetcode/Hashing/Maximum-Number-of-Balloons.md)
 - 💻[Contiguous Array](leetcode/Hashing/Contiguous-Array.md)
 - 📝[More hashing examples](leetcode/Hashing/More-hashing-examples.md)
+- 💻[Ransom Note](leetcode/Hashing/Ransom-Note.md)
+- 💻[Jewels and Stones](leetcode/Hashing/Jewels-and-Stones.md)
+- 💻 [Longest Substring Without Repeating Characters](leetcode/Hashing/Longest-Substring-Without-Repeating-Characters.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
