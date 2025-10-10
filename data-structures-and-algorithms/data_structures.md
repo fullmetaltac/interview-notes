@@ -3,6 +3,7 @@
   - [Introduction](#introduction)
   - [Arrays and strings](#arrays-and-strings)
   - [Hashing](#hashing)
+  - [Linked lists](#linked-lists)
   - [References](#references)
 
 ## Introduction
@@ -40,6 +41,11 @@
 - 💻[Ransom Note](leetcode/Hashing/Ransom-Note.md)
 - 💻[Jewels and Stones](leetcode/Hashing/Jewels-and-Stones.md)
 - 💻 [Longest Substring Without Repeating Characters](leetcode/Hashing/Longest-Substring-Without-Repeating-Characters.md)
+
+
+## Linked lists
+- 📝[Linked lists](leetcode/Linked-lists/Linked-lists.md)
+
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
