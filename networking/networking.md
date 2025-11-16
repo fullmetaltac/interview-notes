@@ -27,9 +27,9 @@
       - [HTTP cache](#http-cache)
       - [HTTP Over TLS](#http-over-tls)
     - [WebSockets](#websockets)
+    - [gRPC](#grpc)
     - [SMB](#smb)
     - [NFS](#nfs)
-    - [gRPC](#grpc)
     - [FTP](#ftp)
     - [SMTP](#smtp)
     - [POP3](#pop3)
@@ -1066,9 +1066,6 @@ WebSocket demands the use of a client-picked random key for all the payload data
 
 - **Payload data**. All sorts of arbitrary application data and extension data are known as payload data. The client and servers use this data for negotiation and are used in the early WebSocket handshakes. 
 
-### SMB
-
-### NFS
 
 ### gRPC
 
@@ -1117,6 +1114,70 @@ Streaming is another key concept of gRPC, where many processes can take place in
 - **Client-streaming** RPCs – The client sends a stream of data sequences to the server, which then processes and returns a single response to the client. Once again, gRPC guarantees message sequencing within an independent RPC call.
 
 - **Bidirectional-streaming** RPCs – It is two-way streaming where both client and server sends a sequence of messages to each other. Both streams operate independently; thus, they can transmit messages in any sequence. The sequence of messages in each stream is preserved.
+
+### SMB
+
+**What is SMB?**
+
+SMB - Server Message Block Protocol - is a client-server communication protocol used for sharing access to files, printers, serial ports and other resources on a network.
+
+The SMB protocol is known as a response-request protocol, meaning that it transmits multiple messages between the client and server to establish a connection. Clients connect to servers using TCP/IP.
+
+![smb](images/networking-smb.jpg)
+
+Once they have established a connection, clients can then send commands (SMBs) to the server that allow them to access shares, open files, read and write files, and generally do all the sort of things that you want to do with a file system. However, in the case of SMB, these things are done over the network.
+
+**What runs SMB?**
+
+Microsoft Windows operating systems since Windows 95 have included client and server SMB protocol support. Samba, an open source server that supports the SMB protocol, was released for Unix systems.
+
+**SMBClient:**
+
+We can remotely access the SMB share using the syntax:
+
+```shell
+# Syntax:
+smbclient //[IP]/[SHARE] -U [USERNAME] -p [PORT]
+```
+
+```shell
+# Example:
+smbclient //10.10.10.10/secrets -U Anonymous -p 445
+```
+
+### NFS
+
+**What is NFS?**
+
+NFS stands for "Network File System" and allows a system to share directories and files with others over a network. By using NFS, users and programs can access files on remote systems almost as if they were local files. It does this by mounting all, or a portion of a file system on a server.
+
+**How does NFS work?**
+
+First, the client will request to mount a directory from a remote host on a local directory just the same way it can mount a physical device. The mount service will then act to connect to the relevant mount daemon using RPC.
+
+The server checks if the user has permission to mount whatever directory has been requested. It will then return a file handle which uniquely identifies each file and directory that is on the server.
+
+If someone wants to access a file using NFS, an RPC call is placed to NFSD (the NFS daemon) on the server. This call takes parameters such as:
+
+- The file handle
+- The name of the file to be accessed
+- The user's, user ID
+- The user's group ID
+
+**What runs NFS?**
+
+Using the NFS protocol, you can transfer files between computers running Windows and other non-Windows operating systems, such as Linux, MacOS or UNIX.
+
+A computer running Windows Server can act as an NFS file server for other non-Windows client computers. Likewise, NFS allows a Windows-based computer running Windows Server to access files stored on a non-Windows NFS server.
+
+**Mounting NFS shares**
+
+Your client’s system needs a directory where all the content shared by the host server in the export folder can be accessed. You can create
+this folder anywhere on your system. Once you've created this mount point, you can use the "mount" command to connect the NFS share to the mount point on your machine like so:
+
+```shell
+sudo mount -t nfs IP:share /tmp/mount/ -nolock
+```
 
 ### FTP
 
@@ -1426,6 +1487,8 @@ Finally, although in many scenarios, one would establish a VPN connection to rou
 Finally, some countries consider using VPNs illegal and even punishable. Please check the local laws and regulations before using VPNs, especially while travelling.
 
 ## References
+- https://tryhackme.com/room/networkservices
+- https://tryhackme.com/room/networkservices2
 - https://tryhackme.com/room/networkingconcepts
 - https://tryhackme.com/room/networkingessentials
 - https://tryhackme.com/room/networkingcoreprotocols
