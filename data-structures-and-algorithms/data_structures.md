@@ -4,6 +4,7 @@
   - [Arrays and strings](#arrays-and-strings)
   - [Hashing](#hashing)
   - [Linked lists](#linked-lists)
+  - [Stacks and queues](#stacks-and-queues)
   - [References](#references)
 
 ## Introduction
@@ -46,6 +47,12 @@
 ## Linked lists
 - 📝[Linked lists](leetcode/Linked-lists/Linked-lists.md)
 - 📝[Fast and slow pointers](leetcode/Linked-lists/Fast-and-slow-pointers.md)
+- 💻[Middle of the Linked List](leetcode/Linked-lists/Middle-of-the-Linked-List.md)
+- 💻[Remove Duplicates from Sorted List](leetcode/Linked-lists/Remove-Duplicates-from-Sorted-List.md)
+- 📝[Reversing a linked list](leetcode/Linked-lists/Reversing-a-linked-list.md)
+- 💻[Reverse Linked List II](leetcode/Linked-lists/Reverse-Linked-List-II.md)
+
+## Stacks and queues
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
