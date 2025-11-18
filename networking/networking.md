@@ -25,7 +25,7 @@
       - [HTTP Request](#http-request)
       - [HTTP Response](#http-response)
       - [HTTP cache](#http-cache)
-      - [HTTP Over TLS](#http-over-tls)
+      - [HTTPS](#https)
     - [WebSockets](#websockets)
     - [gRPC](#grpc)
     - [SMB](#smb)
@@ -979,7 +979,7 @@ Cache-Control: public, s-maxage=600
 - `s-maxage` — defines a TTL specifically for shared caches (CDNs, proxies).
 - `public` — allows caching anywhere.
 
-#### HTTP Over TLS
+#### HTTPS
 
 HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over TLS. Consequently, requesting a page over HTTPS will require the following three steps (after resolving the domain name):
 

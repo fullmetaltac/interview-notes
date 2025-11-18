@@ -45,7 +45,7 @@
 
 ## Linked lists
 - 📝[Linked lists](leetcode/Linked-lists/Linked-lists.md)
-
+- 📝[Fast and slow pointers](leetcode/Linked-lists/Fast-and-slow-pointers.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
