@@ -5,6 +5,7 @@
   - [2 SELECT from World](#2-select-from-world)
   - [3 SELECT from Nobel](#3-select-from-nobel)
   - [4 SELECT within SELECT](#4-select-within-select)
+  - [5 SUM and COUNT](#5-sum-and-count)
   - [References](#references)
 
 
@@ -397,6 +398,132 @@ ORDER BY subject IN ('physics',
 ```
 
 ## 4 SELECT within SELECT
+
+**Bigger than Russia**
+
+```sql
+SELECT NAME
+FROM   world
+WHERE  population > (SELECT population
+                     FROM   world
+                     WHERE  NAME = 'Russia') 
+```
+
+**Richer than UK**
+
+```sql
+SELECT NAME
+FROM   world
+WHERE  gdp / population > (SELECT gdp / population
+                           FROM   world
+                           WHERE  NAME = 'United Kingdom')
+       AND continent = 'Europe' 
+```
+
+**Neighbours of Argentina and Australia**
+
+```sql
+SELECT NAME,
+       continent
+FROM   world
+WHERE  continent IN (SELECT continent
+                     FROM   world
+                     WHERE  NAME IN ( 'Argentina', 'Australia' ))
+ORDER  BY NAME; 
+```
+
+**Between Canada and Poland**
+
+```sql
+SELECT NAME,
+       population
+FROM   world
+WHERE  population < (SELECT population
+                     FROM   world
+                     WHERE  NAME = 'Germany')
+       AND population > (SELECT population
+                         FROM   world
+                         WHERE  NAME = 'United Kingdom') 
+```
+
+**Percentages of Germany**
+
+```sql
+SELECT NAME,
+       Concat(Round(population / (SELECT population
+                                  FROM   world
+                                  WHERE  NAME = 'Germany') * 100), "%") AS
+       percentage
+FROM   world
+WHERE  continent = 'Europe' 
+```
+
+**Bigger than every country in Europe**
+
+```sql
+SELECT NAME
+FROM   world
+WHERE  gdp > (SELECT Max(gdp)
+              FROM   world
+              WHERE  continent = 'Europe'
+                     AND gdp > 0) 
+```
+
+**Largest in each continent**
+
+```sql
+SELECT 
+ w1.continent,
+ w1.name,
+ w1.area
+FROM world AS w1
+WHERE w1.area = (
+  SELECT MAX(w2.area)
+  FROM world AS w2
+  WHERE w1.continent = w2.continent
+  );
+```
+
+**First country of each continent (alphabetically)**
+
+```sql
+SELECT w1.continent,
+       w1.NAME
+FROM   world AS w1
+WHERE  w1.NAME = (SELECT Min(w2.NAME)
+                  FROM   world AS w2
+                  WHERE  w1.continent = w2.continent); 
+```
+
+**Difficult Questions That Utilize Techniques Not Covered In Prior Sections**
+
+```sql
+SELECT NAME,
+       continent,
+       population
+FROM   world
+WHERE  continent IN (SELECT continent
+                     FROM   world
+                     GROUP  BY continent
+                     HAVING Max(population) <= 25000000); 
+```
+
+**Three time bigger**
+
+```sql
+SELECT 
+ x.name,
+ x.continent
+FROM world x
+WHERE x.population / 3 > ALL (
+  SELECT y.population
+  FROM world y
+  WHERE x.continent = y.continent AND
+        x.name <> y.name
+  );
+```
+
+## 5 SUM and COUNT
 
 ## References
 - https://sqlzoo.net/wiki/SQL_Tutorial
