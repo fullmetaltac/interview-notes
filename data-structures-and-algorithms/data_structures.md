@@ -53,6 +53,8 @@
 - 💻[Reverse Linked List II](leetcode/Linked-lists/Reverse-Linked-List-II.md)
 
 ## Stacks and queues
+- 📝[Stacks](leetcode/Stacks-and-queues/Stacks.md)
+- 📝[String problems](leetcode/Stacks-and-queues/String-problems.md.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
