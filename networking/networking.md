@@ -1,5 +1,6 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
+  - [Network Models](#network-models)
     - [OSI Model](#osi-model)
       - [Layer 1: Physical Layer](#layer-1-physical-layer)
       - [Layer 2: Data Link Layer](#layer-2-data-link-layer)
@@ -9,35 +10,40 @@
       - [Layer 6: Presentation Layer](#layer-6-presentation-layer)
       - [Layer 7: Application Layer](#layer-7-application-layer)
     - [TCP/IP Model](#tcpip-model)
-    - [IP Addresses and Subnets](#ip-addresses-and-subnets)
-    - [UDP and TCP](#udp-and-tcp)
-      - [UDP](#udp)
-      - [TCP](#tcp)
-    - [DHCP](#dhcp)
+  - [IP Networking](#ip-networking)
+    - [IP Addresses](#ip-addresses)
     - [ARP](#arp)
     - [ICMP](#icmp)
     - [Routing](#routing)
     - [NAT](#nat)
+    - [DHCP](#dhcp)
+  - [Transport Layer](#transport-layer)
+    - [UDP](#udp)
+    - [TCP](#tcp)
     - [DNS](#dns)
-    - [URL](#url)
-    - [HTTP](#http)
-      - [HTTP Messages](#http-messages)
-      - [HTTP Request](#http-request)
-      - [HTTP Response](#http-response)
-      - [HTTP cache](#http-cache)
+  - [Application Protocols](#application-protocols)
+    - [Web Protocols](#web-protocols)
+      - [URL](#url)
+      - [HTTP](#http)
+      - [HTTP Cache](#http-cache)
       - [HTTPS](#https)
-    - [WebSockets](#websockets)
-    - [gRPC](#grpc)
-    - [SMB](#smb)
-    - [NFS](#nfs)
-    - [FTP](#ftp)
-    - [SMTP](#smtp)
-    - [POP3](#pop3)
-    - [IMAP](#imap)
-    - [TLS](#tls)
-    - [SSH](#ssh)
-    - [VPN](#vpn)
+      - [WebSockets](#websockets)
+      - [gRPC](#grpc)
+      - [TLS](#tls)
+    - [File Protocols](#file-protocols)
+      - [SMB](#smb)
+      - [NFS](#nfs)
+      - [FTP](#ftp)
+    - [Email Protocols](#email-protocols)
+      - [SMTP](#smtp)
+      - [POP3](#pop3)
+      - [IMAP](#imap)
+    - [Security \& Tunneling](#security--tunneling)
+      - [SSH](#ssh)
+      - [VPN](#vpn)
   - [References](#references)
+
+## Network Models
 
 ### OSI Model
 
@@ -157,7 +163,9 @@ Many modern networking textbooks show the TCP/IP model as five layers instead of
 
 ![osi-vs-tcp-ip](images/osi-vs-tcp-ip.png)
 
-### IP Addresses and Subnets
+## IP Networking
+
+### IP Addresses
 
 When you hear the word IP address, you might think of an address like `192.168.0.1` or something less common, such as `172.16.159.243`. In both cases, you are right. Both of these are IP addresses; IPv4 (IP version 4) addresses to be specific.
 
@@ -240,113 +248,6 @@ A router is like your local post office; you hand them the mail parcel, and they
 In technical terms, a router forwards data packets to the proper network. Usually, a data packet passes through multiple routers before it reaches its final destination. The router functions at layer 3, inspecting the IP address and forwarding the packet to the best network (router) so the packet gets closer to its destination.
 
 ![routing](images/routing.svg)
-
-### UDP and TCP
-
-The IP protocol allows us to reach a destination host on the network; the host is identified by its IP address. We need protocols that would enable processes on networked hosts to communicate with each other. There are two transport protocols to achieve that: UDP and TCP.
-
-#### UDP
-UDP (User Datagram Protocol) allows us to reach a specific process on this target host. UDP is a simple connectionless protocol that operates at the transport layer, i.e., layer 4. Being connectionless means that it does not need to establish a connection. UDP does not even provide a mechanism to know that the packet has been delivered.
-
-An IP address identifies the host; we need a mechanism to determine the sending and receiving process. This can be achieved by using port numbers. A port number uses two octets; consequently, it ranges between 1 and 65535; port 0 is reserved. (The number 65535 is calculated by the expression 216 − 1.)
-
-A real-life example similar to UDP is the standard mail service, with no delivery confirmation. In other words, there is no guarantee that the UDP packet has been received successfully, similar to the case of sending a parcel using standard mail with no confirmation of delivery. In the case of standard mail, it means a cheaper cost than the mail delivery options with confirmation. In the case of UDP, it means better speed than a transport protocol that provides “confirmation.”
-
-But what if we want a transport protocol that acknowledges received packets? The answer lies in using TCP instead of UDP.
-
-#### TCP
-TCP (Transmission Control Protocol) is a connection-oriented transport protocol. It uses various mechanisms to ensure reliable data delivery sent by the different processes on the networked hosts. Like UDP, it is a layer 4 protocol. Being connection-oriented, it requires the establishment of a TCP connection before any data can be sent.
-
-In TCP, each data octet has a sequence number; this makes it easy for the receiver to identify lost or duplicated packets. The receiver, on the other hand, acknowledges the reception of data with an acknowledgement number specifying the last received octet.
-
-A TCP connection is established using what’s called a three-way handshake. Two flags are used: SYN (Synchronise) and ACK (Acknowledgment). The packets are sent as follows:
-
-- SYN Packet: The client initiates the connection by sending a SYN packet to the server. This packet contains the client’s randomly chosen initial sequence number.
-- SYN-ACK Packet: The server responds to the SYN packet with a SYN-ACK packet, which adds the initial sequence number randomly chosen by the server.
-- ACK Packet: The three-way handshake is completed as the client sends an ACK packet to acknowledge the reception of the SYN-ACK packet.
-
-![TCP](images/tcp.svg)
-
-Similar to UDP, TCP identifies the process of initiating or waiting (listening) for a connection using port numbers. As stated, a valid port number ranges between 1 and 65535 because it uses two octets and port 0 is reserved.
-
-**Encapsulation:**
-
-Before wrapping up, it is crucial to explain another key concept: **encapsulation**. In this context, encapsulation refers to the process of every layer adding a header (and sometimes a trailer) to the received unit of data and sending the “encapsulated” unit to the layer below.
-
-Encapsulation is an essential concept as it allows each layer to focus on its intended function. In the image below, we have the following four steps:
-
-- **Application data**: It all starts when the user inputs the data they want to send into the application. For example, you write an email or an instant message and hit the send button. The application formats this data and starts sending it according to the application protocol used, using the layer below it, the transport layer.
-
-- **Transport protocol segment or datagram**: The transport layer, such as TCP or UDP, adds the proper header information and creates the TCP **segment** (or UDP **datagram**). This segment is sent to the layer below it, the network layer.
-
-- **Network packet**: The network layer, i.e. the Internet layer, adds an IP header to the received TCP segment or UDP datagram. Then, this IP **packet** is sent to the layer below it, the data link layer.
-
-- **Data link frame**: The Ethernet or WiFi receives the IP packet and adds the proper header and trailer, creating a **frame**.
-
-We start with application data. At the transport layer, we add a TCP or UDP header to create a **TCP segment** or **UDP datagram**. Again, at the network layer, we add the proper IP header to get an **IP packet** that can be routed over the Internet. Finally, we add the appropriate header and trailer to get a WiFi or Ethernet frame at the link layer.
-
-![encapsulation](images/encapsulation.svg)
-
-The process has to be reversed on the receiving end until the application data is extracted.
-
-**The Life of a Packet:**
-
-Based on what we have studied so far, we can explain a simplified version of the packet’s life. Let’s consider the scenario where you search for a room on TryHackMe.
-
-- On the TryHackMe search page, you enter your search query and hit enter.
-- Your web browser, using HTTPS, prepares an HTTP request and pushes it to the layer below it, the transport layer.
-- The TCP layer needs to establish a connection via a three-way handshake between your browser and the TryHackMe web server. After establishing the TCP connection, it can send the HTTP request containing the search query. Each TCP segment created is sent to the layer below it, the Internet layer.
-- The IP layer adds the source IP address, i.e., your computer, and the destination IP address, i.e., the IP address of the TryHackMe web server. For this packet to reach the router, your laptop delivers it to the layer below it, the link layer.
-- Depending on the protocol, The link layer adds the proper link layer header and trailer, and the packet is sent to the router.
-- The router removes the link layer header and trailer, inspects the IP destination, among other fields, and routes the packet to the proper link. Each router repeats this process until it reaches the router of the target server.
-
-The steps will then be reversed as the packet reaches the router of the destination network.
-
-### DHCP
-
-You went to your favourite coffee shop, grabbed your favourite hot drink, and opened your laptop. Your laptop connected to the shop’s WiFi and automatically configured the network, so you could now work on a new TryHackMe room. You didn’t type a single IP address, yet your device is all set up. Let’s see how this happened.
-
-Whenever we want to access a network, at the very least, we need to configure the following:
-
-- IP address along with subnet mask
-- Router (or gateway)
-- DNS server
-
-Whenever we connect our device to a new network, the above configurations must be set according to the new network. Manually configuring these settings is a good option, especially for servers. Servers are not expected to switch networks; you don’t carry your domain controller and connect it to the coffee shop WiFi. Moreover, other devices need to connect to the servers and expect to find them at specific IP addresses.
-
-Having an automated way to configure connected devices has many advantages. First, it would save us from manually configuring the network; this is extremely important, especially for mobile devices. Secondly, it saves us from address conflicts, i.e., when two devices are configured with the same IP address. An IP address conflict would prevent the involved hosts from using the network resources; this applies to local resources and the Internet. The solution lies in using Dynamic Host Configuration Protocol (DHCP). DHCP is an application-level protocol that relies on UDP; the server listens on UDP port 67, and the client sends from UDP port 68. Your smartphone and laptop are configured to use DHCP by default.
-
-![dora](images/dora.svg)
-
-DHCP follows four steps: Discover, Offer, Request, and Acknowledge (DORA):
-
-- DHCP Discover: The client broadcasts a DHCPDISCOVER message seeking the local DHCP server if one exists.
-- DHCP Offer: The server responds with a DHCPOFFER message with an IP address available for the client to accept.
-- DHCP Request: The client responds with a DHCPREQUEST message to indicate that it has accepted the offered IP.
-- DHCP Acknowledge: The server responds with a DHCPACK message to confirm that the offered IP address is now assigned to this client.
-
-![dora-timeline](images/dora2.svg)
-
-The following packet capture shows the four steps explained above. In this example, the client gets the address `192.168.66.133`.
-
-```shell
-user@TryHackMe$ tshark -r DHCP-G5000.pcap -n
-    1   0.000000      0.0.0.0 → 255.255.255.255 DHCP 342 DHCP Discover - Transaction ID 0xfb92d53f
-    2   0.013904 192.168.66.1 → 192.168.66.133 DHCP 376 DHCP Offer    - Transaction ID 0xfb92d53f
-    3   4.115318      0.0.0.0 → 255.255.255.255 DHCP 342 DHCP Request  - Transaction ID 0xfb92d53f
-    4   4.228117 192.168.66.1 → 192.168.66.133 DHCP 376 DHCP ACK      - Transaction ID 0xfb92d53f
-```
-
-In the DHCP packet exchange, we can notice the following:
-
-- The client starts without any IP network configuration. It only has a MAC address. In the first and third packets, DHCP Discover and DHCP Request, the client searching for a DHCP server still has no IP network configuration and has not yet used the DHCP server’s offered IP address. Therefore, it sends packets from the IP address `0.0.0.0` to the broadcast IP address `255.255.255.255`.
-- As for the link layer, in the first and third packets, the client sends to the broadcast MAC address, `ff:ff:ff:ff:ff:ff` (not shown in the output above). The DHCP server offers an available IP address along with the network configuration in the DHCP offer. It uses the client’s destination MAC address. (It used the proposed IP address in this example system.)
-
-At the end of the DHCP process, our device would have received all the configuration needed to access the network or even the Internet. In particular, we expect that the DHCP server has provided us with the following:
-
-- The leased IP address to access network resources
-- The gateway to route our packets outside the local network
-- A DNS server to resolve domain names
 
 ### ARP
 
@@ -481,6 +382,113 @@ In the diagram below, multiple devices access the Internet via a router that sup
 
 ![nat](images/nat.svg)
 
+### DHCP
+
+You went to your favourite coffee shop, grabbed your favourite hot drink, and opened your laptop. Your laptop connected to the shop’s WiFi and automatically configured the network, so you could now work on a new TryHackMe room. You didn’t type a single IP address, yet your device is all set up. Let’s see how this happened.
+
+Whenever we want to access a network, at the very least, we need to configure the following:
+
+- IP address along with subnet mask
+- Router (or gateway)
+- DNS server
+
+Whenever we connect our device to a new network, the above configurations must be set according to the new network. Manually configuring these settings is a good option, especially for servers. Servers are not expected to switch networks; you don’t carry your domain controller and connect it to the coffee shop WiFi. Moreover, other devices need to connect to the servers and expect to find them at specific IP addresses.
+
+Having an automated way to configure connected devices has many advantages. First, it would save us from manually configuring the network; this is extremely important, especially for mobile devices. Secondly, it saves us from address conflicts, i.e., when two devices are configured with the same IP address. An IP address conflict would prevent the involved hosts from using the network resources; this applies to local resources and the Internet. The solution lies in using Dynamic Host Configuration Protocol (DHCP). DHCP is an application-level protocol that relies on UDP; the server listens on UDP port 67, and the client sends from UDP port 68. Your smartphone and laptop are configured to use DHCP by default.
+
+![dora](images/dora.svg)
+
+DHCP follows four steps: Discover, Offer, Request, and Acknowledge (DORA):
+
+- DHCP Discover: The client broadcasts a DHCPDISCOVER message seeking the local DHCP server if one exists.
+- DHCP Offer: The server responds with a DHCPOFFER message with an IP address available for the client to accept.
+- DHCP Request: The client responds with a DHCPREQUEST message to indicate that it has accepted the offered IP.
+- DHCP Acknowledge: The server responds with a DHCPACK message to confirm that the offered IP address is now assigned to this client.
+
+![dora-timeline](images/dora2.svg)
+
+The following packet capture shows the four steps explained above. In this example, the client gets the address `192.168.66.133`.
+
+```shell
+user@TryHackMe$ tshark -r DHCP-G5000.pcap -n
+    1   0.000000      0.0.0.0 → 255.255.255.255 DHCP 342 DHCP Discover - Transaction ID 0xfb92d53f
+    2   0.013904 192.168.66.1 → 192.168.66.133 DHCP 376 DHCP Offer    - Transaction ID 0xfb92d53f
+    3   4.115318      0.0.0.0 → 255.255.255.255 DHCP 342 DHCP Request  - Transaction ID 0xfb92d53f
+    4   4.228117 192.168.66.1 → 192.168.66.133 DHCP 376 DHCP ACK      - Transaction ID 0xfb92d53f
+```
+
+In the DHCP packet exchange, we can notice the following:
+
+- The client starts without any IP network configuration. It only has a MAC address. In the first and third packets, DHCP Discover and DHCP Request, the client searching for a DHCP server still has no IP network configuration and has not yet used the DHCP server’s offered IP address. Therefore, it sends packets from the IP address `0.0.0.0` to the broadcast IP address `255.255.255.255`.
+- As for the link layer, in the first and third packets, the client sends to the broadcast MAC address, `ff:ff:ff:ff:ff:ff` (not shown in the output above). The DHCP server offers an available IP address along with the network configuration in the DHCP offer. It uses the client’s destination MAC address. (It used the proposed IP address in this example system.)
+
+At the end of the DHCP process, our device would have received all the configuration needed to access the network or even the Internet. In particular, we expect that the DHCP server has provided us with the following:
+
+- The leased IP address to access network resources
+- The gateway to route our packets outside the local network
+- A DNS server to resolve domain names
+
+## Transport Layer
+
+### UDP
+The IP protocol allows us to reach a destination host on the network; the host is identified by its IP address. We need protocols that would enable processes on networked hosts to communicate with each other. There are two transport protocols to achieve that: **UDP** and **TCP**.
+
+**UDP** (User Datagram Protocol) allows us to reach a specific process on this target host. UDP is a simple connectionless protocol that operates at the transport layer, i.e., layer 4. Being connectionless means that it does not need to establish a connection. UDP does not even provide a mechanism to know that the packet has been delivered.
+
+An IP address identifies the host; we need a mechanism to determine the sending and receiving process. This can be achieved by using port numbers. A port number uses two octets; consequently, it ranges between 1 and 65535; port 0 is reserved. (The number 65535 is calculated by the expression 216 − 1.)
+
+A real-life example similar to UDP is the standard mail service, with no delivery confirmation. In other words, there is no guarantee that the UDP packet has been received successfully, similar to the case of sending a parcel using standard mail with no confirmation of delivery. In the case of standard mail, it means a cheaper cost than the mail delivery options with confirmation. In the case of UDP, it means better speed than a transport protocol that provides “confirmation.”
+
+But what if we want a transport protocol that acknowledges received packets? The answer lies in using TCP instead of UDP.
+
+### TCP
+TCP (Transmission Control Protocol) is a connection-oriented transport protocol. It uses various mechanisms to ensure reliable data delivery sent by the different processes on the networked hosts. Like UDP, it is a layer 4 protocol. Being connection-oriented, it requires the establishment of a TCP connection before any data can be sent.
+
+In TCP, each data octet has a sequence number; this makes it easy for the receiver to identify lost or duplicated packets. The receiver, on the other hand, acknowledges the reception of data with an acknowledgement number specifying the last received octet.
+
+A TCP connection is established using what’s called a three-way handshake. Two flags are used: SYN (Synchronise) and ACK (Acknowledgment). The packets are sent as follows:
+
+- SYN Packet: The client initiates the connection by sending a SYN packet to the server. This packet contains the client’s randomly chosen initial sequence number.
+- SYN-ACK Packet: The server responds to the SYN packet with a SYN-ACK packet, which adds the initial sequence number randomly chosen by the server.
+- ACK Packet: The three-way handshake is completed as the client sends an ACK packet to acknowledge the reception of the SYN-ACK packet.
+
+![TCP](images/tcp.svg)
+
+Similar to UDP, TCP identifies the process of initiating or waiting (listening) for a connection using port numbers. As stated, a valid port number ranges between 1 and 65535 because it uses two octets and port 0 is reserved.
+
+**Encapsulation:**
+
+Before wrapping up, it is crucial to explain another key concept: **encapsulation**. In this context, encapsulation refers to the process of every layer adding a header (and sometimes a trailer) to the received unit of data and sending the “encapsulated” unit to the layer below.
+
+Encapsulation is an essential concept as it allows each layer to focus on its intended function. In the image below, we have the following four steps:
+
+- **Application data**: It all starts when the user inputs the data they want to send into the application. For example, you write an email or an instant message and hit the send button. The application formats this data and starts sending it according to the application protocol used, using the layer below it, the transport layer.
+
+- **Transport protocol segment or datagram**: The transport layer, such as TCP or UDP, adds the proper header information and creates the TCP **segment** (or UDP **datagram**). This segment is sent to the layer below it, the network layer.
+
+- **Network packet**: The network layer, i.e. the Internet layer, adds an IP header to the received TCP segment or UDP datagram. Then, this IP **packet** is sent to the layer below it, the data link layer.
+
+- **Data link frame**: The Ethernet or WiFi receives the IP packet and adds the proper header and trailer, creating a **frame**.
+
+We start with application data. At the transport layer, we add a TCP or UDP header to create a **TCP segment** or **UDP datagram**. Again, at the network layer, we add the proper IP header to get an **IP packet** that can be routed over the Internet. Finally, we add the appropriate header and trailer to get a WiFi or Ethernet frame at the link layer.
+
+![encapsulation](images/encapsulation.svg)
+
+The process has to be reversed on the receiving end until the application data is extracted.
+
+**The Life of a Packet:**
+
+Based on what we have studied so far, we can explain a simplified version of the packet’s life. Let’s consider the scenario where you search for a room on TryHackMe.
+
+- On the TryHackMe search page, you enter your search query and hit enter.
+- Your web browser, using HTTPS, prepares an HTTP request and pushes it to the layer below it, the transport layer.
+- The TCP layer needs to establish a connection via a three-way handshake between your browser and the TryHackMe web server. After establishing the TCP connection, it can send the HTTP request containing the search query. Each TCP segment created is sent to the layer below it, the Internet layer.
+- The IP layer adds the source IP address, i.e., your computer, and the destination IP address, i.e., the IP address of the TryHackMe web server. For this packet to reach the router, your laptop delivers it to the layer below it, the link layer.
+- Depending on the protocol, The link layer adds the proper link layer header and trailer, and the packet is sent to the router.
+- The router removes the link layer header and trailer, inspects the IP destination, among other fields, and routes the packet to the proper link. Each router repeats this process until it reaches the router of the target server.
+
+The steps will then be reversed as the packet reaches the router of the destination network.
+
 ### DNS
 
 Do you remember the IP addresses of your favourite websites? Unless it is a private IP address of a local device, no one needs to worry about memorizing IP addresses. This is in part due to the Domain Name System (DNS), which is responsible for properly mapping a domain name to an IP address.
@@ -518,7 +526,11 @@ user@TryHackMe$ tshark -r dns-query.pcapng -Nn
     4 0.101568276 192.168.66.1 → 192.168.66.89 DNS 114 Standard query response 0x96e1 AAAA www.example.com AAAA 2606:2800:21f:cb07:6820:80da:af6b:8b2c OPT
 ```
 
-### URL
+## Application Protocols
+
+### Web Protocols
+
+#### URL
 
 A Uniform Resource Locator (URL) is a web address that lets you access all kinds of online content—whether it’s a webpage, a video, a photo, or other media. It guides your browser to the right place on the Internet.
 
@@ -556,9 +568,7 @@ The **query string** is the part of the URL that starts with a question mark (?)
 
 The **fragment** starts with a hash symbol (#) and helps point to a specific section of a webpage—like jumping directly to a particular heading or table. Users can modify this too, so like with query strings, it’s important to check and clean up any data here to avoid issues like injection attacks.
 
-### HTTP
-
-#### HTTP Messages
+#### HTTP
 
 HTTP messages are packets of data exchanged between a user (the client) and the web server. These messages are very important for understanding how web applications work because they show how users' requests and the server's responses are communicated.
 
@@ -593,7 +603,7 @@ The body is where the actual data is stored. In a request, the body might includ
 - Knowing how they work will help you diagnose issues in web communication, which means better performance and reliability for your web application.
 - It’s also crucial for security. Understanding HTTP messages helps you implement strong security measures to protect data during transmission.
 
-#### HTTP Request
+**HTTP Request**
 
 An **HTTP request** is what a user sends to a web server to interact with a web application and make something happen. Since these requests are often the first point of contact between the user and the web server, knowing how they work is super important—especially if you’re into cyber security.
 
@@ -748,7 +758,7 @@ Content-Length: 124
     <country>US</country>
 </user>
 ```
-#### HTTP Response
+**HTTP Response**
 
 When you interact with a web application, the server sends back an **HTTP response** to let you know whether your request was successful or something went wrong. These responses include a **status code** and a short explanation (called the **Reason Phrase**) that gives insight into how the server handled your request.
 
@@ -927,7 +937,7 @@ Here’s a breakdown of the Referrer-Policy header by directives:
 **strict-origin-when-cross-origin**
 - This is similar to strict-origin except for same-origin requests, where it sends the full URL path in the origin header.
 
-#### HTTP cache
+#### HTTP Cache
 
 The HTTP cache stores a response associated with a request and reuses the stored response for subsequent requests.
 
@@ -987,7 +997,7 @@ HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over T
 - Establish a TLS session
 - Communicate using the HTTP protocol; for example, issue HTTP requests, such as `GET / HTTP/1.1`
 
-### WebSockets
+#### WebSockets
 
 WebSocket is a network protocol that provides **full-duplex communication over a single, persistent TCP connection**. Unlike HTTP which follows a request-response model, WebSockets enable continuous, low-latency, bi-directional communication between client and server.
 
@@ -1067,7 +1077,7 @@ WebSocket demands the use of a client-picked random key for all the payload data
 - **Payload data**. All sorts of arbitrary application data and extension data are known as payload data. The client and servers use this data for negotiation and are used in the early WebSocket handshakes. 
 
 
-### gRPC
+#### gRPC
 
 - gRPC is a robust open-source RPC (Remote Procedure Call) framework used to build scalable and fast APIs.
 - In 2015, Google developed gRPC as an extension of the RPC framework to link many microservices created with different technologies.
@@ -1115,7 +1125,57 @@ Streaming is another key concept of gRPC, where many processes can take place in
 
 - **Bidirectional-streaming** RPCs – It is two-way streaming where both client and server sends a sequence of messages to each other. Both streams operate independently; thus, they can transmit messages in any sequence. The sequence of messages in each stream is preserved.
 
-### SMB
+#### TLS
+
+At one point, you would only need a packet-capturing tool to read all the chats, emails, and passwords of the users on your network. It was not uncommon for an attacker to set their network card in promiscuous mode, i.e., to capture all packets, including those not destined to it. They would later go through all the packet captures and obtain the login credentials of unsuspecting victims. There was nothing a user could do to prevent their login password from being sent in cleartext. Nowadays, it has become uncommon to come across a service that sends login credentials in cleartext.
+
+In the early 1990s, Netscape Communications recognised the need for secure communication on the World Wide Web. They eventually developed SSL (Secure Sockets Layer) and released SSL 2.0 in **1995** as the first public version. In **1999**, the Internet Engineering Task Force (IETF) developed TLS (Transport Layer Security). Although very similar, TLS 1.0 was an upgrade to SSL 3.0 and offered various improved security measures. In **2018**, TLS had a significant overhaul of its protocol and TLS 1.3 was released. The purpose is not to remember the exact dates but to realise the amount of work and time put into developing the current version of TLS, i.e., TLS 1.3. Over more than two decades, there have been many things to learn from and improve with every version.
+
+Like SSL, its predecessor, TLS is a cryptographic protocol operating at the OSI model’s transport layer. It allows secure communication between a client and a server over an insecure network. By secure, we refer to confidentiality and integrity; TLS ensures that no one can read or modify the exchanged data. Please take a minute to think about what it would be like to do online shopping, online banking, or even online messaging and email without being able to guarantee the confidentiality and integrity of the network packets. Without TLS, we would be unable to use the Internet for many applications that are now part of our daily routine.
+
+Nowadays, tens of protocols have received security upgrades with the simple addition of TLS. Examples include HTTP, DNS, MQTT, and SIP, which have become HTTPS, DoT (DNS over TLS), MQTTS, and SIPS, where the appended “S” stands for Secure due to the use of SSL/TLS. In the following tasks, we will visit HTTPS, SMTPS, POP3S, and IMAPS.
+
+**Technical Background:**
+
+The first step for every server (or client) that needs to identify itself is to get a signed TLS certificate. Generally, the server administrator creates a Certificate Signing Request (CSR) and submits it to a Certificate Authority (CA); the CA verifies the CSR and issues a digital certificate. Once the (signed) certificate is received, it can be used to identify the server (or the client) to others, who can confirm the validity of the signature. For a host to confirm the validity of a signed certificate, the certificates of the signing authorities need to be installed on the host. In the non-digital world, this is similar to recognising the stamps of various authorities. The screenshot below shows the trusted authorities installed in a web browser.
+
+![certificate-manager](images/certificate-manager.png)
+
+Generally speaking, getting a certificate signed requires paying an annual fee. However, [Let’s Encrypt](https://letsencrypt.org/) allows you to get your certificate signed for free.
+
+Finally, we should mention that some users opt to create a self-signed certificate. A self-signed certificate cannot prove the server’s authenticity as no third party has confirmed it.
+
+**SMTPS, POP3S, and IMAPS:**
+
+Adding TLS to SMTP, POP3, and IMAP is no different than adding TLS to HTTP. Similar to how HTTP gets an appended S for Secure and becomes HTTPS, SMTP, POP3, and IMAP become SMTPS, POP3S, and IMAPS, respectively. Using these protocols over TLS is no different than using HTTP over TLS; therefore, almost all the points from the HTTPS discussion apply to these protocols.
+
+The insecure versions use the default TCP port numbers shown in the table below:
+
+| Protocol | Default Port Number |
+| -------- | ------------------- |
+| HTTP     | 80                  |
+| SMTP     | 25                  |
+| POP3     | 110                 |
+| IMAP     | 143                 |
+
+The secure versions, i.e., over TLS, use the following TCP port numbers by default:
+
+| Protocol | Default Port Number |
+| -------- | ------------------- |
+| HTTP     | 80                  |
+| HTTPS    | 443                 |
+| SMTP     | 25                  |
+| SMTPS    | 465 and 587         |
+| POP3     | 110                 |
+| POP3S    | 995                 |
+| IMAP     | 143                 |
+| IMAPS    | 993                 |
+
+TLS can be added to many other protocols; the reasoning and advantages would be similar.
+
+### File Protocols
+
+#### SMB
 
 **What is SMB?**
 
@@ -1145,7 +1205,7 @@ smbclient //[IP]/[SHARE] -U [USERNAME] -p [PORT]
 smbclient //10.10.10.10/secrets -U Anonymous -p 445
 ```
 
-### NFS
+#### NFS
 
 **What is NFS?**
 
@@ -1179,7 +1239,7 @@ this folder anywhere on your system. Once you've created this mount point, you c
 sudo mount -t nfs IP:share /tmp/mount/ -nolock
 ```
 
-### FTP
+#### FTP
 
 Unlike HTTP, which is designed to retrieve web pages, File Transfer Protocol (FTP) is designed to transfer files. As a result, FTP is very efficient for file transfer, and when all conditions are equal, it can achieve higher speeds than HTTP.
 
@@ -1232,7 +1292,9 @@ ftp> quit
 221 Goodbye.
 ```
 
-### SMTP
+### Email Protocols
+
+#### SMTP
 
 As with browsing the web and downloading files, sending email needs its own protocol. Simple Mail Transfer Protocol (SMTP) defines how a mail client talks with a mail server and how a mail server talks with another.
 
@@ -1272,7 +1334,7 @@ QUIT
 Connection closed by foreign host.
 ```
 
-### POP3
+#### POP3
 
 You’ve received an email and want to download it to your local mail client. The Post Office Protocol version 3 (POP3) is designed to allow the client to communicate with a mail server and retrieve email messages.
 
@@ -1334,7 +1396,7 @@ QUIT
 Connection closed by foreign host.
 ```
 
-### IMAP
+#### IMAP
 
 POP3 is enough when working from one device, e.g., your favourite email client on your desktop computer. However, what if you want to check your email from your office desktop computer and from your laptop or smartphone? In this scenario, you need a protocol that allows synchronization of messages instead of deleting a message after retrieving it. One solution to maintaining a synchronized mailbox across multiple devices is Internet Message Access Protocol (IMAP).
 
@@ -1392,55 +1454,9 @@ D OK Logout completed (0.001 + 0.000 secs).
 Connection closed by foreign host.
 ```
 
-### TLS
+### Security & Tunneling
 
-At one point, you would only need a packet-capturing tool to read all the chats, emails, and passwords of the users on your network. It was not uncommon for an attacker to set their network card in promiscuous mode, i.e., to capture all packets, including those not destined to it. They would later go through all the packet captures and obtain the login credentials of unsuspecting victims. There was nothing a user could do to prevent their login password from being sent in cleartext. Nowadays, it has become uncommon to come across a service that sends login credentials in cleartext.
-
-In the early 1990s, Netscape Communications recognised the need for secure communication on the World Wide Web. They eventually developed SSL (Secure Sockets Layer) and released SSL 2.0 in **1995** as the first public version. In **1999**, the Internet Engineering Task Force (IETF) developed TLS (Transport Layer Security). Although very similar, TLS 1.0 was an upgrade to SSL 3.0 and offered various improved security measures. In **2018**, TLS had a significant overhaul of its protocol and TLS 1.3 was released. The purpose is not to remember the exact dates but to realise the amount of work and time put into developing the current version of TLS, i.e., TLS 1.3. Over more than two decades, there have been many things to learn from and improve with every version.
-
-Like SSL, its predecessor, TLS is a cryptographic protocol operating at the OSI model’s transport layer. It allows secure communication between a client and a server over an insecure network. By secure, we refer to confidentiality and integrity; TLS ensures that no one can read or modify the exchanged data. Please take a minute to think about what it would be like to do online shopping, online banking, or even online messaging and email without being able to guarantee the confidentiality and integrity of the network packets. Without TLS, we would be unable to use the Internet for many applications that are now part of our daily routine.
-
-Nowadays, tens of protocols have received security upgrades with the simple addition of TLS. Examples include HTTP, DNS, MQTT, and SIP, which have become HTTPS, DoT (DNS over TLS), MQTTS, and SIPS, where the appended “S” stands for Secure due to the use of SSL/TLS. In the following tasks, we will visit HTTPS, SMTPS, POP3S, and IMAPS.
-
-**Technical Background:**
-
-The first step for every server (or client) that needs to identify itself is to get a signed TLS certificate. Generally, the server administrator creates a Certificate Signing Request (CSR) and submits it to a Certificate Authority (CA); the CA verifies the CSR and issues a digital certificate. Once the (signed) certificate is received, it can be used to identify the server (or the client) to others, who can confirm the validity of the signature. For a host to confirm the validity of a signed certificate, the certificates of the signing authorities need to be installed on the host. In the non-digital world, this is similar to recognising the stamps of various authorities. The screenshot below shows the trusted authorities installed in a web browser.
-
-![certificate-manager](images/certificate-manager.png)
-
-Generally speaking, getting a certificate signed requires paying an annual fee. However, [Let’s Encrypt](https://letsencrypt.org/) allows you to get your certificate signed for free.
-
-Finally, we should mention that some users opt to create a self-signed certificate. A self-signed certificate cannot prove the server’s authenticity as no third party has confirmed it.
-
-**SMTPS, POP3S, and IMAPS:**
-
-Adding TLS to SMTP, POP3, and IMAP is no different than adding TLS to HTTP. Similar to how HTTP gets an appended S for Secure and becomes HTTPS, SMTP, POP3, and IMAP become SMTPS, POP3S, and IMAPS, respectively. Using these protocols over TLS is no different than using HTTP over TLS; therefore, almost all the points from the HTTPS discussion apply to these protocols.
-
-The insecure versions use the default TCP port numbers shown in the table below:
-
-| Protocol | Default Port Number |
-| -------- | ------------------- |
-| HTTP     | 80                  |
-| SMTP     | 25                  |
-| POP3     | 110                 |
-| IMAP     | 143                 |
-
-The secure versions, i.e., over TLS, use the following TCP port numbers by default:
-
-| Protocol | Default Port Number |
-| -------- | ------------------- |
-| HTTP     | 80                  |
-| HTTPS    | 443                 |
-| SMTP     | 25                  |
-| SMTPS    | 465 and 587         |
-| POP3     | 110                 |
-| POP3S    | 995                 |
-| IMAP     | 143                 |
-| IMAPS    | 993                 |
-
-TLS can be added to many other protocols; the reasoning and advantages would be similar.
-
-### SSH
+#### SSH
 
 We have used the TELNET protocol in the Networking Concepts room. Although it is very convenient to log in and administer remote systems, it is risky when all the traffic is sent in cleartext. It is easy for anyone monitoring the network traffic to get hold of your login credentials once you use `telnet`. This problem necessitated a solution. Tatu Ylönen developed the Secure Shell (SSH) protocol and released SSH-1 in **1995** as freeware. (Interestingly, it was the same year that Netscape Communications released the SSL 2.0 protocol.) A more secure version, SSH-2, was defined in 1996. In **1999**, the OpenBSD developers released OpenSSH, an open-source implementation of SSH. Nowadays, when you use an SSH client, it is most likely based on OpenSSH libraries and source code.
 
@@ -1460,7 +1476,7 @@ The screenshot below shows an example of running Wireshark on a remote Kali Linu
 
 While the TELNET server listens on port 23, the SSH server listens on port 22.
 
-### VPN
+#### VPN
 
 Consider a company with offices in different geographical locations. Can this company connect all its offices and sites to the main branch so that any device can access the shared resources as if physically located in the main branch? The answer is yes; furthermore, the most economical solution would be setting up a virtual private network (VPN) using the Internet infrastructure. The focus here is on the V for Virtual in VPN.
 

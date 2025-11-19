@@ -5,6 +5,7 @@
   - [Hashing](#hashing)
   - [Linked lists](#linked-lists)
   - [Stacks and queues](#stacks-and-queues)
+  - [Trees and graphs](#trees-and-graphs)
   - [References](#references)
 
 ## Introduction
@@ -55,6 +56,10 @@
 ## Stacks and queues
 - 📝[Stacks](leetcode/Stacks-and-queues/Stacks.md)
 - 📝[String problems](leetcode/Stacks-and-queues/String-problems.md.md)
+- TODO
+
+## Trees and graphs
+- 📝[Binary trees](leetcode/Trees-and-graphs/Binary-trees.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/

@@ -27,37 +27,17 @@
     - [Strategy Method](#strategy-method)
     - [Template Method](#template-method)
     - [Visitor Method](#visitor-method)
-  - [Others](#others)
-    - [Dependency Injection](#dependency-injection)
+  - [Test Automation](#test-automation)
     - [Page object](#page-object)
   - [References](#references)
 
-Design Patterns is the most essential part of Software Engineering, as they provide the general repeatable solution to a commonly occurring problem in software design. They usually represent some of the best practices adopted by experienced object-oriented software developers. We can not consider the Design Patterns as the finished design that can be directly converted into code. They are only templates that describe how to solve a particular problem with great efficiency.
-
----
 ## Creational Design Patterns
+
 Creational patterns provides essential information regarding the Class instantiation or the object instantiation. Class Creational Pattern and the Object Creational pattern is the major categorization of the Creational Design Patterns. While class-creation patterns use inheritance effectively in the instantiation process, object-creation patterns use delegation effectively to get the job done.
 
 ### Factory Method 
-* What is this pattern about?
-A Factory is an object for creating other objects.
 
-* What does this example do?
-The code shows a way to localize words in two languages: English and
-Greek. `get_localizer` is the factory function that constructs a
-localizer depending on the language chosen. The localizer object will
-be an instance from a different class according to the language
-localized. However, the main code does not have to worry about which
-localizer will be instantiated, since the method `localize` will be called
-in the same way independently of the language.
-
-* Where can the pattern be used practically?
-The Factory Method can be seen in the popular web framework Django:
-https://docs.djangoproject.com/en/4.0/topics/forms/formsets/
-For example, different types of forms are created using a formset_factory
-
-* TL;DR
-**Creates objects without having to specify the exact class.**
+Creates objects without having to specify the exact class.
 
 ```python
 from typing import Dict
@@ -120,29 +100,8 @@ if __name__ == "__main__":
 ```
 
 ### Abstract Factory Method 
-* What is this pattern about?
 
-    In Java and other languages, the Abstract Factory Pattern serves to provide an interface for
-    creating related/dependent objects without need to specify their
-    actual class.
-
-    The idea is to abstract the creation of objects depending on business
-    logic, platform choice, etc.
-
-    In Python, the interface we use is simply a callable, which is "builtin" interface
-    in Python, and in normal circumstances we can simply use the class itself as
-    that callable, because classes are first class objects in Python.
-
-* What does this example do?
-This particular implementation abstracts the creation of a pet and
-does so depending on the factory we chose (Dog or Cat, or random_animal)
-This works because both Dog/Cat and random_animal respect a common
-interface (callable for creation and .speak()).
-Now my application can create pets abstractly and decide later,
-based on my own criteria, dogs over cats.
-
-* TL;DR
-**Provides a way to encapsulate a group of individual factories.**
+Provides a way to encapsulate a group of individual factories.
 
 ```python
 import random
@@ -238,30 +197,8 @@ if __name__ == "__main__":
 ```
 
 ### Builder Method
-* What is this pattern about?
-It decouples the creation of a complex object and its representation,
-so that the same process can be reused to build objects from the same
-family.
-This is useful when you must separate the specification of an object
-from its actual representation (generally for abstraction).
 
-* What does this example do?
-
-    The first example achieves this by using an abstract base
-    class for a building, where the initializer (`__init__` method) specifies the
-    steps needed, and the concrete subclasses implement these steps.
-
-    In other programming languages, a more complex arrangement is sometimes
-    necessary. In particular, you cannot have polymorphic behavior in a constructor in C++.
-    Which means this Python technique will not work. The polymorphism
-    required has to be provided by an external, already constructed
-    instance of a different class.
-
-    In general, in Python this won't be necessary, but a second example showing
-    this kind of arrangement is also included.
-
-* TL;DR
-**Decouples the creation of a complex object and its representation.**
+Decouples the creation of a complex object and its representation.
 
 ```python
 # Abstract Building
@@ -347,26 +284,8 @@ if __name__ == "__main__":
 ```
 
 ### Prototype
-* What is this pattern about?
-This patterns aims to reduce the number of classes required by an
-application. Instead of relying on subclasses it creates objects by
-copying a prototypical instance at run-time.
 
-    This is useful as it makes it easier to derive new kinds of objects,
-    when instances of the class have only a few different combinations of
-    state, and when instantiation is expensive.
-
-* What does this example do?
-When the number of prototypes in an application can vary, it can be
-useful to keep a Dispatcher (aka, Registry or Manager). This allows
-clients to query the Dispatcher for a prototype before cloning a new
-instance.
-
-    Below provides an example of such Dispatcher, which contains three
-    copies of the prototype: `default`, `objecta` and `objectb`.
-
-*TL;DR
-**Creates new object instances by cloning prototype.**
+Creates new object instances by cloning prototype.
 
 ```python
 from __future__ import annotations
@@ -432,34 +351,8 @@ if __name__ == "__main__":
 ```
 
 ### Singleton 
-"""
-* What is this pattern about?
-The Borg pattern (also known as the Monostate pattern) is a way to
-implement singleton behavior, but instead of having only one instance
-of a class, there are multiple instances that share the same state. In
-other words, the focus is on sharing state instead of sharing instance
-identity.
 
-* What does this example do?
-To understand the implementation of this pattern in Python, it is
-important to know that, in Python, instance attributes are stored in a
-attribute dictionary called `__dict__`. Usually, each instance will have
-its own dictionary, but the Borg pattern modifies this so that all
-instances have the same dictionary.
-In this example, the `__shared_state` attribute will be the dictionary
-shared between all instances, and this is ensured by assigning
-`__shared_state` to the `__dict__` variable when initializing a new
-instance (i.e., in the `__init__` method). Other attributes are usually
-added to the instance's attribute dictionary, but, since the attribute
-dictionary itself is shared (which is `__shared_state`), all other
-attributes will also be shared.
-
-* Where is the pattern used practically?
-Sharing state is useful in applications like managing database connections:
-https://github.com/onetwopunch/pythonDbTemplate/blob/master/database.py
-
-* TL;DR
-**Provides singleton-like behavior sharing state between instances.**
+Provides singleton-like behavior sharing state between instances.
 
 ```python
 from typing import Dict
@@ -540,27 +433,8 @@ if __name__ == "__main__":
     doctest.testmod()
 ```
 ### Object Pool
-* What is this pattern about?
-This pattern is used when creating an object is costly (and they are
-created frequently) but only a few are used at a time. With a Pool we
-can manage those instances we have as of now by caching them. Now it
-is possible to skip the costly creation of an object if one is
-available in the pool.
-A pool allows to 'check out' an inactive object and then to return it.
-If none are available the pool creates one to provide without wait.
 
-* What does this example do?
-In this example queue.Queue is used to create the pool (wrapped in a
-custom ObjectPool object to use with the with statement), and it is
-populated with strings.
-As we can see, the first string object put in "yam" is USED by the
-with statement. But because it is released back into the pool
-afterwards it is reused by the explicit call to sample_queue.get().
-Same thing happens with "sam", when the ObjectPool created inside the
-function is deleted (by the GC) and the object is returned.
-
-*TL;DR
-**Stores a set of initialized objects kept ready to use.**
+Stores a set of initialized objects kept ready to use.
 
 ```python
 class ObjectPool:
@@ -622,12 +496,9 @@ if __name__ == "__main__":
 
 
 ### Lazy Evaluation
-Lazily-evaluated property pattern in Python.
 
-https://en.wikipedia.org/wiki/Lazy_evaluation
+Delays the eval of an expr until its value is needed and avoids repeated evals.
 
-* TL;DR
-**Delays the eval of an expr until its value is needed and avoids repeated evals.**
 ```python
 import functools
 
@@ -721,33 +592,14 @@ if __name__ == "__main__":
     doctest.testmod(optionflags=doctest.ELLIPSIS)
 ```
 
----
+
 ## Structural Design Patterns
+
 Structural design patterns are about organizing different classes and objects to form larger structures and provide new functionality while keeping these structures flexible and efficient. Mostly they use Inheritance to compose all the interfaces. It also identifies the relationships which led to the simplification of the structure.
 
 ### Adapter
-* What is this pattern about?
-The Adapter pattern provides a different interface for a class. We can
-think about it as a cable adapter that allows you to charge a phone
-somewhere that has outlets in a different shape. Following this idea,
-the Adapter pattern is useful to integrate classes that couldn't be
-integrated due to their incompatible interfaces.
 
-* What does this example do?
-
-    The example has classes that represent entities (Dog, Cat, Human, Car)
-    that make different noises. The Adapter class provides a different
-    interface to the original methods that make such noises. So the
-    original interfaces (e.g., bark and meow) are available under a
-    different name: make_noise.
-
-* Where is the pattern used practically?
-The Grok framework uses adapters to make objects work with a
-particular API without modifying the objects themselves:
-http://grok.zope.org/doc/current/grok_overview.html#adapters
-
-* TL;DR
-**Allows the interface of an existing class to be used as another interface.**
+Allows the interface of an existing class to be used as another interface.
 
 ```python
 from typing import Callable, TypeVar
@@ -847,11 +699,8 @@ if __name__ == "__main__":
 ```
 
 ### Bridge
-* References:
-http://en.wikibooks.org/wiki/Computer_Science_Design_Patterns/Bridge_Pattern#Python
 
-* TL;DR
-**Decouples an abstraction from its implementation.**
+Decouples an abstraction from its implementation.
 
 ```python
 # ConcreteImplementor 1/2
@@ -902,27 +751,8 @@ if __name__ == "__main__":
 ```
 
 ### Composite
-* What is this pattern about?
-The composite pattern describes a group of objects that is treated the
-same way as a single instance of the same type of object. The intent of
-a composite is to "compose" objects into tree structures to represent
-part-whole hierarchies. Implementing the composite pattern lets clients
-treat individual objects and compositions uniformly.
 
-* What does this example do?
-The example implements a graphic class，which can be either an ellipse
-or a composition of several graphics. Every graphic can be printed.
-
-* Where is the pattern used practically?
-In graphics editors a shape can be basic or complex. An example of a
-simple shape is a line, where a complex shape is a rectangle which is
-made of four line objects. Since shapes have many operations in common
-such as rendering the shape to screen, and since shapes follow a
-part-whole hierarchy, composite pattern can be used to enable the
-program to deal with all shapes uniformly.
-
-* TL;DR
-**Describes a group of objects that is treated as a single instance.**
+Describes a group of objects that is treated as a single instance.
 
 ```python
 from abc import ABC, abstractmethod
@@ -1064,27 +894,8 @@ if __name__ == "__main__":
     doctest.testmod()
 ```
 ### Facade
-* Example from https://en.wikipedia.org/wiki/Facade_pattern#Python
 
-* What is this pattern about?
-The Facade pattern is a way to provide a simpler unified interface to
-a more complex system. It provides an easier way to access functions
-of the underlying system by providing a single entry point.
-This kind of abstraction is seen in many real life situations. For
-example, we can turn on a computer by just pressing a button, but in
-fact there are many procedures and operations done when that happens
-(e.g., loading programs from disk to memory). In this case, the button
-serves as an unified interface to all the underlying procedures to
-turn on a computer.
-
-* Where is the pattern used practically?
-This pattern can be seen in the Python standard library when we use
-the `isdir` function. Although a user simply uses this function to know
-whether a path refers to a directory, the system makes a few
-operations and calls other modules (e.g., os.stat) to give the result.
-
-* TL;DR
-**Provides a simpler unified interface to a complex system.**
+Provides a simpler unified interface to a complex system.
 
 ```python
 # Complex computer parts
@@ -1157,26 +968,8 @@ if __name__ == "__main__":
 
 
 ### Flyweight
-* What is this pattern about?
-This pattern aims to minimise the number of objects that are needed by
-a program at run-time. A Flyweight is an object shared by multiple
-contexts, and is indistinguishable from an object that is not shared.
 
-    The state of a Flyweight should not be affected by it's context, this
-    is known as its intrinsic state. The decoupling of the objects state
-    from the object's context, allows the Flyweight to be shared.
-
-* What does this example do?
-The example below sets-up an 'object pool' which stores initialised
-objects. When a 'Card' is created it first checks to see if it already
-exists instead of creating a new one. This aims to reduce the number of
-objects initialised by the program.
-
-* Examples in Python ecosystem:
-https://docs.python.org/3/library/sys.html#sys.intern
-
-* TL;DR
-**Minimizes memory usage by sharing data with other similar objects.**
+Minimizes memory usage by sharing data with other similar objects.
 
 ```python
 import weakref
@@ -1308,14 +1101,7 @@ if __name__ == "__main__":
 
 
 ### Proxy 
-* What is this pattern about?
-Proxy is used in places where you want to add functionality to a class without
-changing its interface. The main class is called `Real Subject`. A client should
-use the proxy or the real subject without any code change, so both must have the
-same interface. Logging and controlling access to the real subject are some of
-the proxy pattern usages.
 
-* TL;DR
 Add functionality or logic (e.g. logging, caching, authorization) to a resource
 without changing its interface.
 
@@ -1396,27 +1182,13 @@ if __name__ == "__main__":
     doctest.testmod()
 ```
 
----
+
 ## Behavioral Design Pattern
+
 Behavioral patterns are all about identifying the common communication patterns between objects and realize these patterns. These patterns are concerned with algorithms and the assignment of responsibilities between objects.
 
 ### Chain of Responsibility
-* What is this pattern about?
 
-    The Chain of responsibility is an object oriented version of the
-    `if ... elif ... elif ... else ...` idiom, with the
-    benefit that the condition–action blocks can be dynamically rearranged
-    and reconfigured at runtime.
-
-    This pattern aims to decouple the senders of a request from its
-    receivers by allowing request to move through chained
-    receivers until it is handled.
-
-    Request receiver in simple form keeps a reference to a single successor.
-    As a variation some receivers may be capable of sending requests out
-    in several directions, forming a `tree of responsibility`.
-
-* TL;DR
 Allow a request to pass down a chain of receivers until it is handled.
 
 ```python
@@ -1521,27 +1293,8 @@ if __name__ == "__main__":
 ```
 
 ### Command
-* What is this pattern about?
-Command pattern decouples the object invoking a job from the one who knows
-how to do it. As mentioned in the GoF book, a good example is in menu items.
-You have a menu that has lots of items. Each item is responsible for doing a
-special thing and you want your menu item just call the execute method when
-it is pressed. To achieve this you implement a command object with the execute
-method for each menu item and pass to it.
 
-* About the example
-We have a menu containing two items. Each item accepts a file name, one hides the file
-and the other deletes it. Both items have an undo option.
-Each item is a MenuItem class that accepts the corresponding command as input and executes
-it's execute method when it is pressed.
-
-* Examples in Python ecosystem:
-Django HttpRequest (without execute method):
-https://docs.djangoproject.com/en/2.1/ref/request-response/#httprequest-objects
-
-
-* TL;DR
-**Object oriented implementation of callback functions.**
+Object oriented implementation of callback functions.
 
 
 ```python
@@ -1633,11 +1386,9 @@ if __name__ == "__main__":
 ```
 
 ### Iterator
-http://ginstrom.com/scribbles/2007/10/08/design-patterns-python-style/
-Implementation of the iterator pattern with a generator
 
-* TL;DR
-**Traverses a container and accesses the container's elements.**
+Traverses a container and accesses the container's elements.
+
 ```python
 
 def count_to(count: int):
@@ -1743,13 +1494,8 @@ if __name__ == "__main__":
 
 
 ### Mediator
-https://www.djangospin.com/design-patterns-python/mediator/
 
-Objects in a system communicate through a Mediator instead of directly with each other.
-This reduces the dependencies between communicating objects, thereby reducing coupling.
-
-* TL;DR
-**Encapsulates how a set of objects interact.**
+Encapsulates how a set of objects interact.
 
 ```python
 
@@ -1799,10 +1545,9 @@ if __name__ == "__main__":
 ```
 
 ### Memento
-http://code.activestate.com/recipes/413838-memento-closure/
 
-* TL;DR
-**Provides the ability to restore an object to its previous state.**
+Provides the ability to restore an object to its previous state.
+
 ```python
 
 from typing import Callable, List
@@ -1946,14 +1691,7 @@ if __name__ == "__main__":
 
 
 ### Observer
-http://code.activestate.com/recipes/131499-observer-pattern/
 
-* Examples in Python ecosystem:
-Django Signals: https://docs.djangoproject.com/en/3.1/topics/signals/
-Flask Signals: https://flask.palletsprojects.com/en/1.1.x/signals/
-
-
-* TL;DR
 Maintains a list of dependents and notifies them of any state changes.
 
 ```python
@@ -2059,11 +1797,7 @@ if __name__ == "__main__":
 ```
 
 ### State Method
-Implementation of the state pattern
 
-http://ginstrom.com/scribbles/2007/10/08/design-patterns-python-style/
-
-* TL;DR
 Implements state as a derived class of the state pattern interface.
 Implements state transitions by invoking methods from the pattern's superclass.
 
@@ -2151,11 +1885,7 @@ if __name__ == "__main__":
 
 
 ### Strategy Method
-* What is this pattern about?
-Define a family of algorithms, encapsulate each one, and make them interchangeable.
-Strategy lets the algorithm vary independently from clients that use it.
 
-* TL;DR
 Enables selecting an algorithm at runtime.
 
 ```python
@@ -2244,13 +1974,9 @@ if __name__ == "__main__":
 ```
 
 ### Template Method
-* Examples in Python ecosystem:
-Django class based views: https://docs.djangoproject.com/en/2.1/topics/class-based-views/
 
-
-* TL;DR
-**Defines the skeleton of a base algorithm, deferring definition of exact
-steps to subclasses.**
+Defines the skeleton of a base algorithm, deferring definition of exact
+steps to subclasses.
 
 ```python
 def get_text() -> str:
@@ -2317,15 +2043,8 @@ if __name__ == "__main__":
 ```
 
 ### Visitor Method
-* http://peter-hoffmann.com/2010/extrinsic-visitor-pattern-python-inheritance.html
 
-* Examples in Python ecosystem:
-  - Python's ast.NodeVisitor: https://github.com/python/cpython/blob/master/Lib/ast.py#L250
-which is then being used e.g. in tools like `pyflakes`.
-  - `Black` formatter tool implements it's own: https://github.com/ambv/black/blob/master/black.py#L718
-
-* TL;DR
-**Separates an algorithm from an object structure on which it operates.**
+Separates an algorithm from an object structure on which it operates.
 
 ```python
 class Node:
@@ -2385,130 +2104,7 @@ if __name__ == "__main__":
 
     doctest.testmod()
 ```
-
----
-
-## Others
-
-### Dependency Injection
-
-"""
-Dependency Injection (DI) is a technique whereby one object supplies the dependencies (services)
-to another object (client).
-It allows to decouple objects: no need to change client code simply because an object it depends on
-needs to be changed to a different one. (Open/Closed principle)
-
-In the following example `time_provider` (service) is embedded into TimeDisplay (client).
-If such service performed an expensive operation you would like to substitute or mock it in tests.
-
-```python
-class TimeDisplay(object):
-
-    def __init__(self):
-        self.time_provider = datetime.datetime.now
-
-    def get_current_time_as_html_fragment(self):
-        current_time = self.time_provider()
-        current_time_as_html_fragment = "<span class=\"tinyBoldText\">{}</span>".format(current_time)
-        return current_time_as_html_fragment
-
-```
-
-```python
-import datetime
-from typing import Callable
-
-
-class ConstructorInjection:
-    def __init__(self, time_provider: Callable) -> None:
-        self.time_provider = time_provider
-
-    def get_current_time_as_html_fragment(self) -> str:
-        current_time = self.time_provider()
-        current_time_as_html_fragment = '<span class="tinyBoldText">{}</span>'.format(
-            current_time
-        )
-        return current_time_as_html_fragment
-
-
-class ParameterInjection:
-    def __init__(self) -> None:
-        pass
-
-    def get_current_time_as_html_fragment(self, time_provider: Callable) -> str:
-        current_time = time_provider()
-        current_time_as_html_fragment = '<span class="tinyBoldText">{}</span>'.format(
-            current_time
-        )
-        return current_time_as_html_fragment
-
-
-class SetterInjection:
-    """Setter Injection"""
-
-    def __init__(self):
-        pass
-
-    def set_time_provider(self, time_provider: Callable):
-        self.time_provider = time_provider
-
-    def get_current_time_as_html_fragment(self):
-        current_time = self.time_provider()
-        current_time_as_html_fragment = '<span class="tinyBoldText">{}</span>'.format(
-            current_time
-        )
-        return current_time_as_html_fragment
-
-
-def production_code_time_provider() -> str:
-    """
-    Production code version of the time provider (just a wrapper for formatting
-    datetime for this example).
-    """
-    current_time = datetime.datetime.now()
-    current_time_formatted = f"{current_time.hour}:{current_time.minute}"
-    return current_time_formatted
-
-
-def midnight_time_provider() -> str:
-    """Hard-coded stub"""
-    return "24:01"
-
-
-def main():
-    """
-    >>> time_with_ci1 = ConstructorInjection(midnight_time_provider)
-    >>> time_with_ci1.get_current_time_as_html_fragment()
-    '<span class="tinyBoldText">24:01</span>'
-
-    >>> time_with_ci2 = ConstructorInjection(production_code_time_provider)
-    >>> time_with_ci2.get_current_time_as_html_fragment()
-    '<span class="tinyBoldText">...</span>'
-
-    >>> time_with_pi = ParameterInjection()
-    >>> time_with_pi.get_current_time_as_html_fragment(midnight_time_provider)
-    '<span class="tinyBoldText">24:01</span>'
-
-    >>> time_with_si = SetterInjection()
-
-    >>> time_with_si.get_current_time_as_html_fragment()
-    Traceback (most recent call last):
-    ...
-    AttributeError: 'SetterInjection' object has no attribute 'time_provider'
-
-    >>> time_with_si.set_time_provider(midnight_time_provider)
-    >>> time_with_si.get_current_time_as_html_fragment()
-    '<span class="tinyBoldText">24:01</span>'
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
-```
-
----
+## Test Automation
 
 ### Page object
 
@@ -2560,7 +2156,7 @@ class SearchResultsPage(BasePage):
         return "No results found." not in self.driver.page_source
 ```
 
----
+
 
 ## References
  - https://github.com/faif/python-patterns
