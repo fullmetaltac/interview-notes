@@ -6,6 +6,7 @@
   - [3 SELECT from Nobel](#3-select-from-nobel)
   - [4 SELECT within SELECT](#4-select-within-select)
   - [5 SUM and COUNT](#5-sum-and-count)
+  - [6 JOIN](#6-join)
   - [References](#references)
 
 
@@ -524,6 +525,73 @@ WHERE x.population / 3 > ALL (
 ```
 
 ## 5 SUM and COUNT
+
+**Total world population**
+
+```sql
+SELECT SUM(population)
+FROM world
+```
+
+**List of continents**
+
+```sql
+SELECT DISTINCT continent
+FROM   world 
+```
+
+**GDP of Africa**
+
+```sql
+SELECT SUM(gdp)
+FROM   world
+WHERE  continent = 'Africa' 
+```
+
+**Count the big countries**
+
+```sql
+SELECT COUNT(*)
+FROM   world
+WHERE  area >= 1000000 
+```
+
+**Baltic states population**
+
+```sql
+SELECT SUM(population)
+FROM   world
+WHERE  NAME IN ( 'Estonia', 'Latvia', 'Lithuania' ) 
+```
+
+**Counting the countries of each continent**
+```sql
+SELECT continent,
+       COUNT(NAME)
+FROM   world
+GROUP  BY continent; 
+```
+
+**Counting big countries in each continent**
+
+```sql
+SELECT continent,
+       COUNT(NAME)
+FROM   world
+WHERE  population >= 10000000
+GROUP  BY continent 
+```
+
+**Counting big continents**
+
+```sql
+SELECT continent
+FROM   world
+GROUP  BY continent
+HAVING Sum(population) >= 100000000 
+```
+
+## 6 JOIN
 
 ## References
 - https://sqlzoo.net/wiki/SQL_Tutorial
