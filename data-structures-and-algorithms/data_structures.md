@@ -60,6 +60,7 @@
 
 ## Trees and graphs
 - 📝[Binary trees](leetcode/Trees-and-graphs/Binary-trees.md)
+- 📝[Binary trees - DFS](leetcode/Trees-and-graphs/Binary-trees-DFS.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
