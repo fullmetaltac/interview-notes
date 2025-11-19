@@ -1,9 +1,9 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
   - [Creational Design Patterns](#creational-design-patterns)
-    - [Factory Method](#factory-method)
-    - [Abstract Factory Method](#abstract-factory-method)
-    - [Builder Method](#builder-method)
+    - [Factory](#factory)
+    - [Abstract Factory](#abstract-factory)
+    - [Builder](#builder)
     - [Prototype](#prototype)
     - [Singleton](#singleton)
     - [Object Pool](#object-pool)
@@ -24,9 +24,9 @@
     - [Memento](#memento)
     - [Observer](#observer)
     - [State Method](#state-method)
-    - [Strategy Method](#strategy-method)
-    - [Template Method](#template-method)
-    - [Visitor Method](#visitor-method)
+    - [Strategy](#strategy)
+    - [Template](#template)
+    - [Visitor](#visitor)
   - [Test Automation](#test-automation)
     - [Page object](#page-object)
   - [References](#references)
@@ -35,14 +35,14 @@
 
 Creational patterns provides essential information regarding the Class instantiation or the object instantiation. Class Creational Pattern and the Object Creational pattern is the major categorization of the Creational Design Patterns. While class-creation patterns use inheritance effectively in the instantiation process, object-creation patterns use delegation effectively to get the job done.
 
-### Factory Method 
+### Factory 
 
 Creates objects without having to specify the exact class.
 
 ```python
 from typing import Dict
-from typing import Protocol
 from typing import Type
+from typing import Protocol
 
 
 class Localizer(Protocol):
@@ -51,55 +51,28 @@ class Localizer(Protocol):
 
 
 class GreekLocalizer:
-    """A simple localizer a la gettext"""
-
     def __init__(self) -> None:
         self.translations = {"dog": "σκύλος", "cat": "γάτα"}
 
     def localize(self, msg: str) -> str:
-        """We'll punt if we don't have a translation"""
         return self.translations.get(msg, msg)
 
 
 class EnglishLocalizer:
-    """Simply echoes the message"""
-
     def localize(self, msg: str) -> str:
         return msg
 
 
 def get_localizer(language: str = "English") -> Localizer:
-    """Factory"""
     localizers: Dict[str, Type[Localizer]] = {
         "English": EnglishLocalizer,
         "Greek": GreekLocalizer,
     }
 
     return localizers[language]()
-
-
-def main():
-    """
-    # Create our localizers
-    >>> e, g = get_localizer(language="English"), get_localizer(language="Greek")
-
-    # Localize some text
-    >>> for msg in "dog parrot cat bear".split():
-    ...     print(e.localize(msg), g.localize(msg))
-    dog σκύλος
-    parrot parrot
-    cat γάτα
-    bear bear
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
-
 ```
 
-### Abstract Factory Method 
+### Abstract Factory 
 
 Provides a way to encapsulate a group of individual factories.
 
@@ -136,17 +109,10 @@ class Cat(Pet):
 
 
 class PetShop:
-
-    """A pet shop"""
-
     def __init__(self, animal_factory: Type[Pet]) -> None:
-        """pet_factory is our abstract factory.  We can set it at will."""
-
         self.pet_factory = animal_factory
 
     def buy_pet(self, name: str) -> Pet:
-        """Creates and shows a pet using the abstract factory"""
-
         pet = self.pet_factory(name)
         print(f"Here is your lovely {pet}")
         return pet
@@ -154,54 +120,16 @@ class PetShop:
 
 # Additional factories:
 
-# Create a random animal
 def random_animal(name: str) -> Pet:
     """Let's be dynamic!"""
     return random.choice([Dog, Cat])(name)
-
-
-# Show pets with various factories
-def main() -> None:
-    """
-    # A Shop that sells only cats
-    >>> cat_shop = PetShop(Cat)
-    >>> pet = cat_shop.buy_pet("Lucy")
-    Here is your lovely Cat<Lucy>
-    >>> pet.speak()
-    meow
-
-    # A shop that sells random animals
-    >>> shop = PetShop(random_animal)
-    >>> for name in ["Max", "Jack", "Buddy"]:
-    ...    pet = shop.buy_pet(name)
-    ...    pet.speak()
-    ...    print("=" * 20)
-    Here is your lovely Cat<Max>
-    meow
-    ====================
-    Here is your lovely Dog<Jack>
-    woof
-    ====================
-    Here is your lovely Dog<Buddy>
-    woof
-    ====================
-    """
-
-
-if __name__ == "__main__":
-    random.seed(1234)  # for deterministic doctest outputs
-    shop = PetShop(random_animal)
-    import doctest
-
-    doctest.testmod()
 ```
 
-### Builder Method
+### Builder
 
 Decouples the creation of a complex object and its representation.
 
 ```python
-# Abstract Building
 class Building:
     def __init__(self) -> None:
         self.build_floor()
@@ -217,7 +145,6 @@ class Building:
         return "Floor: {0.floor} | Size: {0.size}".format(self)
 
 
-# Concrete Buildings
 class House(Building):
     def build_floor(self) -> None:
         self.floor = "One"
@@ -232,12 +159,6 @@ class Flat(Building):
 
     def build_size(self) -> None:
         self.size = "Small"
-
-
-# In some very complex cases, it might be desirable to pull out the building
-# logic into another function (or a method on another class), rather than being
-# in the base class '__init__'. (This leaves you in the strange situation where
-# a concrete class does not have a useful constructor)
 
 
 class ComplexBuilding:
@@ -258,29 +179,6 @@ def construct_building(cls) -> Building:
     building.build_floor()
     building.build_size()
     return building
-
-
-def main():
-    """
-    >>> house = House()
-    >>> house
-    Floor: One | Size: Big
-
-    >>> flat = Flat()
-    >>> flat
-    Floor: More than One | Size: Small
-
-    # Using an external constructor function:
-    >>> complex_house = construct_building(ComplexHouse)
-    >>> complex_house
-    Floor: One | Size: Big and fancy
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### Prototype
@@ -288,9 +186,8 @@ if __name__ == "__main__":
 Creates new object instances by cloning prototype.
 
 ```python
-from __future__ import annotations
-
 from typing import Any
+from __future__ import annotations
 
 
 class Prototype:
@@ -299,9 +196,6 @@ class Prototype:
         self.__dict__.update(attrs)
 
     def clone(self, **attrs: Any) -> Prototype:
-        """Clone a prototype and update inner attributes dictionary"""
-        # Python in Practice, Mark Summerfield
-        # copy.deepcopy can be used instead of next line.
         obj = self.__class__(**self.__dict__)
         obj.__dict__.update(attrs)
         return obj
@@ -312,42 +206,13 @@ class PrototypeDispatcher:
         self._objects = {}
 
     def get_objects(self) -> dict[str, Prototype]:
-        """Get all objects"""
         return self._objects
 
     def register_object(self, name: str, obj: Prototype) -> None:
-        """Register an object"""
         self._objects[name] = obj
 
     def unregister_object(self, name: str) -> None:
-        """Unregister an object"""
         del self._objects[name]
-
-
-def main() -> None:
-    """
-    >>> dispatcher = PrototypeDispatcher()
-    >>> prototype = Prototype()
-
-    >>> d = prototype.clone()
-    >>> a = prototype.clone(value='a-value', category='a')
-    >>> b = a.clone(value='b-value', is_checked=True)
-    >>> dispatcher.register_object('objecta', a)
-    >>> dispatcher.register_object('objectb', b)
-    >>> dispatcher.register_object('default', d)
-
-    >>> [{n: p.value} for n, p in dispatcher.get_objects().items()]
-    [{'objecta': 'a-value'}, {'objectb': 'b-value'}, {'default': 'default'}]
-
-    >>> print(b.category, b.is_checked)
-    a True
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### Singleton 
@@ -371,66 +236,11 @@ class YourBorg(Borg):
         if state:
             self.state = state
         else:
-            # initiate the first instance with default state
             if not hasattr(self, "state"):
                 self.state = "Init"
 
     def __str__(self) -> str:
         return self.state
-
-
-def main():
-    """
-    >>> rm1 = YourBorg()
-    >>> rm2 = YourBorg()
-
-    >>> rm1.state = 'Idle'
-    >>> rm2.state = 'Running'
-
-    >>> print('rm1: {0}'.format(rm1))
-    rm1: Running
-    >>> print('rm2: {0}'.format(rm2))
-    rm2: Running
-
-    # When the `state` attribute is modified from instance `rm2`,
-    # the value of `state` in instance `rm1` also changes
-    >>> rm2.state = 'Zombie'
-
-    >>> print('rm1: {0}'.format(rm1))
-    rm1: Zombie
-    >>> print('rm2: {0}'.format(rm2))
-    rm2: Zombie
-
-    # Even though `rm1` and `rm2` share attributes, the instances are not the same
-    >>> rm1 is rm2
-    False
-
-    # New instances also get the same shared state
-    >>> rm3 = YourBorg()
-
-    >>> print('rm1: {0}'.format(rm1))
-    rm1: Zombie
-    >>> print('rm2: {0}'.format(rm2))
-    rm2: Zombie
-    >>> print('rm3: {0}'.format(rm3))
-    rm3: Zombie
-
-    # A new instance can explicitly change the state during creation
-    >>> rm4 = YourBorg('Running')
-
-    >>> print('rm4: {0}'.format(rm4))
-    rm4: Running
-
-    # Existing instances reflect that change as well
-    >>> print('rm3: {0}'.format(rm3))
-    rm3: Running
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 ### Object Pool
 
@@ -456,42 +266,6 @@ class ObjectPool:
         if self.item is not None:
             self._queue.put(self.item)
             self.item = None
-
-
-def main():
-    """
-    >>> import queue
-
-    >>> def test_object(queue):
-    ...    pool = ObjectPool(queue, True)
-    ...    print('Inside func: {}'.format(pool.item))
-
-    >>> sample_queue = queue.Queue()
-
-    >>> sample_queue.put('yam')
-    >>> with ObjectPool(sample_queue) as obj:
-    ...    print('Inside with: {}'.format(obj))
-    Inside with: yam
-
-    >>> print('Outside with: {}'.format(sample_queue.get()))
-    Outside with: yam
-
-    >>> sample_queue.put('sam')
-    >>> test_object(sample_queue)
-    Inside func: sam
-
-    >>> print('Outside func: {}'.format(sample_queue.get()))
-    Outside func: sam
-
-    if not sample_queue.empty():
-        print(sample_queue.get())
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 
@@ -517,12 +291,6 @@ class lazy_property:
 
 
 def lazy_property2(fn):
-    """
-    A lazy property decorator.
-
-    The function decorated is called the first time to retrieve the result and
-    then that calculated result is used the next time you access the value.
-    """
     attr = "_lazy__" + fn.__name__
 
     @property
@@ -542,7 +310,6 @@ class Person:
 
     @lazy_property
     def relatives(self):
-        # Get all relatives, let's assume that it costs much time.
         relatives = "Many relatives."
         return relatives
 
@@ -550,46 +317,6 @@ class Person:
     def parents(self):
         self.call_count2 += 1
         return "Father and mother"
-
-
-def main():
-    """
-    >>> Jhon = Person('Jhon', 'Coder')
-
-    >>> Jhon.name
-    'Jhon'
-    >>> Jhon.occupation
-    'Coder'
-
-    # Before we access `relatives`
-    >>> sorted(Jhon.__dict__.items())
-    [('call_count2', 0), ('name', 'Jhon'), ('occupation', 'Coder')]
-
-    >>> Jhon.relatives
-    'Many relatives.'
-
-    # After we've accessed `relatives`
-    >>> sorted(Jhon.__dict__.items())
-    [('call_count2', 0), ..., ('relatives', 'Many relatives.')]
-
-    >>> Jhon.parents
-    'Father and mother'
-
-    >>> sorted(Jhon.__dict__.items())
-    [('_lazy__parents', 'Father and mother'), ('call_count2', 1), ..., ('relatives', 'Many relatives.')]
-
-    >>> Jhon.parents
-    'Father and mother'
-
-    >>> Jhon.call_count2
-    1
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
 ```
 
 
@@ -640,62 +367,15 @@ class Car:
 
 
 class Adapter:
-    """Adapts an object by replacing methods.
-
-    Usage
-    ------
-    dog = Dog()
-    dog = Adapter(dog, make_noise=dog.bark)
-    """
-
     def __init__(self, obj: T, **adapted_methods: Callable):
-        """We set the adapted methods in the object's dict."""
         self.obj = obj
         self.__dict__.update(adapted_methods)
 
     def __getattr__(self, attr):
-        """All non-adapted calls are passed to the object."""
         return getattr(self.obj, attr)
 
     def original_dict(self):
-        """Print original object dict."""
         return self.obj.__dict__
-
-
-def main():
-    """
-    >>> objects = []
-    >>> dog = Dog()
-    >>> print(dog.__dict__)
-    {'name': 'Dog'}
-
-    >>> objects.append(Adapter(dog, make_noise=dog.bark))
-
-    >>> objects[0].__dict__['obj'], objects[0].__dict__['make_noise']
-    (<...Dog object at 0x...>, <bound method Dog.bark of <...Dog object at 0x...>>)
-
-    >>> print(objects[0].original_dict())
-    {'name': 'Dog'}
-
-    >>> cat = Cat()
-    >>> objects.append(Adapter(cat, make_noise=cat.meow))
-    >>> human = Human()
-    >>> objects.append(Adapter(human, make_noise=human.speak))
-    >>> car = Car()
-    >>> objects.append(Adapter(car, make_noise=lambda: car.make_noise(3)))
-
-    >>> for obj in objects:
-    ...    print("A {0} goes {1}".format(obj.name, obj.make_noise()))
-    A Dog goes woof!
-    A Cat goes meow!
-    A Human goes 'hello'
-    A Car goes vroom!!!
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
 ```
 
 ### Bridge
@@ -703,19 +383,16 @@ if __name__ == "__main__":
 Decouples an abstraction from its implementation.
 
 ```python
-# ConcreteImplementor 1/2
 class DrawingAPI1:
     def draw_circle(self, x, y, radius):
         print(f"API1.circle at {x}:{y} radius {radius}")
 
 
-# ConcreteImplementor 2/2
 class DrawingAPI2:
     def draw_circle(self, x, y, radius):
         print(f"API2.circle at {x}:{y} radius {radius}")
 
 
-# Refined Abstraction
 class CircleShape:
     def __init__(self, x, y, radius, drawing_api):
         self._x = x
@@ -723,31 +400,11 @@ class CircleShape:
         self._radius = radius
         self._drawing_api = drawing_api
 
-    # low-level i.e. Implementation specific
     def draw(self):
         self._drawing_api.draw_circle(self._x, self._y, self._radius)
 
-    # high-level i.e. Abstraction specific
     def scale(self, pct):
         self._radius *= pct
-
-
-def main():
-    """
-    >>> shapes = (CircleShape(1, 2, 3, DrawingAPI1()), CircleShape(5, 7, 11, DrawingAPI2()))
-
-    >>> for shape in shapes:
-    ...    shape.scale(2.5)
-    ...    shape.draw()
-    API1.circle at 1:2 radius 7.5
-    API2.circle at 5:7 radius 27.5
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### Composite
@@ -786,68 +443,14 @@ class Ellipse(Graphic):
 
     def render(self) -> None:
         print(f"Ellipse: {self.name}")
-
-
-def main():
-    """
-    >>> ellipse1 = Ellipse("1")
-    >>> ellipse2 = Ellipse("2")
-    >>> ellipse3 = Ellipse("3")
-    >>> ellipse4 = Ellipse("4")
-
-    >>> graphic1 = CompositeGraphic()
-    >>> graphic2 = CompositeGraphic()
-
-    >>> graphic1.add(ellipse1)
-    >>> graphic1.add(ellipse2)
-    >>> graphic1.add(ellipse3)
-    >>> graphic2.add(ellipse4)
-
-    >>> graphic = CompositeGraphic()
-
-    >>> graphic.add(graphic1)
-    >>> graphic.add(graphic2)
-
-    >>> graphic.render()
-    Ellipse: 1
-    Ellipse: 2
-    Ellipse: 3
-    Ellipse: 4
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### Decorator
-* What is this pattern about?
-The Decorator pattern is used to dynamically add a new feature to an
-object without changing its implementation. It differs from
-inheritance because the new feature is added only to that particular
-object, not to the entire subclass.
 
-* What does this example do?
-This example shows a way to add formatting options (boldface and
-italic) to a text by appending the corresponding tags (`<b>` and
-`<i>`). Also, we can see that decorators can be applied one after the other,
-since the original text is passed to the bold wrapper, which in turn
-is passed to the italic wrapper.
-
-* Where is the pattern used practically?
-The Grok framework uses decorators to add functionalities to methods,
-like permissions or subscription to an event:
-http://grok.zope.org/doc/current/reference/decorators.html
-
-* TL;DR
-**Adds behaviour to object without affecting its class.**
+Adds behaviour to object without affecting its class.
 
 ```python
 class TextTag:
-    """Represents a base text tag"""
-
     def __init__(self, text: str) -> None:
         self._text = text
 
@@ -856,8 +459,6 @@ class TextTag:
 
 
 class BoldWrapper(TextTag):
-    """Wraps a tag in <b>"""
-
     def __init__(self, wrapped: TextTag) -> None:
         self._wrapped = wrapped
 
@@ -866,44 +467,19 @@ class BoldWrapper(TextTag):
 
 
 class ItalicWrapper(TextTag):
-    """Wraps a tag in <i>"""
-
     def __init__(self, wrapped: TextTag) -> None:
         self._wrapped = wrapped
 
     def render(self) -> str:
         return f"<i>{self._wrapped.render()}</i>"
-
-
-def main():
-    """
-    >>> simple_hello = TextTag("hello, world!")
-    >>> special_hello = ItalicWrapper(BoldWrapper(simple_hello))
-
-    >>> print("before:", simple_hello.render())
-    before: hello, world!
-
-    >>> print("after:", special_hello.render())
-    after: <i><b>hello, world!</b></i>
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
+
 ### Facade
 
 Provides a simpler unified interface to a complex system.
 
 ```python
-# Complex computer parts
 class CPU:
-    """
-    Simple CPU representation.
-    """
-
     def freeze(self) -> None:
         print("Freezing processor.")
 
@@ -915,28 +491,16 @@ class CPU:
 
 
 class Memory:
-    """
-    Simple memory representation.
-    """
-
     def load(self, position: str, data: str) -> None:
         print(f"Loading from {position} data: '{data}'.")
 
 
 class SolidStateDrive:
-    """
-    Simple solid state drive representation.
-    """
-
     def read(self, lba: str, size: str) -> str:
         return f"Some data from sector {lba} with size {size}"
 
 
 class ComputerFacade:
-    """
-    Represents a facade for various computer parts.
-    """
-
     def __init__(self):
         self.cpu = CPU()
         self.memory = Memory()
@@ -947,23 +511,6 @@ class ComputerFacade:
         self.memory.load("0x00", self.ssd.read("100", "1024"))
         self.cpu.jump("0x00")
         self.cpu.execute()
-
-
-def main():
-    """
-    >>> computer_facade = ComputerFacade()
-    >>> computer_facade.start()
-    Freezing processor.
-    Loading from 0x00 data: 'Some data from sector 100 with size 1024'.
-    Jumping to: 0x00
-    Executing.
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
 ```
 
 
@@ -976,87 +523,32 @@ import weakref
 
 
 class Card:
-    """The Flyweight"""
-
-    # Could be a simple dict.
-    # With WeakValueDictionary garbage collection can reclaim the object
-    # when there are no other references to it.
     _pool: weakref.WeakValueDictionary = weakref.WeakValueDictionary()
 
     def __new__(cls, value, suit):
-        # If the object exists in the pool - just return it
         obj = cls._pool.get(value + suit)
-        # otherwise - create new one (and add it to the pool)
         if obj is None:
             obj = object.__new__(Card)
             cls._pool[value + suit] = obj
-            # This row does the part we usually see in `__init__`
             obj.value, obj.suit = value, suit
         return obj
 
-    # If you uncomment `__init__` and comment-out `__new__` -
-    #   Card becomes normal (non-flyweight).
-    # def __init__(self, value, suit):
-    #     self.value, self.suit = value, suit
-
     def __repr__(self):
         return f"<Card: {self.value}{self.suit}>"
-
-
-def main():
-    """
-    >>> c1 = Card('9', 'h')
-    >>> c2 = Card('9', 'h')
-    >>> c1, c2
-    (<Card: 9h>, <Card: 9h>)
-    >>> c1 == c2
-    True
-    >>> c1 is c2
-    True
-
-    >>> c1.new_attr = 'temp'
-    >>> c3 = Card('9', 'h')
-    >>> hasattr(c3, 'new_attr')
-    True
-
-    >>> Card._pool.clear()
-    >>> c4 = Card('9', 'h')
-    >>> hasattr(c4, 'new_attr')
-    False
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 **Flyweight with metaclass**
+
 ```python
 import weakref
 
-
 class FlyweightMeta(type):
     def __new__(mcs, name, parents, dct):
-        """
-        Set up object pool
-
-        :param name: class name
-        :param parents: class parents
-        :param dct: dict: includes class attributes, class methods,
-        static methods, etc
-        :return: new class
-        """
         dct["pool"] = weakref.WeakValueDictionary()
         return super().__new__(mcs, name, parents, dct)
 
     @staticmethod
     def _serialize_params(cls, *args, **kwargs):
-        """
-        Serialize input parameters to a key.
-        Simple implementation is just to serialize it as a string
-        """
         args_list = list(map(str, args))
         args_list.extend([str(kwargs), cls.__name__])
         key = "".join(args_list)
@@ -1077,26 +569,6 @@ class Card2(metaclass=FlyweightMeta):
     def __init__(self, *args, **kwargs):
         # print('Init {}: {}'.format(self.__class__, (args, kwargs)))
         pass
-
-
-if __name__ == "__main__":
-    instances_pool = getattr(Card2, "pool")
-    cm1 = Card2("10", "h", a=1)
-    cm2 = Card2("10", "h", a=1)
-    cm3 = Card2("10", "h", a=2)
-
-    assert (cm1 == cm2) and (cm1 != cm3)
-    assert (cm1 is cm2) and (cm1 is not cm3)
-    assert len(instances_pool) == 2
-
-    del cm1
-    assert len(instances_pool) == 2
-
-    del cm2
-    assert len(instances_pool) == 1
-
-    del cm3
-    assert len(instances_pool) == 0
 ```
 
 
@@ -1110,25 +582,11 @@ from typing import Union
 
 
 class Subject:
-    """
-    As mentioned in the document, interfaces of both RealSubject and Proxy should
-    be the same, because the client should be able to use RealSubject or Proxy with
-    no code change.
-
-    Not all times this interface is necessary. The point is the client should be
-    able to use RealSubject or Proxy interchangeably with no change in code.
-    """
-
     def do_the_job(self, user: str) -> None:
         raise NotImplementedError()
 
 
 class RealSubject(Subject):
-    """
-    This is the main job doer. External services like payment gateways can be a
-    good example.
-    """
-
     def do_the_job(self, user: str) -> None:
         print(f"I am doing the job for {user}")
 
@@ -1138,10 +596,6 @@ class Proxy(Subject):
         self._real_subject = RealSubject()
 
     def do_the_job(self, user: str) -> None:
-        """
-        logging and controlling access are some examples of proxy usages.
-        """
-
         print(f"[log] Doing the job for {user} is requested.")
 
         if user == "admin":
@@ -1152,34 +606,6 @@ class Proxy(Subject):
 
 def client(job_doer: Union[RealSubject, Proxy], user: str) -> None:
     job_doer.do_the_job(user)
-
-
-def main():
-    """
-    >>> proxy = Proxy()
-
-    >>> real_subject = RealSubject()
-
-    >>> client(proxy, 'admin')
-    [log] Doing the job for admin is requested.
-    I am doing the job for admin
-
-    >>> client(proxy, 'anonymous')
-    [log] Doing the job for anonymous is requested.
-    [log] I can do the job just for `admins`.
-
-    >>> client(real_subject, 'admin')
-    I am doing the job for admin
-
-    >>> client(real_subject, 'anonymous')
-    I am doing the job for anonymous
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 
@@ -1200,13 +626,6 @@ class Handler(ABC):
         self.successor = successor
 
     def handle(self, request: int) -> None:
-        """
-        Handle request and stop.
-        If can't - call next handler in chain.
-
-        As an alternative you might even in case of success
-        call the next handler.
-        """
         res = self.check_range(request)
         if not res and self.successor:
             self.successor.handle(request)
@@ -1217,10 +636,6 @@ class Handler(ABC):
 
 
 class ConcreteHandler0(Handler):
-    """Each handler can be different.
-    Be simple and static...
-    """
-
     @staticmethod
     def check_range(request: int) -> Optional[bool]:
         if 0 <= request < 10:
@@ -1230,8 +645,6 @@ class ConcreteHandler0(Handler):
 
 
 class ConcreteHandler1(Handler):
-    """... With it's own internal state"""
-
     start, end = 10, 20
 
     def check_range(self, request: int) -> Optional[bool]:
@@ -1242,8 +655,6 @@ class ConcreteHandler1(Handler):
 
 
 class ConcreteHandler2(Handler):
-    """... With helper methods."""
-
     def check_range(self, request: int) -> Optional[bool]:
         start, end = self.get_interval_from_db()
         if start <= request < end:
@@ -1261,35 +672,6 @@ class FallbackHandler(Handler):
     def check_range(request: int) -> Optional[bool]:
         print(f"end of chain, no handler for {request}")
         return False
-
-
-def main():
-    """
-    >>> h0 = ConcreteHandler0()
-    >>> h1 = ConcreteHandler1()
-    >>> h2 = ConcreteHandler2(FallbackHandler())
-    >>> h0.successor = h1
-    >>> h1.successor = h2
-
-    >>> requests = [2, 5, 14, 22, 18, 3, 35, 27, 20]
-    >>> for request in requests:
-    ...     h0.handle(request)
-    request 2 handled in handler 0
-    request 5 handled in handler 0
-    request 14 handled in handler 1
-    request 22 handled in handler 2
-    request 18 handled in handler 1
-    request 3 handled in handler 0
-    end of chain, no handler for 35
-    request 27 handled in handler 2
-    request 20 handled in handler 2
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
 ```
 
 ### Command
@@ -1302,12 +684,7 @@ from typing import List, Union
 
 
 class HideFileCommand:
-    """
-    A command to hide a file given its name
-    """
-
     def __init__(self) -> None:
-        # an array of files hidden, to undo them as needed
         self._hidden_files: List[str] = []
 
     def execute(self, filename: str) -> None:
@@ -1320,12 +697,7 @@ class HideFileCommand:
 
 
 class DeleteFileCommand:
-    """
-    A command to delete a file given its name
-    """
-
     def __init__(self) -> None:
-        # an array of deleted files, to undo them as needed
         self._deleted_files: List[str] = []
 
     def execute(self, filename: str) -> None:
@@ -1338,10 +710,6 @@ class DeleteFileCommand:
 
 
 class MenuItem:
-    """
-    The invoker class. Here it is items in a menu.
-    """
-
     def __init__(self, command: Union[HideFileCommand, DeleteFileCommand]) -> None:
         self._command = command
 
@@ -1350,39 +718,6 @@ class MenuItem:
 
     def on_undo_press(self) -> None:
         self._command.undo()
-
-
-def main():
-    """
-    >>> item1 = MenuItem(DeleteFileCommand())
-
-    >>> item2 = MenuItem(HideFileCommand())
-
-    # create a file named `test-file` to work with
-    >>> test_file_name = 'test-file'
-
-    # deleting `test-file`
-    >>> item1.on_do_press(test_file_name)
-    deleting test-file
-
-    # restoring `test-file`
-    >>> item1.on_undo_press()
-    restoring test-file
-
-    # hiding `test-file`
-    >>> item2.on_do_press(test_file_name)
-    hiding test-file
-
-    # un-hiding `test-file`
-    >>> item2.on_undo_press()
-    un-hiding test-file
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### Iterator
@@ -1392,43 +727,16 @@ Traverses a container and accesses the container's elements.
 ```python
 
 def count_to(count: int):
-    """Counts by word numbers, up to a maximum of five"""
     numbers = ["one", "two", "three", "four", "five"]
     yield from numbers[:count]
 
 
-# Test the generator
 def count_to_two() -> None:
     return count_to(2)
 
 
 def count_to_five() -> None:
     return count_to(5)
-
-
-def main():
-    """
-    # Counting to two...
-    >>> for number in count_to_two():
-    ...     print(number)
-    one
-    two
-
-    # Counting to five...
-    >>> for number in count_to_five():
-    ...     print(number)
-    one
-    two
-    three
-    four
-    five
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 Implementation of the iterator pattern using the iterator protocol from Python.
@@ -1439,8 +747,6 @@ from __future__ import annotations
 
 
 class NumberWords:
-    """Counts by word numbers, up to a maximum of five"""
-
     _WORD_MAP = (
         "one",
         "two",
@@ -1453,43 +759,15 @@ class NumberWords:
         self.start = start
         self.stop = stop
 
-    def __iter__(self) -> NumberWords:  # this makes the class an Iterable
+    def __iter__(self) -> NumberWords:
         return self
 
-    def __next__(self) -> str:  # this makes the class an Iterator
+    def __next__(self) -> str:
         if self.start > self.stop or self.start > len(self._WORD_MAP):
             raise StopIteration
         current = self.start
         self.start += 1
         return self._WORD_MAP[current - 1]
-
-
-# Test the iterator
-
-
-def main():
-    """
-    # Counting to two...
-    >>> for number in NumberWords(start=1, stop=2):
-    ...     print(number)
-    one
-    two
-
-    # Counting to five...
-    >>> for number in NumberWords(start=1, stop=5):
-    ...     print(number)
-    one
-    two
-    three
-    four
-    five
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 
@@ -1503,15 +781,11 @@ from __future__ import annotations
 
 
 class ChatRoom:
-    """Mediator class"""
-
     def display_message(self, user: User, message: str) -> None:
         print(f"[{user} says]: {message}")
 
 
 class User:
-    """A class whose instances want to interact with each other"""
-
     def __init__(self, name: str) -> None:
         self.name = name
         self.chat_room = ChatRoom()
@@ -1521,27 +795,6 @@ class User:
 
     def __str__(self) -> str:
         return self.name
-
-
-def main():
-    """
-    >>> molly = User('Molly')
-    >>> mark = User('Mark')
-    >>> ethan = User('Ethan')
-
-    >>> molly.say("Hi Team! Meeting at 3 PM today.")
-    [Molly says]: Hi Team! Meeting at 3 PM today.
-    >>> mark.say("Roger that!")
-    [Mark says]: Roger that!
-    >>> ethan.say("Alright.")
-    [Ethan says]: Alright.
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### Memento
@@ -1549,7 +802,6 @@ if __name__ == "__main__":
 Provides the ability to restore an object to its previous state.
 
 ```python
-
 from typing import Callable, List
 from copy import copy, deepcopy
 
@@ -1565,11 +817,6 @@ def memento(obj, deep=False):
 
 
 class Transaction:
-    """A transaction guard.
-
-    This is, in fact, just syntactic sugar around a memento closure.
-    """
-
     deep = False
     states: List[Callable[[], None]] = []
 
@@ -1587,11 +834,6 @@ class Transaction:
 
 
 class Transactional:
-    """Adds transactional semantics to methods. Methods decorated  with
-
-    @Transactional will rollback to entry-state upon exceptions.
-    """
-
     def __init__(self, method):
         self.method = method
 
@@ -1625,68 +867,8 @@ class NumObj:
 
     @Transactional
     def do_stuff(self):
-        self.value = "1111"  # <- invalid value
-        self.increment()  # <- will fail and rollback
-
-
-def main():
-    """
-    >>> num_obj = NumObj(-1)
-    >>> print(num_obj)
-    <NumObj: -1>
-
-    >>> a_transaction = Transaction(True, num_obj)
-
-    >>> try:
-    ...    for i in range(3):
-    ...        num_obj.increment()
-    ...        print(num_obj)
-    ...    a_transaction.commit()
-    ...    print('-- committed')
-    ...    for i in range(3):
-    ...        num_obj.increment()
-    ...        print(num_obj)
-    ...    num_obj.value += 'x'  # will fail
-    ...    print(num_obj)
-    ... except Exception:
-    ...    a_transaction.rollback()
-    ...    print('-- rolled back')
-    <NumObj: 0>
-    <NumObj: 1>
-    <NumObj: 2>
-    -- committed
-    <NumObj: 3>
-    <NumObj: 4>
-    <NumObj: 5>
-    -- rolled back
-
-    >>> print(num_obj)
-    <NumObj: 2>
-
-    >>> print('-- now doing stuff ...')
-    -- now doing stuff ...
-
-    >>> try:
-    ...    num_obj.do_stuff()
-    ... except Exception:
-    ...    print('-> doing stuff failed!')
-    ...    import sys
-    ...    import traceback
-    ...    traceback.print_exc(file=sys.stdout)
-    -> doing stuff failed!
-    Traceback (most recent call last):
-    ...
-    TypeError: ...str...int...
-
-    >>> print(num_obj)
-    <NumObj: 2>
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
+        self.value = "1111"  
+        self.increment()
 ```
 
 
@@ -1701,7 +883,6 @@ from contextlib import suppress
 from typing import Protocol
 
 
-# define a generic observer type
 class Observer(Protocol):
     def update(self, subject: Subject) -> None:
         pass
@@ -1749,51 +930,6 @@ class HexViewer:
 class DecimalViewer:
     def update(self, subject: Data) -> None:
         print(f"DecimalViewer: Subject {subject.name} has data {subject.data}")
-
-
-def main():
-    """
-    >>> data1 = Data('Data 1')
-    >>> data2 = Data('Data 2')
-    >>> view1 = DecimalViewer()
-    >>> view2 = HexViewer()
-    >>> data1.attach(view1)
-    >>> data1.attach(view2)
-    >>> data2.attach(view2)
-    >>> data2.attach(view1)
-
-    >>> data1.data = 10
-    DecimalViewer: Subject Data 1 has data 10
-    HexViewer: Subject Data 1 has data 0xa
-
-    >>> data2.data = 15
-    HexViewer: Subject Data 2 has data 0xf
-    DecimalViewer: Subject Data 2 has data 15
-
-    >>> data1.data = 3
-    DecimalViewer: Subject Data 1 has data 3
-    HexViewer: Subject Data 1 has data 0x3
-
-    >>> data2.data = 5
-    HexViewer: Subject Data 2 has data 0x5
-    DecimalViewer: Subject Data 2 has data 5
-
-    # Detach HexViewer from data1 and data2
-    >>> data1.detach(view2)
-    >>> data2.detach(view2)
-
-    >>> data1.data = 10
-    DecimalViewer: Subject Data 1 has data 10
-
-    >>> data2.data = 15
-    DecimalViewer: Subject Data 2 has data 15
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 ### State Method
@@ -1806,10 +942,7 @@ from __future__ import annotations
 
 
 class State:
-    """Base state. This is to share functionality"""
-
     def scan(self) -> None:
-        """Scan the dial to the next station"""
         self.pos += 1
         if self.pos == len(self.stations):
             self.pos = 0
@@ -1841,10 +974,7 @@ class FmState(State):
 
 
 class Radio:
-    """A radio.     It has a scan button, and an AM/FM toggle switch."""
-
     def __init__(self) -> None:
-        """We have an AM state and an FM state"""
         self.amstate = AmState(self)
         self.fmstate = FmState(self)
         self.state = self.amstate
@@ -1854,37 +984,10 @@ class Radio:
 
     def scan(self) -> None:
         self.state.scan()
-
-
-def main():
-    """
-    >>> radio = Radio()
-    >>> actions = [radio.scan] * 2 + [radio.toggle_amfm] + [radio.scan] * 2
-    >>> actions *= 2
-
-    >>> for action in actions:
-    ...    action()
-    Scanning... Station is 1380 AM
-    Scanning... Station is 1510 AM
-    Switching to FM
-    Scanning... Station is 89.1 FM
-    Scanning... Station is 103.9 FM
-    Scanning... Station is 81.3 FM
-    Scanning... Station is 89.1 FM
-    Switching to AM
-    Scanning... Station is 1250 AM
-    Scanning... Station is 1380 AM
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
 
-### Strategy Method
+### Strategy
 
 Enables selecting an algorithm at runtime.
 
@@ -1946,34 +1049,9 @@ def ten_percent_discount(order: Order) -> float:
 
 def on_sale_discount(order: Order) -> float:
     return order.price * 0.25 + 20
-
-
-def main():
-    """
-    >>> order = Order(100, discount_strategy=ten_percent_discount)
-    >>> print(order)
-    <Order price: 100 with discount strategy: ten_percent_discount>
-    >>> print(order.apply_discount())
-    90.0
-    >>> order = Order(100, discount_strategy=on_sale_discount)
-    >>> print(order)
-    <Order price: 100 with discount strategy: on_sale_discount>
-    >>> print(order.apply_discount())
-    55.0
-    >>> order = Order(10, discount_strategy=on_sale_discount)
-    Discount cannot be applied due to negative price resulting. on_sale_discount
-    >>> print(order)
-    <Order price: 10 with discount strategy: None>
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
-### Template Method
+### Template
 
 Defines the skeleton of a base algorithm, deferring definition of exact
 steps to subclasses.
@@ -2014,35 +1092,9 @@ def template_function(getter, converter=False, to_save=False) -> None:
 
     print(f"`{data}` was processed")
 
-
-def main():
-    """
-    >>> template_function(get_text, to_save=True)
-    Got `plain-text`
-    Skip conversion
-    [SAVE]
-    `plain-text` was processed
-
-    >>> template_function(get_pdf, converter=convert_to_text)
-    Got `pdf`
-    [CONVERT]
-    `pdf as text` was processed
-
-    >>> template_function(get_csv, to_save=True)
-    Got `csv`
-    Skip conversion
-    [SAVE]
-    `csv` was processed
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 
-### Visitor Method
+### Visitor
 
 Separates an algorithm from an object structure on which it operates.
 
@@ -2081,28 +1133,6 @@ class Visitor:
 
     def visit_B(self, node, *args, **kwargs):
         print("visit_B " + node.__class__.__name__)
-
-
-def main():
-    """
-    >>> a, b, c = A(), B(), C()
-    >>> visitor = Visitor()
-
-    >>> visitor.visit(a)
-    generic_visit A
-
-    >>> visitor.visit(b)
-    visit_B B
-
-    >>> visitor.visit(c)
-    visit_B C
-    """
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
 ```
 ## Test Automation
 
@@ -2115,44 +1145,27 @@ from element import BasePageElement
 from locators import MainPageLocators
 
 class SearchTextElement(BasePageElement):
-    """This class gets the search text from the specified locator"""
-
-    #The locator for search box where search string is entered
     locator = 'q'
 
 
 class BasePage(object):
-    """Base class to initialize the base page that will be called from all
-    pages"""
-
     def __init__(self, driver):
         self.driver = driver
 
 
 class MainPage(BasePage):
-    """Home page action methods come here. I.e. Python.org"""
-
-    #Declares a variable that will contain the retrieved text
     search_text_element = SearchTextElement()
 
     def is_title_matches(self):
-        """Verifies that the hardcoded text "Python" appears in page title"""
-
         return "Python" in self.driver.title
 
     def click_go_button(self):
-        """Triggers the search"""
-
         element = self.driver.find_element(*MainPageLocators.GO_BUTTON)
         element.click()
 
 
 class SearchResultsPage(BasePage):
-    """Search results page action methods come here"""
-
     def is_results_found(self):
-        # Probably should search for this text in the specific page
-        # element, but as for now it works fine
         return "No results found." not in self.driver.page_source
 ```
 
