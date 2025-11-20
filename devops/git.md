@@ -1,27 +1,27 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
-  - [Lab 1: Setup](#lab-1-setup)
-  - [Create a Project](#create-a-project)
-  - [Checking Status](#checking-status)
-  - [Making Changes](#making-changes)
-  - [Staging Changes](#staging-changes)
-  - [Staging and Committing](#staging-and-committing)
-  - [Committing Changes](#committing-changes)
-  - [Changes, not Files](#changes-not-files)
-  - [History](#history)
-  - [Aliases](#aliases)
-  - [Getting Old Versions](#getting-old-versions)
-  - [Tagging versions](#tagging-versions)
-  - [Undoing Local Changes (before staging)](#undoing-local-changes-before-staging)
-  - [Undoing Staged Changes (before committing)](#undoing-staged-changes-before-committing)
-  - [Undoing Committed Changes](#undoing-committed-changes)
-  - [Removing Commits from a Branch](#removing-commits-from-a-branch)
-  - [Remove the oops tag](#remove-the-oops-tag)
-  - [Amending Commits](#amending-commits)
-  - [Moving Files](#moving-files)
-  - [More Structure](#more-structure)
-  - [Git Internals: The .git directory](#git-internals-the-git-directory)
-  - [Git Internals: Working directly with Git Objects](#git-internals-working-directly-with-git-objects)
+  - [Lab 1-2: Setup](#lab-1-2-setup)
+  - [Lab 3: Create a Project](#lab-3-create-a-project)
+  - [Lab 4: Checking Status](#lab-4-checking-status)
+  - [Lab 5: Making Changes](#lab-5-making-changes)
+  - [Lab 6: Staging Changes](#lab-6-staging-changes)
+  - [Lab 7: Staging and Committing](#lab-7-staging-and-committing)
+  - [Lab 8: Committing Changes](#lab-8-committing-changes)
+  - [Lab 9: Changes, not Files](#lab-9-changes-not-files)
+  - [Lab 10: History](#lab-10-history)
+  - [Lab 11: Aliases](#lab-11-aliases)
+  - [Lab 12: Getting Old Versions](#lab-12-getting-old-versions)
+  - [Lab 13: Tagging versions](#lab-13-tagging-versions)
+  - [Lab 14: Undoing Local Changes (before staging)](#lab-14-undoing-local-changes-before-staging)
+  - [Lab 15: Undoing Staged Changes (before committing)](#lab-15-undoing-staged-changes-before-committing)
+  - [Lab 16: Undoing Committed Changes](#lab-16-undoing-committed-changes)
+  - [Lab 17: Removing Commits from a Branch](#lab-17-removing-commits-from-a-branch)
+  - [Lab 18: Remove the oops tag](#lab-18-remove-the-oops-tag)
+  - [Lab 19: Amending Commits](#lab-19-amending-commits)
+  - [Lab 20: Moving Files](#lab-20-moving-files)
+  - [Lab 21: More Structure](#lab-21-more-structure)
+  - [Lab 22: Git Internals: The .git directory](#lab-22-git-internals-the-git-directory)
+  - [Lab 23: Git Internals: Working directly with Git Objects](#lab-23-git-internals-working-directly-with-git-objects)
   - [Lab 24: Creating a Branch](#lab-24-creating-a-branch)
   - [Lab 25: Navigating Branches](#lab-25-navigating-branches)
   - [Lab 26: Changes in Main](#lab-26-changes-in-main)
@@ -34,9 +34,9 @@
   - [Lab 33: Resetting the Main Branch](#lab-33-resetting-the-main-branch)
   - [Lab 34: Rebasing](#lab-34-rebasing)
   - [Lab 35: Merging Back to Main](#lab-35-merging-back-to-main)
-  - [References](#references)
+  - [Lab 35: References](#lab-35-references)
 
-## Lab 1: Setup
+## Lab 1-2: Setup
 
 **Setup Name and Email**
 
@@ -63,7 +63,7 @@ git config --global core.autocrlf true
 git config --global core.safecrlf true
 ```
 
-## Create a Project
+## Lab 3: Create a Project
 
 **Create a "Hello, World" program**
 
@@ -100,7 +100,7 @@ $ git commit -m "First Commit"
  create mode 100644 hello.rb
 ```
 
-## Checking Status
+## Lab 4: Checking Status
 
 **Check the status of the repository**
 
@@ -116,7 +116,7 @@ The status command reports that there is nothing to commit. This means that the 
 
 We will use the `git status` command to continue to monitor the state between the repository and the working directory.
 
-## Making Changes
+## Lab 5: Making Changes
 
 **Change the "Hello, World" program**
 
@@ -146,7 +146,7 @@ The first thing to notice is that git knows that the `hello.rb` file has been mo
 
 Also notice that the status message gives you hints about what you need to do next. If you want to add these changes to the repository, then use the `git add` command. Otherwise the `git checkout` command can be used to discard the changes.
 
-## Staging Changes
+## Lab 6: Staging Changes
 
 **Add Changes**
 
@@ -166,7 +166,7 @@ The change to the `hello.rb` file has been staged. This means that git now knows
 If you decide you don't want to commit that change after all, the status command reminds you that the `git restore` command can be used to unstage that change.
 
 
-## Staging and Committing
+## Lab 7: Staging and Committing
 
 A separate staging step in git is in line with the philosophy of getting out of the way until you need to deal with source control. You can continue to make changes to your working directory, and then at the point you want to interact with source control, git allows you to record your changes in small commits that record exactly what you did.
 
@@ -180,7 +180,7 @@ git add c.rb
 git commit -m "Unrelated change to c"
 ```
 
-## Committing Changes
+## Lab 8: Committing Changes
 
 **Commit the change**
 
@@ -233,7 +233,7 @@ nothing to commit, working tree clean
 ```
 The working directory is clean and ready for you to continue.
 
-## Changes, not Files
+## Lab 9: Changes, not Files
 
 Most source control systems work with files. You add a file to source control and the system will track changes to the file from that point on.
 
@@ -328,7 +328,7 @@ Changes to be committed:
 git commit -m "Added a comment"
 ```
 
-## History
+## Lab 10: History
 
 Getting a listing of what changes have been made is the function of the `git log` command.
 
@@ -418,7 +418,7 @@ Let's look at it in detail:
 
 Both `gitx` (for Macs) and `gitk` (any platform) are useful in exploring log history.
 
-## Aliases
+## Lab 11: Aliases
 
 **Common Aliases**
 
@@ -440,7 +440,7 @@ Add the following to the .gitconfig file in your $HOME directory.
 
 With these aliases defined in the `.gitconfig` file you can type `git co` wherever you used to have to type git checkout. Likewise with `git st` for `git status` and `git ci` for `git commit`. And best of all, `git hist` will allow you to avoid the really long log command.
 
-## Getting Old Versions
+## Lab 12: Getting Old Versions
 
 Going back in history is very easy. The checkout command will copy any snapshot from the repository to the working directory.
 
@@ -494,7 +494,7 @@ puts "Hello, #{name}!"
 
 'main' is the name of the default branch. By checking out a branch by name, you go to the latest version of that branch.
 
-## Tagging versions
+## Lab 13: Tagging versions
 
 **Tagging version 1**
 
@@ -579,7 +579,7 @@ $ git hist main --all
 
 You can see both tags (`v1` and `v1-beta`) listed in the log output, along with the branch name (`main`). Also `HEAD` shows you the currently checked out commit (which is `v1-beta` at the moment).
 
-## Undoing Local Changes (before staging)
+## Lab 14: Undoing Local Changes (before staging)
 
 **Checkout main**
 Make sure you are on the latest commit in main before proceeding.
@@ -637,7 +637,7 @@ puts "Hello, #{name}!"
 
 The status command shows us that there are no outstanding changes in the working directory. And the "bad comment" is no longer part of the file contents.
 
-## Undoing Staged Changes (before committing)
+## Lab 15: Undoing Staged Changes (before committing)
 
 **Change the file and stage the change**
 Modify the hello.rb file to have a bad comment
@@ -690,7 +690,7 @@ nothing to commit, working tree clean
 ```
 And our working directory is clean once again.
 
-## Undoing Committed Changes
+## Lab 16: Undoing Committed Changes
 
 **Undoing Commits**
 
@@ -752,7 +752,7 @@ $ git hist
 
 This technique will work with any commit (although you may have to resolve conflicts). It is safe to use even on branches that are publicly shared on remote repositories.
 
-## Removing Commits from a Branch
+## Lab 17: Removing Commits from a Branch
 
 The `revert` command of the previous section is a powerful command that lets us undo the effects of any commit in the repository. However, both the original commit and the "undoing" commit are visible in the branch history (using the `git log` command).
 
@@ -829,7 +829,7 @@ However, if the branch is shared on remote repositories, resetting can confuse o
 
 ---
 
-## Remove the oops tag
+## Lab 18: Remove the oops tag
 
 The oops tag has served its purpose. Let’s remove it and allow the commits it referenced to be garbage collected.
 
@@ -843,7 +843,7 @@ $ git hist --all
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-## Amending Commits
+## Lab 19: Amending Commits
 
 **Change the program then commit**
 
@@ -889,7 +889,7 @@ $ git hist
 We can see the original “author” commit is now gone, and it is replaced by the “author/email” commit. You can achieve the same effect by resetting the branch back one commit and then recommitting the new changes.
 
 
-## Moving Files
+## Lab 20: Moving Files
 
 **Move the hello.rb file into a lib directory.**
 
@@ -934,7 +934,7 @@ Let’s commit this move.
 git commit -m "Moved hello.rb to lib"
 ```
 
-## More Structure
+## Lab 21: More Structure
 
 **Now add a Rakefile**
 
@@ -968,7 +968,7 @@ $ rake
 Hello, World!
 ```
 
-## Git Internals: The .git directory
+## Lab 22: Git Internals: The .git directory
 
 **The .git Directory**
 
@@ -1050,7 +1050,7 @@ ref: refs/heads/main
 
 The HEAD file contains a reference to the current branch. It should be a reference to main at this point.
 
-## Git Internals: Working directly with Git Objects
+## Lab 23: Git Internals: Working directly with Git Objects
 
 **Finding the Latest Commit**
 
@@ -1583,5 +1583,5 @@ Given the above guidelines, I tend to use rebase for short-lived, local branches
 
 
 
-## References
+## Lab 35: References
  - https://gitimmersion.com
