@@ -65,26 +65,24 @@ In agile software development, test cases are more like outlines than a list of 
 
 The pyramid attempts to visually represent a logical organization of testing standards. It consists of three distinct layers.
 
-<p align="center" width="100%">
-    <img width="50%" src="https://semaphoreci.com/wp-content/uploads/2022/03/pyramid-progression.webp"> 
+<p align="center">
+    <img src="images/pyramid-progression.webp" width="50%"> 
 </p>
 
 - Unit tests can only find logical errors at the most fundamental level. They are fast and require very few resources to run.
 - Integration tests verify that services and databases work well together with the code and the classes you’ve written. They can only find problems at the interfaces where two or more components meet.
 - E2E tests depend on the complete application being able to start. These are the most comprehensive type of tests we have and, accordingly, need the most computing resources and time to run.
 
-|            time evolution            |             cost              |
-| :----------------------------------: | :---------------------------: |
-| ![](images/pyramid-vs-maturity.webp) | ![](images/pyramid-cost.webp) |
-
----
+<p align="center">
+    <img src="images/pyramid-vs-maturity-and-cost.png" width="80%"> 
+</p>
 
 ### What are levels of Testing?
 
 The most common types of testing levels include – unit testing, integration testing, system testing, and acceptance testing. Unit tests focus on individual components, such as methods and functions, while integration tests check if these components work together properly. System tests verify that the entire system meets the functional requirements specified by stakeholders, while acceptance tests validate the software against their criteria for acceptable behavior.
 
-<p align="center" width="100%">
-    <img width="60%" src="https://testsigma.com/blog/wp-content/uploads/Levels-of-testing-1.png"> 
+<p align="center">
+    <img src="images/Levels-of-testing-1.png" width="40%"> 
 </p>
 
 ---
@@ -111,7 +109,9 @@ We have the following price ranges to work with:
 - From $100 to $300.
 - $300 and higher.
 
-![equivalent-class-partitioning1](images/equivalent-class-partitioning1.png)
+<p align="center">
+    <img src="images/equivalent-class-partitioning1.png" width="50%"> 
+</p>
 
 If you use the equivalent class partitioning technique, you get three sets of data to test:
 
@@ -127,8 +127,9 @@ If you use the equivalent class partitioning technique, you get three sets of da
     - valid boundary conditions: any price above 299.99;
     - invalid boundary conditions: any price below 300.
 
-
-![equivalent-class-partitioning2](images/equivalent-class-partitioning2.png)
+<p align="center">
+    <img src="images/equivalent-class-partitioning2.png" width="50%"> 
+</p>
 
 #### Boundary value analysis
 
@@ -151,7 +152,9 @@ Let’s take the previous scenario with varying shipping rates. We have the same
     - valid boundary conditions: 300.00, 300.01;
     - invalid boundary conditions: 299.99.
 
-![boundary-value-analysis](images/boundary-value-analysis.png)
+<p align="center">
+    <img src="images/boundary-value-analysis.png" width="50%"> 
+</p>
 
 #### State transition
 
@@ -161,15 +164,21 @@ The state transition visualizes the states of a software system at different tim
 
 The simplest example of the state transition is visualizing logging into an account during web or mobile app testing. Let’s say, we are testing a system that offers a limited number of attempts to enter a correct password. If a user fails to enter a correct password, the system blocks the access (temporarily or permanently, it doesn’t matter now). A logic diagram would look like this:
 
-![state-transition1](images/state-transition1.png)
+<p align="center">
+    <img src="images/state-transition1.png" width="50%"> 
+</p>
 
 Blocks of different colors designate specific states of the system. Let’s add the labels designating states, and we’ll get the following:
 
-![state-transition2](images/state-transition2.png)
+<p align="center">
+    <img src="images/state-transition2.png" width="50%"> 
+</p>
 
 A chart like this makes it easier to match possible inputs with expected outputs. Having a visualization right in front of your eyes helps to keep a clear head and connect the states correctly. You can later arrange the data concisely and conveniently – for example, in a table to look up to during testing:
 
-![state-transition3](images/state-transition3.png)
+<p align="center">
+    <img src="images/state-transition3.png" width="50%"> 
+</p>
 
 #### Pairwise testing
 
@@ -179,11 +188,15 @@ The pairwise testing is considered the most difficult and confusing of the five 
 
 Let’s say, there is a network of bakeries selling apple pies and cheesecakes online. Each is available in three sizes – small, medium, and big. The bakery offers immediate and scheduled address delivery, as well as a pick-up option. The bakery works in three cities – New York, Los Angeles, and Chicago. Also, a user can order up to three items at a time.
 
-![pairwise-testing1](images/pairwise-testing1.png)
+<p align="center">
+    <img src="images/pairwise-testing1.png" width="50%"> 
+</p>
 
 If you want to test all possible inputs, that would be 2x3x3x3x2x2=216 valid order combinations. However, checking each of those would be unreasonable. Instead, you can arrange the variables in a way that will allow covering maximum scenarios. To do this, you'll need to group the variables or use one of the tools that can do it for you. We used [Pairwise Online Tool](https://pairwise.teremokgames.com/) o create this example. As a result, we got 17 scenarios able to cover all 216 combinations. You can see the list of combinations below.
 
-![pairwise-testing2](images/pairwise-testing2.png)
+<p align="center">
+    <img src="images/pairwise-testing2.png" width="50%"> 
+</p>
 
 #### Error guessing
 
@@ -250,8 +263,8 @@ Risk coverage would take this into account and design tests accordingly to ensur
 
 Testing is divided into two types – *Functional* Testing and *Non functional* Testing
 
-<p align="center" width="100%">
-    <img width="100%" src="https://browserstack.wpenginepowered.com/wp-content/uploads/2023/03/Types-of-software-testing-1.png"> 
+<p align="center">
+    <img src="images/Types-of-software-testing-1.webp" width="50%"> 
 </p>
 
 ---
@@ -262,7 +275,9 @@ Testing is divided into two types – *Functional* Testing and *Non functional* 
 
 Evaluating key performance indicators helps confirm that your tests align with business objectives.
 
-![Normal_distribution_and_scales](images/Normal_distribution_and_scales.jpg)
+<p align="center">
+    <img src="images/Normal_distribution_and_scales.jpg" width="50%"> 
+</p>
 
 #### Average Response Time
 
@@ -300,7 +315,9 @@ The 99th percentile (**p99**) represents the value below which 99% of the sample
 
 ### Backend, Frontend, and System Behavior Metrics
 
-![Backend-Frontend-and-System-Metrics](images/Backend-Frontend-and-System-Metrics.png)
+<p align="center">
+    <img src="images/Backend-Frontend-and-System-Metrics.png" width="40%"> 
+</p>
 
 #### Backend Metrics
 
@@ -342,7 +359,9 @@ System behavior metrics analyze how the entire system reacts under different con
 
 Performance testing is a broad category of tests that evaluate system performance (speed, stability, scalability, resource usage) under various loads.
 
-![performance-testing-types](images/performance-testing-types.png)
+<p align="center">
+    <img src="images/performance-testing-types.png" width="50%"> 
+</p>
 
 #### Load Testing
 

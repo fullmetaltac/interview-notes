@@ -839,7 +839,9 @@ Note that each box (i.e. statement) has been numbered. Three tests have been run
 - (Test 2) : Non-gold card holder who stays in economy
 - (Test 3) : A person who is bumped from the flight
 
-![figure](https://github.com/user-attachments/assets/e28a495c-8505-4fe3-b8f2-70ebb7aa904b)
+<p align="center">
+    <img src="images/istqb-q13.png" width="35%"> 
+</p>
 
 What is the statement coverage of these three tests?
 
@@ -883,12 +885,14 @@ documented record of what the system should do.
 
 17) Given the state diagram in Figure, which test case is the minimum series of valid transitions to cover every state?
 
-![figure](https://github.com/user-attachments/assets/8203a1ed-1f4b-4129-979f-42f669e9b51f)
+<p align="center">
+    <img src="images/istqb-q17.png" width="35%"> 
+</p>
 
 1. SS-S1-S2-S4-S1-S3-ES
-1. SS-S1-S2-S3-S4-ES
-1. SS-S1-S2-S4-S1-S3-S4-S1-S3-ES
-1. SS-S1-S4-S2-S1-S3-ES
+2. SS-S1-S2-S3-S4-ES
+3. SS-S1-S2-S4-S1-S3-S4-S1-S3-ES
+4. SS-S1-S4-S2-S1-S3-ES
     <details><summary>Answer:</summary>A</details></br>
 
 ## Chapter 5 - Test management
