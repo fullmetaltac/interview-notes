@@ -3,7 +3,7 @@
   - [python basics](#python-basics)
     - [PEP 8](#pep-8)
     - [PYTHONPATH](#pythonpath)
-    - [.pyc files](#pyc-files)
+    - [pyc files](#pyc-files)
     - [flake8 and black](#flake8-and-black)
     - [setup.py](#setuppy)
     - [virtualenv](#virtualenv)
@@ -82,7 +82,7 @@ Python Enhancement Proposal or `PEP 8` is a set of rules that specify how to for
 
 ---
 
-### .pyc files
+### pyc files
 
 When you write a Python program and run it, the Python interpreter first compiles the source code into bytecodes and then executes the bytecodes to produce the desired output.
 
