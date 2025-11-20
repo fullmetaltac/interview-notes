@@ -1,23 +1,27 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
-  - [SQL](#sql)
+  - [SQL Basics](#sql-basics)
     - [Query logical order](#query-logical-order)
-    - [Data Integrity](#data-integrity)
     - [Alias](#alias)
-    - [Truncate, Delete and Drop](#truncate-delete-and-drop)
     - [Where and Having](#where-and-having)
     - [Union and Intersect](#union-and-intersect)
+    - [Truncate, Delete and Drop](#truncate-delete-and-drop)
+  - [Data Integrity and Constraints](#data-integrity-and-constraints)
+    - [Data Integrity](#data-integrity)
     - [Constraints](#constraints)
-    - [JOIN](#join)
+  - [Joins and Subqueries](#joins-and-subqueries)
+    - [Join](#join)
     - [Cross Join](#cross-join)
     - [Subquery](#subquery)
+  - [Indexes and Performance](#indexes-and-performance)
     - [Index](#index)
     - [Clustered and Non-clustered index](#clustered-and-non-clustered-index)
     - [Explain](#explain)
-    - [Cursor](#cursor)
+  - [Procedural SQL](#procedural-sql)
     - [Function](#function)
     - [Stored Procedure](#stored-procedure)
-  - [ER-diagrams](#er-diagrams)
+    - [Cursor](#cursor)
+  - [Database Design](#database-design)
     - [ER diagram](#er-diagram)
     - [Types of keys](#types-of-keys)
     - [Types of connections](#types-of-connections)
@@ -27,7 +31,7 @@
 
 
 
-## SQL
+## SQL Basics
 
 ### Query logical order
 
@@ -41,11 +45,6 @@ SQL statements are executed by the database system in several steps, including:
 <p align="left">
   <img src="images/sql-query-logical-order.webp" style="width: 40%;">
 </p>
-
-### Data Integrity
-Data Integrity is the assurance of accuracy and consistency of data over its entire life-cycle and is a critical aspect of the design, implementation, and usage of any system which stores, processes, or retrieves data. It also defines integrity constraints to enforce business rules on the data when it is entered into an application or a database.
-
----
 
 ###  Alias
 
@@ -68,30 +67,6 @@ LIMIT 2;
 (2 rows)
 ```
 
----
-
-### Truncate, Delete and Drop
-
-:bulb: `DELETE` statement is used to delete rows from a table.
-
-```sql
-DELETE FROM Candidates
-WHERE CandidateId > 1000;
-```
-
-:bulb: `TRUNCATE` command is used to delete all the rows from the table and free the space containing the table.
-
-```sql
-TRUNCATE TABLE Candidates;
-```
-
-:bulb: `DROP` command is used to remove an object from the database. If you drop a table, all the rows in the table are deleted and the table structure is removed from the database.
-
-```sql
-DROP TABLE Candidates;
-```
-
----
 
 ### Where and Having
 
@@ -142,8 +117,6 @@ HAVING
 ```
 
 :memo: The `WHERE` clause allows you to filter rows based on a specified condition. However, the `HAVING` clause allows you to filter groups of rows according to a specified condition.
-
----
 
 ### Union and Intersect
 
@@ -224,7 +197,33 @@ FROM top_rated_films;
  The Godfather |         1972
 (1 row)
 ```
----
+
+### Truncate, Delete and Drop
+
+:bulb: `DELETE` statement is used to delete rows from a table.
+
+```sql
+DELETE FROM Candidates
+WHERE CandidateId > 1000;
+```
+
+:bulb: `TRUNCATE` command is used to delete all the rows from the table and free the space containing the table.
+
+```sql
+TRUNCATE TABLE Candidates;
+```
+
+:bulb: `DROP` command is used to remove an object from the database. If you drop a table, all the rows in the table are deleted and the table structure is removed from the database.
+
+```sql
+DROP TABLE Candidates;
+```
+
+## Data Integrity and Constraints
+
+### Data Integrity
+Data Integrity is the assurance of accuracy and consistency of data over its entire life-cycle and is a critical aspect of the design, implementation, and usage of any system which stores, processes, or retrieves data. It also defines integrity constraints to enforce business rules on the data when it is entered into an application or a database.
+
 
 ### Constraints
 
@@ -335,7 +334,9 @@ This example uses the NOT NULL keywords that follow the data type of the product
 
 ---
 
-### JOIN
+## Joins and Subqueries
+
+### Join
 
 PostgreSQL join is used to combine columns from one (self-join) or more tables based on the values of the common columns between related tables. 
 
@@ -488,6 +489,8 @@ LIMIT 2;
 
 ---
 
+## Indexes and Performance
+
 ### Index
 
 PostgreSQL indexes are effective tools to enhance database performance. Indexes help the database server find specific rows much faster than it could do without indexes. 
@@ -584,49 +587,7 @@ EXPLAIN SELECT * FROM film WHERE film_id = 100;
 ![explain2](images/explain2.png)
 
 
-
-### Cursor
-
-A Cursor in PostgreSQL is used to process large tables. Suppose if a table has 10 million or billion rows. While performing a `SELECT` operation on the table it will take some time to process the result and most likely give an “out of memory” error and the program will be terminated.
-
-A Cursor can only be declared inside a transaction. The cursor does not calculate the data but only prepares the query so that your data can be created when `FETCH` is called. In the end, simply commit the transaction.
-
-```sql
-BEGIN;
-
-DECLARE 
-    cur_film CURSOR FOR SELECT film_id, title FROM film;
-```
-
-```sql
-FETCH NEXT FROM cur_film;
-```
-
-```shell
-# output
- film_id |      title
----------+------------------
-     133 | Chamber Italian
-
-(1 row)
-```
-```sql
-FETCH 2 FROM cur_film;
-```
-```shell
-# output
- film_id |       title
----------+-------------------
-     384 | Grosse Wonderful
-       8 | Airport Pollock
-(2 rows)
-```
-
-```sql
-COMMIT;
-```
-
----
+## Procedural SQL
 
 ### Function
 
@@ -710,10 +671,48 @@ select * FROM invoices;
 (1 row)
 ```
 
+### Cursor
 
----
+A Cursor in PostgreSQL is used to process large tables. Suppose if a table has 10 million or billion rows. While performing a `SELECT` operation on the table it will take some time to process the result and most likely give an “out of memory” error and the program will be terminated.
 
-## ER-diagrams
+A Cursor can only be declared inside a transaction. The cursor does not calculate the data but only prepares the query so that your data can be created when `FETCH` is called. In the end, simply commit the transaction.
+
+```sql
+BEGIN;
+
+DECLARE 
+    cur_film CURSOR FOR SELECT film_id, title FROM film;
+```
+
+```sql
+FETCH NEXT FROM cur_film;
+```
+
+```shell
+# output
+ film_id |      title
+---------+------------------
+     133 | Chamber Italian
+
+(1 row)
+```
+```sql
+FETCH 2 FROM cur_film;
+```
+```shell
+# output
+ film_id |       title
+---------+-------------------
+     384 | Grosse Wonderful
+       8 | Airport Pollock
+(2 rows)
+```
+
+```sql
+COMMIT;
+```
+
+## Database Design
 
 ### ER diagram
 An Entity-Relationship (ER) diagram is a visual tool used to represent the structure of a database. It helps designers, developers, and stakeholders understand how data is organized and how different entities interact.
@@ -771,9 +770,8 @@ Relationships can also be **mandatory** or **optional**, which is represented us
       <img src="images/one-mandatory-to-many-mandatory-non-identifying-relationship.svg" style="width: 30%;">
    </p>
 
----
-
 ## Database Normalization
+
 <p align="left">
   <img src="images/normalization.png" style="width: 50%;">
 </p>
@@ -811,7 +809,6 @@ minimize redundancy by breaking a table into smaller tables.
 ## References
 - https://www.kaggle.com/learn
 - https://sqlzoo.net/wiki/SQL_Tutorial
-
 - https://tryhackme.com/room/sqlfundamentals
 - https://www.postgresqltutorial.com/
 - https://hyperskill.org/learn/step/13247
