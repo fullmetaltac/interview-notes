@@ -42,7 +42,7 @@ SQL statements are executed by the database system in several steps, including:
 - Optimizing the internal representation and creating an execution plan that utilizes index information
 - Executing the plan and returning the results
 
-<p align="left">
+<p align="center">
   <img src="images/sql-query-logical-order.webp" style="width: 40%;">
 </p>
 
@@ -342,7 +342,7 @@ PostgreSQL join is used to combine columns from one (self-join) or more tables b
 
 PostgreSQL supports inner join, left join, right join, full outer join, cross join, natural join, and a special kind of join called self-join.
 
-<p align="left">
+<p align="center">
     <img src="images/sql-joins.png" width="40%"> 
 </p>
 
@@ -405,7 +405,7 @@ LIMIT 2;
 
 A `CROSS JOIN` clause allows you to produce a Cartesian Product of rows in two or more tables.
 
-<p align="left">
+<p align="center">
     <img src="images/cross-join.png" style="width: 20%;">
 </p>
 
@@ -735,21 +735,21 @@ In an ER diagram, entities are connected by **relationships**, which define how 
 
 - **One-to-One** (1-1): Each instance of one entity is related to at most one instance of another entity.
    - Example: A national ID uniquely identifies a citizen, and each citizen has only one national ID. 
-      <p align="left">
+      <p align="center">
          <img src="images/one-to-one-relationship.svg" style="width: 30%;">
       </p>
 
 - **One-to-Many** (1-M): One instance of an entity can be related to multiple instances of another entity, but each instance of the second entity is linked to only one instance of the first.
    - Example: A department can have many employees, but each employee belongs to only one department.
       
-      <p align="left">
+      <p align="center">
          <img src="images/one-to-many-relationship.svg" style="width: 30%;">
       </p>
 
 - **Many-to-Many** (M-M): Multiple instances of one entity can be related to multiple instances of another entity.
    - Example: A student can enroll in multiple courses, and each course can have multiple students.
 
-      <p align="left">
+      <p align="center">
          <img src="images/many-to-many-relationship.svg" style="width: 30%;">
       </p>
 
@@ -759,20 +759,20 @@ Relationships can also be **mandatory** or **optional**, which is represented us
 - A **circle** (○) means the relationship is optional.
    - Example: A department may exist without any employees (i.e. 0, 1 or many employees can work in a department). Then, the Department → Employee (1-M) relationship will have a circle on the employee side, meaning employees are optional for a department.
 
-   <p align="left">
+   <p align="center">
       <img src="images/one-mandatory-to-many-optional-non-identifying-relationship.svg" style="width: 30%;">
    </p>
 
 - A **bar** (|) means the relationship is mandatory.
    - Example: If every department must have at least one employee (i.e. 1 or many employees can work in a department). Then, the Department → Employee (1-M) relationship will have a bar on the employee side, indicating that a department cannot exist without employees.
 
-   <p align="left">
+   <p align="center">
       <img src="images/one-mandatory-to-many-mandatory-non-identifying-relationship.svg" style="width: 30%;">
    </p>
 
 ## Database Normalization
 
-<p align="left">
+<p align="center">
   <img src="images/normalization.png" style="width: 50%;">
 </p>
 
