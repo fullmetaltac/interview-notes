@@ -1,6 +1,6 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
-  - [Setup](#setup)
+  - [Lab 1: Setup](#lab-1-setup)
   - [Create a Project](#create-a-project)
   - [Checking Status](#checking-status)
   - [Making Changes](#making-changes)
@@ -22,10 +22,21 @@
   - [More Structure](#more-structure)
   - [Git Internals: The .git directory](#git-internals-the-git-directory)
   - [Git Internals: Working directly with Git Objects](#git-internals-working-directly-with-git-objects)
-  - [Creating a Branch](#creating-a-branch)
+  - [Lab 24: Creating a Branch](#lab-24-creating-a-branch)
+  - [Lab 25: Navigating Branches](#lab-25-navigating-branches)
+  - [Lab 26: Changes in Main](#lab-26-changes-in-main)
+  - [Lab 27: Viewing Diverging Branches](#lab-27-viewing-diverging-branches)
+  - [Lab 28: Merging](#lab-28-merging)
+  - [Lab 29: Creating a Conflict](#lab-29-creating-a-conflict)
+  - [Lab 30: Resolving Conflicts](#lab-30-resolving-conflicts)
+  - [Lab 31: Rebasing VS Merging](#lab-31-rebasing-vs-merging)
+  - [Lab 32: Resetting the Greet Branch](#lab-32-resetting-the-greet-branch)
+  - [Lab 33: Resetting the Main Branch](#lab-33-resetting-the-main-branch)
+  - [Lab 34: Rebasing](#lab-34-rebasing)
+  - [Lab 35: Merging Back to Main](#lab-35-merging-back-to-main)
   - [References](#references)
 
-## Setup
+## Lab 1: Setup
 
 **Setup Name and Email**
 
@@ -1100,7 +1111,7 @@ puts "Hello, #{name}!"
 
 There you have it. We’ve dumped commit objects, tree objects and blob objects directly from the git repository. That’s all there is to it, blobs, trees and commits.
 
-## Creating a Branch
+## Lab 24: Creating a Branch
 
 Let’s call our new branch ‘greet’.
 
@@ -1129,6 +1140,448 @@ end
 git add lib/greeter.rb
 git commit -m "Added greeter class"
 ```
+
+**Changes for Greet: Modify the main program**
+
+Update the hello.rb file to use greeter
+
+```ruby
+# lib/hello.rb
+require 'greeter'
+
+# Default is World
+name = ARGV.first || "World"
+
+greeter = Greeter.new(name)
+puts greeter.greet
+```
+
+```shell
+git add lib/hello.rb
+git commit -m "Hello uses Greeter"
+```
+
+**Changes for Greet: Update the Rakefile**
+
+Update the Rakefile to use an external ruby process
+
+```ruby
+# Rakefile
+#!/usr/bin/ruby -wKU
+
+task :default => :run
+
+task :run do
+  ruby '-Ilib', 'lib/hello.rb'
+end
+```
+
+```shell
+git add Rakefile
+git commit -m "Updated Rakefile"
+```
+
+## Lab 25: Navigating Branches
+
+You now have two branches in your project:
+
+```shell
+$ git hist --all
+* c1a7120 2023-06-10 | Updated Rakefile (HEAD -> greet) [Jim Weirich]
+* 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+* cdceefa 2023-06-10 | Added a Rakefile. (main) [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+**Switch to the Main Branch**
+
+Just use the `git checkout` command to switch between branches.
+
+```shell
+$ git checkout main
+Switched to branch 'main'
+$ cat lib/hello.rb
+# Default is World
+# Author: Jim Weirich (jim@somewhere.com)
+name = ARGV.first || "World"
+
+puts "Hello, #{name}!"
+```
+You are now on the main branch. You can tell because the hello.rb file doesn’t use the `Greeter` class.
+
+**Switch Back to the Greet Branch.**
+
+```shell
+$ git checkout greet
+Switched to branch 'greet'
+$ cat lib/hello.rb
+require 'greeter'
+
+# Default is World
+name = ARGV.first || "World"
+
+greeter = Greeter.new(name)
+puts greeter.greet
+```
+
+The contents of the `lib/hello.rb` confirms we are back on the **greet** branch.
+
+## Lab 26: Changes in Main
+
+**Switch to the main branch.**
+
+```shell
+git checkout main
+```
+
+**Create the README.**
+
+```shell
+# README
+This is the Hello World example from the git tutorial.
+```
+
+**Commit the README to main.**
+
+```shell
+git add README
+git commit -m "Added README"
+```
+
+## Lab 27: Viewing Diverging Branches
+
+**View the Current Branches**
+
+We now have two diverging branches in the repository. Use the following log command to view the branches and how they diverge.
+
+```shell
+$ git hist --all
+* 976950b 2023-06-10 | Added README (HEAD -> main) [Jim Weirich]
+| * c1a7120 2023-06-10 | Updated Rakefile (greet) [Jim Weirich]
+| * 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+| * cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+|/  
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+Here is our first chance to see the `--graph` option on `git hist` in action. Adding the `--graph` option to `git log` causes it to draw the commit tree using simple ASCII characters. We can see both branches (greet and main), and that the main branch is the current HEAD. The common ancestor to both branches is the “Added a Rakefile” branch.
+
+The `--all` flag makes sure that we see all the branches. The default is to show only the current branch.
+
+## Lab 28: Merging
+
+**Merge the branches**
+
+Merging brings the changes in two branches together. Let’s go back to the greet branch and merge main onto greet.
+
+```shell
+$ git checkout greet
+Switched to branch 'greet'
+$ git merge main
+Merge made by the 'recursive' strategy.
+ README | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README
+$ git hist --all
+*   82a2988 2023-06-10 | Merge branch 'main' into greet (HEAD -> greet) [Jim Weirich]
+|\  
+| * 976950b 2023-06-10 | Added README (main) [Jim Weirich]
+* | c1a7120 2023-06-10 | Updated Rakefile [Jim Weirich]
+* | 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* | cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+|/  
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+By merging main into your greet branch periodically, you can pick up any changes to main and keep your changes in greet compatible with changes in the mainline.
+
+However, it does produce ugly commit graphs. Later we will look at the option of rebasing rather than merging.
+
+## Lab 29: Creating a Conflict
+
+**Switch back to main and create a conflict**
+
+Switch back to the main branch and make this change:
+
+```shell
+git checkout main
+```
+
+```ruby
+# lib/hello.rb
+puts "What's your name"
+my_name = gets.strip
+
+puts "Hello, #{my_name}!"
+```
+
+```shell
+git add lib/hello.rb
+git commit -m "Made interactive"
+```
+
+**View the Branches**
+```shell
+$ git hist --all
+*   82a2988 2023-06-10 | Merge branch 'main' into greet (greet) [Jim Weirich]
+|\  
+* | c1a7120 2023-06-10 | Updated Rakefile [Jim Weirich]
+* | 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* | cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+| | * 3787562 2023-06-10 | Made interactive (HEAD -> main) [Jim Weirich]
+| |/  
+| * 976950b 2023-06-10 | Added README [Jim Weirich]
+|/  
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+main at commit “Added README” has been merged to the greet branch, but there is now an additional commit on main that has not been merged back to greet.
+
+## Lab 30: Resolving Conflicts
+
+**Merge main to greet**
+
+Now go back to the greet branch and try to merge the new main.
+
+```shell
+$ git checkout greet
+Switched to branch 'greet'
+$ git merge main
+Auto-merging lib/hello.rb
+CONFLICT (content): Merge conflict in lib/hello.rb
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+If you open lib/hello.rb, you will see:
+
+```ruby
+# lib/hello.rb
+<<<<<<< HEAD
+require 'greeter'
+
+# Default is World
+name = ARGV.first || "World"
+
+greeter = Greeter.new(name)
+puts greeter.greet
+=======
+# Default is World
+
+puts "What's your name"
+my_name = gets.strip
+
+puts "Hello, #{my_name}!"
+>>>>>>> main
+```
+
+The first section is the version on the head of the current branch (greet). The second section is the version on the main branch.
+
+**Fix the Conflict**
+
+You need to manually resolve the conflict. Modify lib/hello.rb to be the following.
+
+```ruby
+# lib/hello.rb
+require 'greeter'
+
+puts "What's your name"
+my_name = gets.strip
+
+greeter = Greeter.new(my_name)
+puts greeter.greet
+```
+
+**Commit the Conflict Resolution**
+
+```shell
+$ git add lib/hello.rb
+$ git commit -m "Merged main fixed conflict."
+[greet 73db54b] Merged main fixed conflict.
+```
+
+**Advanced Merging**
+
+git doesn’t provide any graphical merge tools, but it will gladly work with any third party merge tool you wish to use. See [External Merge and Diff Tools](http://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#External-Merge-and-Diff-Tools) for a description of using the Perforce merge tool with git.
+
+## Lab 31: Rebasing VS Merging
+
+Let’s explore the differences between merging and rebasing. In order to do so, we need to rewind the repository back in time before the first merge, and then redo the same steps, but using rebasing rather than merging.
+
+We will make use the of the `reset` command to wind the branches back in time.
+
+## Lab 32: Resetting the Greet Branch
+
+**Reset the greet branch**
+
+Let’s go back in time on the greet branch to the point *before* we merged main onto it. We can **reset** a branch to any commit we want. Essentially this is modifying the branch pointer to point to anywhere in the commit tree.
+
+In this case we want to back greet up to the point prior to the merge with main. We need to find the last commit before the merge.
+
+```shell
+$ git checkout greet
+Already on 'greet'
+$ git hist
+*   73db54b 2023-06-10 | Merged main fixed conflict. (HEAD -> greet) [Jim Weirich]
+|\  
+| * 3787562 2023-06-10 | Made interactive (main) [Jim Weirich]
+* | 82a2988 2023-06-10 | Merge branch 'main' into greet [Jim Weirich]
+|\| 
+| * 976950b 2023-06-10 | Added README [Jim Weirich]
+* | c1a7120 2023-06-10 | Updated Rakefile [Jim Weirich]
+* | 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* | cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+|/  
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+That’s a bit hard to read, but looking at the data we see that the “Updated Rakefile” commit was the last commit on the greet branch before merging. Let’s reset the greet branch to that commit.
+
+```shell
+$ git reset --hard c1a7120
+HEAD is now at c1a7120 Updated Rakefile
+```
+
+**Check the branch.**
+
+Look at the log for the greet branch. We no longer have the merge commits in its history.
+
+```shell
+$ git hist --all
+* 3787562 2023-06-10 | Made interactive (main) [Jim Weirich]
+* 976950b 2023-06-10 | Added README [Jim Weirich]
+| * c1a7120 2023-06-10 | Updated Rakefile (HEAD -> greet) [Jim Weirich]
+| * 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+| * cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+|/  
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+## Lab 33: Resetting the Main Branch
+
+**Reset the main branch**
+
+When we added the interactive mode to the main branch, we made a change that conflicted with changes in the greet branch. Let’s rewind the main branch to a point before the conflicting change. This allows us to demonstrate the rebase command without worrying about conflicts.
+
+```shell
+$ git checkout main
+$ git hist
+* 3787562 2023-06-10 | Made interactive (HEAD -> main) [Jim Weirich]
+* 976950b 2023-06-10 | Added README [Jim Weirich]
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+The ‘Added README’ commit is the one directly before the conflicting interactive mode. We will reset the main branch to ‘Added README’ commit.
+
+```shell
+git reset --hard <hash>
+git hist --all
+```
+
+Review the log. It should look like the repository has been wound back in time to the point before we merged anything.
+
+```shell
+$ git hist --all
+* 976950b 2023-06-10 | Added README (HEAD -> main) [Jim Weirich]
+| * c1a7120 2023-06-10 | Updated Rakefile (greet) [Jim Weirich]
+| * 959a7cb 2023-06-10 | Hello uses Greeter [Jim Weirich]
+| * cab1837 2023-06-10 | Added greeter class [Jim Weirich]
+|/  
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+## Lab 34: Rebasing
+
+Ok, we are back in time before the first merge and we want to get the changes in main into our greet branch.
+
+This time we will use the rebase command instead of the merge command to bring in the changes from the main branch.
+
+```shell
+$ go greet
+Switched to branch 'greet'
+$
+$ git rebase main
+First, rewinding head to replay your work on top of it...
+Applying: added Greeter class
+Applying: hello uses Greeter
+Applying: updated Rakefile
+$
+$ git hist
+* 5f626c6 2023-06-10 | Updated Rakefile (HEAD -> greet) [Jim Weirich]
+* 24d82d4 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* 619f552 2023-06-10 | Added greeter class [Jim Weirich]
+* 976950b 2023-06-10 | Added README (main) [Jim Weirich]
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+**Merge VS Rebase**
+
+The final result of the rebase is very similar to the merge. The greet branch now contains all of its changes, as well as all the changes from the main branch. However, the commit tree is quite different. The commit tree for the greet branch has been rewritten so that the main branch is a part of the commit history. This leaves the chain of commits linear and much easier to read.
+
+**When to Rebase, When to Merge?**
+
+Don’t use rebase …
+
+1. If the branch is public and shared with others. Rewriting publicly shared branches will tend to screw up other members of the team.
+1. When the exact history of the commit branch is important (since rebase rewrites the commit history).
+
+Given the above guidelines, I tend to use rebase for short-lived, local branches and merge for branches in the public repository.
+
+## Lab 35: Merging Back to Main
+
+
 
 ## References
  - https://gitimmersion.com
