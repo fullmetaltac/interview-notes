@@ -513,15 +513,15 @@ WHERE  continent IN (SELECT continent
 
 ```sql
 SELECT 
- x.name,
- x.continent
-FROM world x
-WHERE x.population / 3 > ALL (
-  SELECT y.population
-  FROM world y
-  WHERE x.continent = y.continent AND
-        x.name <> y.name
-  );
+  w1.name,
+  w1.continent
+FROM world w1
+WHERE w1.population / 3 > ALL (
+  SELECT w2.population
+  FROM world w2
+  WHERE w1.continent = w2.continent
+    AND w1.name <> w2.name
+);
 ```
 
 ## 5 SUM and COUNT

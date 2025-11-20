@@ -1,24 +1,24 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
   - [SQL](#sql)
-    - [SQL query logical order](#sql-query-logical-order)
-    - [What is Data Integrity?](#what-is-data-integrity)
-    - [What is an ALIAS in SQL?](#what-is-an-alias-in-sql)
-    - [What are the TRUNCATE, DELETE and DROP statements?](#what-are-the-truncate-delete-and-drop-statements)
-    - [What are HAVING and WHERE commands?](#what-are-having-and-where-commands)
-    - [What are UNION and INTERSECT commands?](#what-are-union-and-intersect-commands)
-    - [What are CONSTRAINTS in SQL?](#what-are-constraints-in-sql)
-    - [What is a JOIN? List its different types.](#what-is-a-join-list-its-different-types)
-    - [What is a CROSS-JOIN?](#what-is-a-cross-join)
-    - [What is a Subquery? What are its types?](#what-is-a-subquery-what-are-its-types)
-    - [What is an INDEX? Explain its different types.](#what-is-an-index-explain-its-different-types)
-    - [What is the difference between Clustered and Non-clustered index?](#what-is-the-difference-between-clustered-and-non-clustered-index)
-    - [What is the EXPLAIN statement?](#what-is-the-explain-statement)
-    - [What is Cursor? How to use a Cursor?](#what-is-cursor-how-to-use-a-cursor)
-    - [What is a Function?](#what-is-a-function)
-    - [What is a Stored Procedure?](#what-is-a-stored-procedure)
+    - [Query logical order](#query-logical-order)
+    - [Data Integrity](#data-integrity)
+    - [Alias](#alias)
+    - [Truncate, Delete and Drop](#truncate-delete-and-drop)
+    - [Where and Having](#where-and-having)
+    - [Union and Intersect](#union-and-intersect)
+    - [Constraints](#constraints)
+    - [JOIN](#join)
+    - [Cross Join](#cross-join)
+    - [Subquery](#subquery)
+    - [Index](#index)
+    - [Clustered and Non-clustered index](#clustered-and-non-clustered-index)
+    - [Explain](#explain)
+    - [Cursor](#cursor)
+    - [Function](#function)
+    - [Stored Procedure](#stored-procedure)
   - [ER-diagrams](#er-diagrams)
-    - [What is an ER diagram?](#what-is-an-er-diagram)
+    - [ER diagram](#er-diagram)
     - [Types of keys](#types-of-keys)
     - [Types of connections](#types-of-connections)
     - [Mandatory and optional relationships](#mandatory-and-optional-relationships)
@@ -29,7 +29,7 @@
 
 ## SQL
 
-### SQL query logical order
+### Query logical order
 
 
 SQL statements are executed by the database system in several steps, including:
@@ -39,15 +39,15 @@ SQL statements are executed by the database system in several steps, including:
 - Executing the plan and returning the results
 
 <p align="left">
-  <img src="images/sql-query-logical-order.webp" style="width: 30%;">
+  <img src="images/sql-query-logical-order.webp" style="width: 40%;">
 </p>
 
-### What is Data Integrity?
+### Data Integrity
 Data Integrity is the assurance of accuracy and consistency of data over its entire life-cycle and is a critical aspect of the design, implementation, and usage of any system which stores, processes, or retrieves data. It also defines integrity constraints to enforce business rules on the data when it is entered into an application or a database.
 
 ---
 
-###  What is an ALIAS in SQL?
+###  Alias
 
 A column alias allows you to assign a column or an expression in the select list of a `SELECT` statement a temporary name. The column alias exists temporarily during the execution of the query.
 
@@ -70,7 +70,7 @@ LIMIT 2;
 
 ---
 
-### What are the TRUNCATE, DELETE and DROP statements?
+### Truncate, Delete and Drop
 
 :bulb: `DELETE` statement is used to delete rows from a table.
 
@@ -93,7 +93,7 @@ DROP TABLE Candidates;
 
 ---
 
-### What are HAVING and WHERE commands?
+### Where and Having
 
 - The `SELECT` statement returns all rows from one or more columns in a table. To select rows that satisfy a specified condition, you use a `WHERE` clause.
 
@@ -145,7 +145,7 @@ HAVING
 
 ---
 
-### What are UNION and INTERSECT commands?   
+### Union and Intersect
 
 
 - The `UNION` operator combines and returns the result-set retrieved by two or more `SELECT` statements.
@@ -226,7 +226,7 @@ FROM top_rated_films;
 ```
 ---
 
-### What are CONSTRAINTS in SQL?
+### Constraints
 
 Constraints are used to specify the rules concerning data in the table. It can be applied for single or multiple fields in an SQL table during the creation of the table or after creating using the ALTER TABLE command. The constraints are:
 
@@ -335,7 +335,7 @@ This example uses the NOT NULL keywords that follow the data type of the product
 
 ---
 
-### What is a JOIN? List its different types.
+### JOIN
 
 PostgreSQL join is used to combine columns from one (self-join) or more tables based on the values of the common columns between related tables. 
 
@@ -400,12 +400,12 @@ LIMIT 2;
 
 ---
 
-### What is a CROSS-JOIN?
+### Cross Join
 
 A `CROSS JOIN` clause allows you to produce a Cartesian Product of rows in two or more tables.
 
-<p align="center" width="100%">
-    <img width="33%" src="https://www.postgresqltutorial.com/wp-content/uploads/2016/06/PostgreSQL-CROSS-JOIN-illustration.png"> 
+<p align="left">
+    <img src="images/cross-join.png" style="width: 20%;">
 </p>
 
 :bulb: *Example*
@@ -453,7 +453,7 @@ CROSS JOIN T2;
 
 ---
 
-### What is a Subquery? What are its types?
+### Subquery
 
 A subquery is a query within another query, also known as a *nested query* or *inner query*.
 
@@ -488,7 +488,7 @@ LIMIT 2;
 
 ---
 
-### What is an INDEX? Explain its different types.
+### Index
 
 PostgreSQL indexes are effective tools to enhance database performance. Indexes help the database server find specific rows much faster than it could do without indexes. 
 
@@ -555,14 +555,14 @@ An index is a separated data structure that speeds up the data retrieval on a ta
 
 ---
 
-### What is the difference between Clustered and Non-clustered index?
+### Clustered and Non-clustered index
 
 - Clustered index modifies the way records are stored in a database based on the indexed column. A non-clustered index creates a separate entity within the table which references the original table.
 - Clustered index is used for easy and speedy retrieval of data from the database, whereas, fetching records from the non-clustered index is relatively slower.
 - In SQL, a table can have a single clustered index whereas it can have multiple non-clustered indexes.
 ---
 
-### What is the EXPLAIN statement?
+### Explain
 
 The `EXPLAIN` statement returns the execution plan which PostgreSQL planner generates for a given statement.
 
@@ -585,7 +585,7 @@ EXPLAIN SELECT * FROM film WHERE film_id = 100;
 
 
 
-### What is Cursor? How to use a Cursor?
+### Cursor
 
 A Cursor in PostgreSQL is used to process large tables. Suppose if a table has 10 million or billion rows. While performing a `SELECT` operation on the table it will take some time to process the result and most likely give an “out of memory” error and the program will be terminated.
 
@@ -628,7 +628,7 @@ COMMIT;
 
 ---
 
-### What is a Function?
+### Function
 
 PL/pgSQL is a procedural programming language for the PostgreSQL database system.
 
@@ -664,7 +664,7 @@ select film_count();
 
 ---
 
-### What is a Stored Procedure?
+### Stored Procedure
 
 A drawback of user-defined functions is that they cannot execute transactions. In other words, inside a user-defined function, you cannot start a transaction, and commit or rollback it.
 
@@ -715,7 +715,7 @@ select * FROM invoices;
 
 ## ER-diagrams
 
-### What is an ER diagram?
+### ER diagram
 An Entity-Relationship (ER) diagram is a visual tool used to represent the structure of a database. It helps designers, developers, and stakeholders understand how data is organized and how different entities interact.
 
 The main components of an ER diagram are:
