@@ -19,7 +19,7 @@
 - [Networking](networking/networking.md)
 - ---
 ### DevOps
-- **[DevOps](devops/devops.md)*
+- [DevOps](devops/devops.md)
 - ---
 ### Quality Assurance
 - [QA](quality-assurance/qa.md)
