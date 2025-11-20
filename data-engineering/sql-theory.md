@@ -406,7 +406,7 @@ LIMIT 2;
 A `CROSS JOIN` clause allows you to produce a Cartesian Product of rows in two or more tables.
 
 <p align="center">
-    <img src="images/cross-join.png" style="width: 20%;">
+    <img src="images/cross-join.png" style="width: 35%;">
 </p>
 
 :bulb: *Example*

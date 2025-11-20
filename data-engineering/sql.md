@@ -1,3 +1,3 @@
 - [SQL Theory](sql-theory.md)
-- [SQL Zoo](sql-zoo.md)
+- **[SQL Zoo](sql-zoo.md)*
 - [Sandbox DB](sandbox-db.md)

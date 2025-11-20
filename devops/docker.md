@@ -474,7 +474,7 @@ For example, let's take this command: `docker run helloworld`. The Docker Client
 Let's look at the following diagram to show this process in action:
 
 <p align="center">
-    <img src="images/docker-client.png" width="20%"> 
+    <img src="images/docker-client.png" width="35%"> 
 </p>
 
 What's interesting is that because of this, we can interact with the Docker Server using commands like `curl` or an API developer tool such as Postman.

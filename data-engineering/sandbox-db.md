@@ -28,6 +28,6 @@ docker exec -i pg psql -h localhost -U postgres -d dvdrental \
 docker exec -it pg psql -h localhost -U postgres -d dvdrental
 ```
 
-![dvd-rental-sample-database-diagram](images/db-diagram.png)
-
----
+<p align="center">
+    <img src="images/db-diagram.png" width="60%"> 
+</p>
