@@ -111,11 +111,15 @@ The most common way to view the permissions of a file is to use `ls` with the lo
 $ ls -l
 ```
 
-![ls-rights](images/ls-rights.png)
+<p align="center">
+    <img src="images/ls-rights.png" width="50%"> 
+</p>
 
 Here is a breakdown of the mode metadata of the first file in the above example:
 
-![mode](images/mode.png)
+<p align="center">
+    <img src="images/mode.png" width="30%"> 
+</p>
 
 **File Type**
 

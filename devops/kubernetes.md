@@ -25,7 +25,9 @@
 
 Pods are the smallest deployable unit of computing you can create and manage in Kubernetes. When you work in DevSecOps with Kubernetes, you'll hear a lot of this word. You can think of a pod as a group of one or more containers. These containers share storage and network resources. Because of this, containers on the same pod can communicate easily as if they were on the same machine whilst maintaining a degree of isolation. Pods are treated as a unit of replication in Kubernetes; if a workload needs to be scaled up, you will increase the number of pods running.
 
-![Kubernetes Pod](images/Kubernetes-Pod.svg)
+<p align="center">
+    <img src="images/Kubernetes-Pod.svg" width="40%"> 
+</p>
 
 **Kubernetes Nodes**
 
@@ -71,20 +73,25 @@ Kubelet is an agent that runs on every node in the cluster and is responsible fo
 
 Kube-proxy is responsible for network communication within the cluster. It makes networking rules so traffic can flow and be directed to a pod (from inside or outside of the cluster). Traffic won't hit a pod directly but instead hit something called a Service (which would be associated with a group of pods), and then gets directed to one of the associated pods. More on services in the next task!
 
-![Control Plane](images/Control-Plane.svg)
+<p align="center">
+    <img src="images/Control-Plane.svg" width="40%"> 
+</p>
 
 **Container runtime**
 
 Pods have containers running inside of them. A container runtime must be installed on each node for this to happen. So far, we have covered one example of this in this module, which is probably the most popular choice, Docker. However, some alternatives can be used, such as rkt or runC.
 
-![Container runtime](images/Container-runtime.svg)
+<p align="center">
+    <img src="images/Container-runtime.svg" width="40%"> 
+</p>
 
 ### Communication Between Components
 
 A Kubernetes cluster contains nodes and Kubernetes runs a workload by placing containers into pods that run on these nodes. Take a look at the graphic below to see how all these components come together.
 
-
-![Communication Between Components](images/Communication-Between-Components.svg)
+<p align="center">
+    <img src="images/Communication-Between-Components.svg" width="50%"> 
+</p>
 
 ## Configuration
 

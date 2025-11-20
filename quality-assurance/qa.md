@@ -1,10 +1,10 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
   - [General](#general)
-    - [What to include in a bug report?](#what-to-include-in-a-bug-report)
-    - [What to include in a test case?](#what-to-include-in-a-test-case)
-    - [What is the Testing Pyramid?](#what-is-the-testing-pyramid)
-    - [What are levels of Testing?](#what-are-levels-of-testing)
+    - [Bug report](#bug-report)
+    - [Test case](#test-case)
+    - [Testing Pyramid](#testing-pyramid)
+    - [Levels of Testing](#levels-of-testing)
     - [Test Design Techniques](#test-design-techniques)
       - [Equivalent class partitioning](#equivalent-class-partitioning)
       - [Boundary value analysis](#boundary-value-analysis)
@@ -35,7 +35,7 @@
 
 ## General
 
-### What to include in a bug report?
+### Bug report
 
 An effective bug report should contain the following:
 
@@ -49,7 +49,7 @@ An effective bug report should contain the following:
 
 ---
 
-### What to include in a test case?
+### Test case
 In agile software development, test cases are more like outlines than a list of step-by-step instructions for a single test. Test cases can include details on required conditions, dependencies, procedures, tools, and the expected output. 
 
 :bulb: ***Common elements of a test case include:***
@@ -61,7 +61,7 @@ In agile software development, test cases are more like outlines than a list of 
 - **Test environment**: The test environment is the controlled setup or infrastructure where software or systems are tested.
 - **Notes**: This section includes any relevant comments or details about the test case that do not fit in any other section of the test case template.
 
-### What is the Testing Pyramid?
+### Testing Pyramid
 
 The pyramid attempts to visually represent a logical organization of testing standards. It consists of three distinct layers.
 
@@ -77,7 +77,7 @@ The pyramid attempts to visually represent a logical organization of testing sta
     <img src="images/pyramid-vs-maturity-and-cost.png" width="80%"> 
 </p>
 
-### What are levels of Testing?
+### Levels of Testing
 
 The most common types of testing levels include – unit testing, integration testing, system testing, and acceptance testing. Unit tests focus on individual components, such as methods and functions, while integration tests check if these components work together properly. System tests verify that the entire system meets the functional requirements specified by stakeholders, while acceptance tests validate the software against their criteria for acceptable behavior.
 

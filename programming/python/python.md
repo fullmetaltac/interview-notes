@@ -66,6 +66,7 @@
     - [What is asyncio in Python?](#what-is-asyncio-in-python)
     - [Whats is async context manager?](#whats-is-async-context-manager)
     - [What is Future object?](#what-is-future-object)
+  - [References](#references)
 
 ##  Basics
 
@@ -2333,3 +2334,6 @@ if __name__ == "__main__":
 ```
 
 ---
+
+## References
+- Fluent Python - Luciano Ramalho

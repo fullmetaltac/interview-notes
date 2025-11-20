@@ -363,13 +363,15 @@ While we can spin up multiple containers or “microservices” individually and
 
 This illustration shows how containers are deployed together using Docker Compose Vs. Docker:
 
-![docker-compose](images/docker-compose.png)
+<p align="center">
+    <img src="images/docker-compose.png" width="30%"> 
+</p>
 
 Let’s cover the fundamentals of using Docker Compose.
 
 1. We need Docker Compose installed (it does not come with Docker by default).
-1. We need a valid docker-compose.yml file - we will come onto this shortly.
-1.  A fundamental understanding of using Docker Compose to build and manage containers.
+2. We need a valid docker-compose.yml file - we will come onto this shortly.
+3.  A fundamental understanding of using Docker Compose to build and manage containers.
 
 I have put some of the essential Docker Compose commands into the table below:
 
@@ -471,7 +473,9 @@ For example, let's take this command: `docker run helloworld`. The Docker Client
 
 Let's look at the following diagram to show this process in action:
 
-![docker-client](images/docker-client.png)
+<p align="center">
+    <img src="images/docker-client.png" width="20%"> 
+</p>
 
 What's interesting is that because of this, we can interact with the Docker Server using commands like `curl` or an API developer tool such as Postman.
 

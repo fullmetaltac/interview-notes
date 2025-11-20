@@ -1643,7 +1643,9 @@ Up to this point we have been working with a single git repository. However, git
 
 In the next section we will create a new repository called "cloned_hello". We will show how to move changes from one repository to another, and how to handle conflicts when they arise between two repositories.
 
-![git-clone](images/git_clone.png)
+<p align="center">
+    <img src="images/git_clone.png" width="50%"> 
+</p>
 
 For now, we will be working with local repositories (i.e. repositories stored on your local hard disk), however most of the things learned in this section will apply to multiple repositories whether they are stored locally or remotely over a network.
 
