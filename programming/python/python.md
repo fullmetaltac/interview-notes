@@ -1,74 +1,74 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
-  - [Basics](#basics)
+  - [python basics](#python-basics)
     - [PEP 8](#pep-8)
     - [PYTHONPATH](#pythonpath)
     - [.pyc files](#pyc-files)
-    - [Flake8 and Black](#flake8-and-black)
+    - [flake8 and black](#flake8-and-black)
     - [setup.py](#setuppy)
-    - [Virtualenv](#virtualenv)
-    - [Module and a package](#module-and-a-package)
-    - [Namespace](#namespace)
-    - [Memory management](#memory-management)
-    - [Built-in data types](#built-in-data-types)
-    - [Split function](#split-function)
-    - [RegEx](#regex)
-    - [Exception handling](#exception-handling)
-    - [Context manager](#context-manager)
+    - [virtualenv](#virtualenv)
+    - [module vs package](#module-vs-package)
+    - [namespace](#namespace)
+    - [memory management](#memory-management)
+    - [built-in data types](#built-in-data-types)
+    - [split function](#split-function)
+    - [regex](#regex)
+    - [exception handling](#exception-handling)
+    - [context manager](#context-manager)
     - [args and kwargs](#args-and-kwargs)
-    - [Dataclass](#dataclass)
-    - [Shallow and Deep copy](#shallow-and-deep-copy)
-  - [Functions](#functions)
-    - [Closure](#closure)
+    - [dataclass](#dataclass)
+    - [shallow and Deep copy](#shallow-and-deep-copy)
+  - [functions and functional features](#functions-and-functional-features)
+    - [closure](#closure)
     - [global local and nonlocal](#global-local-and-nonlocal)
-    - [First-class and Higher-order functions](#first-class-and-higher-order-functions)
-    - [Dunder/Magic/Special methods](#dundermagicspecial-methods)
+    - [first-class and higher-order functions](#first-class-and-higher-order-functions)
+    - [dunder/magic/special methods](#dundermagicspecial-methods)
     - [lambda function](#lambda-function)
-    - [Decorator](#decorator)
-    - [Generator](#generator)
+    - [decorator](#decorator)
+    - [generator](#generator)
     - [map function](#map-function)
     - [filter function](#filter-function)
     - [reduce function](#reduce-function)
-  - [Collections](#collections)
-    - [Slicing](#slicing)
-    - [Comprehensions](#comprehensions)
-    - [Different ways to fetch item](#different-ways-to-fetch-item)
-    - [Explain dictionaries merge and update?](#explain-dictionaries-merge-and-update)
+  - [collections and data structures](#collections-and-data-structures)
+    - [slicing](#slicing)
+    - [comprehensions](#comprehensions)
+    - [different ways to fetch item](#different-ways-to-fetch-item)
+    - [dictionaries merge and update](#dictionaries-merge-and-update)
     - [list vs tuple](#list-vs-tuple)
     - [array vs list](#array-vs-list)
-  - [OOP](#oop)
+  - [object-oriented programming](#object-oriented-programming)
     - [class](#class)
     - [object](#object)
     - [self keyword](#self-keyword)
     - [super function](#super-function)
-    - [Operator overriding](#operator-overriding)
-    - [Prevent method overriding](#prevent-method-overriding)
+    - [operator overriding](#operator-overriding)
+    - [prevent method overriding](#prevent-method-overriding)
     - [property decorator](#property-decorator)
-    - [Meta class](#meta-class)
-    - [Object creation process](#object-creation-process)
-    - [Encapsulation](#encapsulation)
-    - [Inheritance](#inheritance)
-    - [Polymorphism](#polymorphism)
-    - [Abstraction](#abstraction)
-    - [Class diagram](#class-diagram)
+    - [meta class](#meta-class)
+    - [object creation process](#object-creation-process)
+    - [encapsulation](#encapsulation)
+    - [inheritance](#inheritance)
+    - [polymorphism](#polymorphism)
+    - [abstraction](#abstraction)
+    - [class diagram](#class-diagram)
     - [Method Resolution Order](#method-resolution-order)
-    - [Inheritance vs Composition](#inheritance-vs-composition)
-    - [taticmethod vs classmethod](#taticmethod-vs-classmethod)
+    - [inheritance vs composition](#inheritance-vs-composition)
+    - [staticmethod vs classmethod](#staticmethod-vs-classmethod)
     - [class variable vs instance variable](#class-variable-vs-instance-variable)
-    - [Mutable default parameter](#mutable-default-parameter)
-    - [Monkey patching](#monkey-patching)
-    - [Type hinting](#type-hinting)
-  - [Async and concurrency](#async-and-concurrency)
-    - [TЕhread vs process](#tеhread-vs-process)
-    - [CPU-bound vs I/O-bound tasks](#cpu-bound-vs-io-bound-tasks)
-    - [GIL](#gil)
-    - [Race condition](#race-condition)
-    - [What is asyncio in Python?](#what-is-asyncio-in-python)
-    - [Async context manager](#async-context-manager)
-    - [Future object](#future-object)
+    - [mutable default parameter](#mutable-default-parameter)
+    - [monkey patching](#monkey-patching)
+    - [type hinting](#type-hinting)
+  - [async and concurrency](#async-and-concurrency)
+    - [thread vs process](#thread-vs-process)
+    - [cpu-bound vs i/o-bound tasks](#cpu-bound-vs-io-bound-tasks)
+    - [global interpreter lock](#global-interpreter-lock)
+    - [race condition](#race-condition)
+    - [asyncio](#asyncio)
+    - [async context manager](#async-context-manager)
+    - [future object](#future-object)
   - [References](#references)
 
-##  Basics
+##  python basics
 
 ### PEP 8
 
@@ -96,7 +96,7 @@ They are used to speed up the execution of Python programs by avoiding the need 
 
 ---
 
-### Flake8 and Black
+### flake8 and black
 
 `Flake8` is a linter tool that checks your code for style and syntax errors, while `Black` is a code formatter that automatically formats your code according to a set of predefined rules. By using `Flake8` and `Black`, you can ensure the good quality of your Python code.
 
@@ -143,7 +143,7 @@ pip install my_package
 
 ---
 
-### Virtualenv
+### virtualenv
 
 In a nutshell, Python virtual environments help decouple and isolate Python installs and associated pip packages. This allows end-users to install and manage their own set of packages that are independent of those provided by the system or used by other projects.
 
@@ -162,7 +162,7 @@ $ source venv/bin/activate
 
 ---
 
-### Module and a package
+### module vs package
 
 - *Module:*
 The module is a Python file that contains collections of functions and global variables and with having a .py extension file.
@@ -172,13 +172,13 @@ The package is a directory having collections of modules. This directory contain
 
 ---
 
-### Namespace
+### namespace
 
 A naming system used to make sure that names are unique to avoid naming conflicts refers to as Namespace.
 
 ---
 
-### Memory management
+### memory management
 
 Unlike other programming languages, python stores references to an object after it is created. For example, an `[]` object might have two references a and b. The memory manager in python keeps track of the reference count of each object, this would be 2 for `[]` object. Once the object reference count reaches 0, object is removed from memory.
 
@@ -209,7 +209,7 @@ if __name__ == "__main__":
 
 ---
 
-### Built-in data types
+### built-in data types
 
 | Data Types |           Classes            |                       Description |
 | ---------- | :--------------------------: | --------------------------------: |
@@ -229,7 +229,7 @@ Most things are mutable in Python. If you want to keep one of your classes immut
 
 ---
 
-### Split function
+### split function
 
 The split function breaks the string into shorter strings using the defined separator. It returns the list of all the words present in the string.
 
@@ -251,7 +251,7 @@ if __name__ == "__main__":
 
 ---
 
-### RegEx
+### regex
 
 A **Reg**ular **Ex**pression (RegEx) is a sequence of characters that defines a search pattern.
 
@@ -280,7 +280,7 @@ if __name__ == "__main__":
 ```
 ---
 
-### Exception handling
+### exception handling
 
 Exception handling is the way by which a programmer can control an error within the program without breaking out the flow of execution.
 
@@ -330,7 +330,7 @@ if __name__ == "__main__":
 
 ---
 
-### Context manager
+### context manager
 
 The `with` statement simplifies exception handling by encapsulating common preparation and cleanup tasks in so-called context managers.
 
@@ -506,7 +506,7 @@ def ordering(arg_1, arg_2, *args, kw_1="shark", kw_2="blobfish", **kwargs):
 
 ---
 
-### Dataclass
+### dataclass
 
 `Dataclasses` are python classes, but are suited for storing data objects. This module provides a decorator and functions for automatically adding generated special methods such as `__init__()` and `__repr__()` to user-defined classes.
 
@@ -553,7 +553,7 @@ if __name__ == "__main__":
 
 ---
 
-### Shallow and Deep copy
+### shallow and Deep copy
 
 :bulb: The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
 
@@ -600,9 +600,9 @@ if __name__ == "__main__":
 ```
 ---
 
-##  Functions
+##  functions and functional features
 
-### Closure
+### closure
 
 Python closure is a nested function that allows us to access variables of the outer function even after the outer function is closed.
 
@@ -700,7 +700,7 @@ if __name__ == "__main__":
 
 ---
 
-### First-class and Higher-order functions
+### first-class and higher-order functions
 
 - In Python, the term `first-class function` refers to a function’s ability to be treated as an object that can be assigned to a variable, used as an argument for other functions, and returned as a value. As a result, functions in Python are identical to other objects like `strings`, `integers`, and `lists`.
 
@@ -741,7 +741,7 @@ if __name__ == "__main__":
 
 ---
 
-### Dunder/Magic/Special methods
+### dunder/magic/special methods
 
 Dunder (**Double Underscores**) methods are special/magic predefined methods in Python, with names that start and end with a double underscore. They are defined by built-in classes in Python.
 
@@ -783,7 +783,7 @@ if __name__ == "__main__":
 
 ---
 
-### Decorator
+### decorator
 
 A decorator is a design pattern in Python that allows a user to add new functionality to an existing object without modifying its structure.
 
@@ -935,7 +935,7 @@ if __name__ == "__main__":
 
 ---
 
-### Generator
+### generator
 
 In Python, a generator is a function that returns an iterator that produces a sequence of values when iterated over.
 
@@ -1049,9 +1049,9 @@ if __name__ == "__main__":
 
 ---
 
-##  Collections
+##  collections and data structures
 
-### Slicing
+### slicing
 
 Slicing refers to the mechanism to select the range of items from sequence types like lists, tuples, strings
 
@@ -1086,7 +1086,7 @@ if __name__ == "__main__":
 
 ---
 
-### Comprehensions
+### comprehensions
 
 List comprehension in Python is a concise way of creating lists from the ones that already exist. It provides a shorter syntax to create new lists from existing lists and their values. 
 
@@ -1177,7 +1177,7 @@ if __name__ == "__main__":
 ```
 ---
 
-### Different ways to fetch item
+### different ways to fetch item
 
 ```python
 example_list = [0,1,2,3,4,5,6]
@@ -1208,7 +1208,7 @@ if __name__ == "__main__":
 
 ---
 
-### Explain dictionaries merge and update?
+### dictionaries merge and update
 
 ```python
 x = {"key1": "value1 from x", "key2": "value2 from x"}
@@ -1307,7 +1307,7 @@ if __name__ == "__main__":
 
 ---
 
-##  OOP
+##  object-oriented programming
 
 ### class
 
@@ -1392,7 +1392,7 @@ if __name__ == "__main__":
 
 ---
 
-### Operator overriding
+### operator overriding
 
 ```python
 class Vector:
@@ -1422,7 +1422,7 @@ if __name__ == "__main__":
 ```
 ---
 
-### Prevent method overriding
+### prevent method overriding
 
 By prefixing the method’s name with a double underscore `__`, you make it private to the class, and it cannot be overridden in a subclass. 
 
@@ -1473,7 +1473,7 @@ if __name__ == "__main__":
 
 ---
 
-### Meta class
+### meta class
 
 In Python everything is an object, even a class is an object. As a result, a class also must have a type. All classes in Python are of 'type' type. Even the class of 'type' is 'type'. So 'type' is the meta class in Python and to create custom meta class, you would need to inherit from 'type'.
 
@@ -1529,7 +1529,7 @@ if __name__ == "__main__":
 ```
 ---
 
-### Object creation process
+### object creation process
 
 When an object of a class is created or a class is instantiated, the `__new__()` method of class is called. This particular method is responsible for returning a new class object. It can be overriden to implement object creational restrictions on class.
 
@@ -1542,7 +1542,7 @@ Initializer is called right after the constructor, if the constructor has not re
 
 ---
 
-### Encapsulation
+### encapsulation
 
 *Encapsulation* is an important concept in object-oriented programming that helps to protect the implementation details of an object. In Python, we can achieve encapsulation by using underscore prefixes to indicate the access level.
 
@@ -1573,7 +1573,7 @@ if __name__ == "__main__":
 
 ---
 
-### Inheritance
+### inheritance
 
 *Inheritance* promotes code reuse and allows you to create a hierarchy of classes that share common attributes and methods. It helps in creating clean and organized code by keeping related functionality in one place and promoting the concept of modularity. The base class from which a new class is derived is also known as a parent class, and the new class is known as the child class or subclass.
 
@@ -1623,7 +1623,7 @@ if __name__ == "__main__":
 
 ---
 
-### Polymorphism
+### polymorphism
 
 Polymorphism is an important concept in object-oriented programming that allows you to write code that can work with objects of different classes in a uniform way. In Python, polymorphism is achieved by using method overriding or method overloading.
 
@@ -1668,7 +1668,7 @@ if __name__ == "__main__":
 
 ---
 
-### Abstraction
+### abstraction
 
 Abstraction is an important concept in object-oriented programming (OOP) because it allows you to focus on the essential features of an object or system while ignoring the details that aren’t relevant to the current context. By reducing complexity and hiding unnecessary details, abstraction can make code more modular, easier to read, and easier to maintain.
 
@@ -1712,7 +1712,7 @@ if __name__ == "__main__":
 
 ---
 
-### Class diagram
+### class diagram
 
 In software engineering, a class diagram in the Unified Modeling Language (UML) is a type of static structure diagram that describes the structure of a system by showing the system's classes, their attributes, operations (or methods), and the relationships among objects.
 
@@ -1758,7 +1758,7 @@ Note: a class can't be called before its superclass in resolving MRO. Super Clas
 
 ---
 
-### Inheritance vs Composition
+### inheritance vs composition
 
 *Inheritance* and *composition* are quite different concepts and they respond to different relationship between classes. If classes have a **is-a** relationship then *inheritance* is the right choice, if they have a **has-a** relationship then it’s a *composition*.
 
@@ -1798,7 +1798,7 @@ Employee(salary=Salary())
 
 ---
 
-### taticmethod vs classmethod
+### staticmethod vs classmethod
 
 |  :memo:   |                 Class Method                  |            Static Method            |
 | :-------: | :-------------------------------------------: | :---------------------------------: |
@@ -1869,7 +1869,7 @@ if __name__ == "__main__":
 
 ---
 
-### Mutable default parameter
+### mutable default parameter
 
 The function parameters evaluate when the function is defined, not when it runs.
 
@@ -1922,7 +1922,7 @@ if __name__ == "__main__":
 
 ---
 
-### Monkey patching
+### monkey patching
 
 The dynamic modifications made to a class or module at runtime are termed as monkey patching in Python. Most of the time it's a pretty terrible idea - it is usually best if things act in a well-defined way. One reason to monkey patch would be in testing. The mock package is very useful to this end.
 
@@ -1950,7 +1950,7 @@ if __name__ == "__main__":
 
 ---
 
-### Type hinting
+### type hinting
 
 Type checkers help ensure that you're using variables and functions in your code correctly.
 
@@ -2001,22 +2001,22 @@ pyright my_file.py
 
 ---
 
-##  Async and concurrency
+##  async and concurrency
 
-### TЕhread vs process
+### thread vs process
 
 A thread is a lightweight, independent unit of execution that can run within a process. Threads within a process share the same memory space, making it easy for them to share data and communicate with each other. A process, on the other hand, is a self-contained execution environment that has its own memory space and resources.   
 
 ---
 
-### CPU-bound vs I/O-bound tasks
+### cpu-bound vs i/o-bound tasks
 
 - A CPU-bound task spends most of its time doing heavy calculations with the CPUs.
 - An I/O-bound task spends most of its time waiting for I/O responses, which can be responses from web pages, databases or disks.
 
 ---
 
-### GIL
+### global interpreter lock
 
 The Python Global Interpreter Lock or GIL, in simple words, is a mutex (or a lock) that allows only one thread to hold the control of the Python interpreter.
 
@@ -2081,7 +2081,7 @@ Multiprocessing might be a solution, but multiple processes are heavier than mul
 
 ---
 
-### Race condition
+### race condition
 
 A race condition occurs when multiple threads access shared data or resources simultaneously, and the outcome of the program depends on the order in which the threads execute. Thread safety is the property of an application or library that it can handle multiple threads accessing shared data or resources without introducing race conditions.
 
@@ -2215,7 +2215,7 @@ if __name__ == '__main__':
 
 ---
 
-### What is asyncio in Python?
+### asyncio
 
 Asyncio is a Python library for asynchronous programming, which provides the infrastructure for writing single-threaded concurrent code using coroutines, event loops, and non-blocking I/O. 
 
@@ -2273,7 +2273,7 @@ if __name__ == "__main__":
 
 ---
 
-### Async context manager
+### async context manager
 
 The async with statement is used for managing resources in an asynchronous context, similar to the regular with statement for synchronous code. It's commonly used for working with asynchronous I/O resources that need to be acquired and released safely.
 
@@ -2310,7 +2310,7 @@ if __name__ == '__main__':
 ```
 
 ---
-### Future object
+### future object
 
 The Future class encapsulates the asynchronous execution of a callable. Future instances are created by `Executor.submit()`.
 
