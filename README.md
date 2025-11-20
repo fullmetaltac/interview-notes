@@ -13,7 +13,6 @@
 - ---
 ### Data Engineering
 - [SQL](data-engineering/sql.md)
-- **[SQLZoo](data-engineering/sql-zoo.md)*
 - ---
 ### Networking
 - [Networking](networking/networking.md)
