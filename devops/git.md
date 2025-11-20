@@ -34,7 +34,22 @@
   - [Lab 33: Resetting the Main Branch](#lab-33-resetting-the-main-branch)
   - [Lab 34: Rebasing](#lab-34-rebasing)
   - [Lab 35: Merging Back to Main](#lab-35-merging-back-to-main)
-  - [Lab 35: References](#lab-35-references)
+  - [Lab 36: Multiple Repositories](#lab-36-multiple-repositories)
+  - [Lab 37: Cloning Repositories](#lab-37-cloning-repositories)
+  - [Lab 38: Review the Cloned Repository](#lab-38-review-the-cloned-repository)
+  - [Lab 39: What is Origin?](#lab-39-what-is-origin)
+  - [Lab 40: Remote Branches](#lab-40-remote-branches)
+  - [Lab 41: Change the Original Repository](#lab-41-change-the-original-repository)
+  - [Lab 42: Fetching Changes](#lab-42-fetching-changes)
+  - [Lab 43: Merging Pulled Changes](#lab-43-merging-pulled-changes)
+  - [Lab 44: Pulling Changes](#lab-44-pulling-changes)
+  - [Lab 45: Adding a Tracking Branch](#lab-45-adding-a-tracking-branch)
+  - [Lab 46: Bare Repositories](#lab-46-bare-repositories)
+  - [Lab 47: Adding a Remote Repository](#lab-47-adding-a-remote-repository)
+  - [Lab 48: Pushing a Change](#lab-48-pushing-a-change)
+  - [Lab 49: Pulling Shared Changes](#lab-49-pulling-shared-changes)
+  - [Lab 50: Hosting your Git Repositories](#lab-50-hosting-your-git-repositories)
+  - [References](#references)
 
 ## Lab 1-2: Setup
 
@@ -1581,7 +1596,414 @@ Given the above guidelines, I tend to use rebase for short-lived, local branches
 
 ## Lab 35: Merging Back to Main
 
+We’ve kept our greet branch up to date with main (via rebase), now let’s merge the greet changes back into the main branch.
+
+**Merge greet into main**
+
+```shell
+$ git checkout main
+Switched to branch 'main'
+$
+$ git merge greet
+Updating 976950b..5f626c6
+Fast-forward
+ Rakefile       | 2 +-
+ lib/greeter.rb | 8 ++++++++
+ lib/hello.rb   | 6 ++++--
+ 3 files changed, 13 insertions(+), 3 deletions(-)
+ create mode 100644 lib/greeter.rb
+```
+
+Because the head of main is a direct ancestor of the head of the greet branch, git is able to do a fast-forward merge. When fast-forwarding, the branch pointer is simply moved forward to point to the same commit as the greeter branch.
+
+There will never be conflicts in a fast-forward merge.
+
+**Review the logs**
+
+```shell
+$ git hist
+* 5f626c6 2023-06-10 | Updated Rakefile (HEAD -> main, greet) [Jim Weirich]
+* 24d82d4 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* 619f552 2023-06-10 | Added greeter class [Jim Weirich]
+* 976950b 2023-06-10 | Added README [Jim Weirich]
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+The greet and main branches are now identical.
+
+## Lab 36: Multiple Repositories
+
+Up to this point we have been working with a single git repository. However, git excels at working with multiple repositories. These extra repositories may be stored locally, or may be accessed across a network connection.
+
+In the next section we will create a new repository called “cloned_hello”. We will show how to move changes from one repository to another, and how to handle conflicts when they arise between two repositories.
+
+![git-clone](images/git_clone.png)
+
+For now, we will be working with local repositories (i.e. repositories stored on your local hard disk), however most of the things learned in this section will apply to multiple repositories whether they are stored locally or remotely over a network.
+
+**NOTE**: We are going be making changes to both copies of our repositories. Make sure you pay attention to which repository you are in at each step of the following labs.
+
+## Lab 37: Cloning Repositories
+
+Go to the work directory
+Go to the working directory and make a clone of your hello repository.
+
+```shell
+$ cd ..
+$ pwd
+/Users/jim/Downloads/git_tutorial/work
+$ ls
+hello
+```
+
+At this point you should be in your “work” directory. There should be a single repository here named “hello”.
+
+**Create a clone of the hello repository**
+
+Let’s make a clone of the repository.
+
+```shell
+$ git clone hello cloned_hello
+Cloning into 'cloned_hello'...
+done.
+$ ls
+cloned_hello
+hello
+```
+
+There should now be two repositories in your work directory: the original “hello” repository and the newly cloned “cloned_hello” repository.
+
+## Lab 38: Review the Cloned Repository
+
+**Look at the cloned repository**
+
+Let’s take a look at the cloned repository.
+
+```shell
+$ cd cloned_hello
+$ ls
+README
+Rakefile
+lib
+```
+You should see a list of all the files in the top level of the original repository (`README`, `Rakefile` and `lib`).
+
+**Review the Repository History**
+
+```shell
+$ git hist --all
+* 5f626c6 2023-06-10 | Updated Rakefile (HEAD -> main, origin/main, origin/greet, origin/HEAD) [Jim Weirich]
+* 24d82d4 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* 619f552 2023-06-10 | Added greeter class [Jim Weirich]
+* 976950b 2023-06-10 | Added README [Jim Weirich]
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+You should now see a list of all the commits in the new repository, and it should (more or less) match the history of commits in the original repository. The only difference should be in the names of the branches.
+
+**Remote branches**
+
+You should see a **main** branch (along with **HEAD**) in the history list. But you will also have a number of strangely named branches (**origin/main**, **origin/greet** and **origin/HEAD**). We’ll talk about them in a bit.
+
+## Lab 39: What is Origin?
+
+```shell
+$ git remote
+origin
+```
+
+We see that the cloned repository knows about a remote repository named origin. Let’s see if we can get more information about origin:
+
+```shell
+$ git remote show origin
+warning: more than one branch.main.remote
+* remote origin
+  Fetch URL: /Users/jim/Downloads/git_tutorial/work/hello
+  Push  URL: /Users/jim/Downloads/git_tutorial/work/hello
+  HEAD branch: main
+  Remote branches:
+    greet tracked
+    main  tracked
+  Local branches configured for 'git pull':
+    main   merges with remote main
+              and with remote main
+    master merges with remote master
+  Local ref configured for 'git push':
+    main pushes to main (up to date)
+```
+
+Now we see that the remote repository “origin” is simply the original hello repository. Remote repositories typically live on a separate machine, possibly a centralized server. As we can see here, however, they can just as well point to a repository on the same machine. There is nothing particularly special about the name “origin”, however the convention is to use the name “origin” for the primary centralized repository (if there is one).
+
+## Lab 40: Remote Branches
+
+Let’s look at the branches available in our cloned repository.
+
+```shell
+$ git branch
+* main
+```
+
+That’s it, only the main branch is listed. Where is the greet branch? The **git branch** command only lists the local branches by default.
+
+**List Remote Branches**
+
+```shell
+$ git branch -a
+* main
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/greet
+  remotes/origin/main
+```
+
+Git has all the commits from the original repository, but branches in the remote repository are not treated as local branches here. If we want our own **greet** branch, we need to create it ourselves. We will see how to do that in a minute.
+
+## Lab 41: Change the Original Repository
+
+**Make a change in the original hello repository**
+
+```shell
+cd ../hello
+# (You should be in the original hello repository now)
+```
+
+**NOTE**: Now in the hello repo
+
+Make the following changes to README:
+
+```
+#README
+This is the Hello World example from the git tutorial.
+(changed in original)
+```
+
+Now add and commit this change
+
+```shell
+git add README
+git commit -m "Changed README in original repo"
+```
+
+## Lab 42: Fetching Changes
+
+Learn how to pull changes from a remote repository.
+
+```shell
+$ cd ../cloned_hello
+$ git fetch
+From /Users/jim/Downloads/git_tutorial/work/hello
+   5f626c6..5e2d55e  main       -> origin/main
+$ git hist --all
+* 5e2d55e 2023-06-10 | Changed README in original repo (origin/main, origin/HEAD) [Jim Weirich]
+* 5f626c6 2023-06-10 | Updated Rakefile (HEAD -> main, origin/greet) [Jim Weirich]
+* 24d82d4 2023-06-10 | Hello uses Greeter [Jim Weirich]
+* 619f552 2023-06-10 | Added greeter class [Jim Weirich]
+* 976950b 2023-06-10 | Added README [Jim Weirich]
+* cdceefa 2023-06-10 | Added a Rakefile. [Jim Weirich]
+* 22273f2 2023-06-10 | Moved hello.rb to lib [Jim Weirich]
+* 186488e 2023-06-10 | Add an author/email comment [Jim Weirich]
+* e4e3645 2023-06-10 | Added a comment (tag: v1) [Jim Weirich]
+* a6b268e 2023-06-10 | Added a default value (tag: v1-beta) [Jim Weirich]
+* 174dfab 2023-06-10 | Using ARGV [Jim Weirich]
+* f7c41d3 2023-06-10 | First Commit [Jim Weirich]
+```
+
+At this point the repository has all the commits from the original repository, but they are not integrated into the cloned repository’s local branches.
+
+Find the “Changed README in original repo” commit in the history above. Notice that the commit includes “origin/main” and “origin/HEAD”.
+
+Now look at the “Updated Rakefile” commit. You will see that the local main branch points to this commit, not to the new commit that we just fetched.
+
+The upshot of this is that the “git fetch” command will fetch new commits from the remote repository, but it will not merge these commits into the local branches.
+
+**Check the README**
+
+We can demonstrate that the cloned README is unchanged.
+
+```shell
+$ cat README
+This is the Hello World example from the git tutorial.
+```
+
+## Lab 43: Merging Pulled Changes
+
+**Merge the fetched changes into local main**
+
+```shell
+$ git merge origin/main
+Updating 5f626c6..5e2d55e
+Fast-forward
+ README | 1 +
+ 1 file changed, 1 insertion(+)
+```
+
+**Check the README again**
+
+We should see the changes now.
+
+```shell
+$ cat README
+This is the Hello World example from the git tutorial.
+(changed in original)
+```
+
+There are the changes. Even though “git fetch” does not merge the changes, we can still manually merge the changes from the remote repository.
+
+## Lab 44: Pulling Changes
+
+We’re not going to go through the process of creating another change and pulling it again, but we do want you to know that doing:
+
+```shell
+git pull
+```
+
+is indeed equivalent to the two steps:
+
+```shell
+git fetch
+git merge origin/main
+```
+
+## Lab 45: Adding a Tracking Branch
+
+The branches starting with remotes/origin are branches from the original repo. Notice that you don’t have a branch called greet anymore, but it knows that the original repo had a greet branch.
+
+**Add a local branch that tracks a remote branch.**
+
+```shell
+$ git branch --track greet origin/greet
+Branch 'greet' set up to track remote branch 'greet' from 'origin'.
+$ git branch -a
+  greet
+* main
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/greet
+  remotes/origin/main
+$ git hist --max-count=2
+* 5e2d55e 2023-06-10 | Changed README in original repo (HEAD -> main, origin/main, origin/HEAD) [Jim Weirich]
+* 5f626c6 2023-06-10 | Updated Rakefile (origin/greet, greet) [Jim Weirich]
+```
+
+We can now see the greet branch in the branch list and in the log.
+
+## Lab 46: Bare Repositories
+
+Bare repositories (without working directories) are usually used for sharing.
+
+**Create a bare repository.**
+
+```shell
+$ git clone --bare hello hello.git
+Cloning into bare repository 'hello.git'...
+done.
+$ ls hello.git
+HEAD
+config
+description
+hooks
+info
+objects
+packed-refs
+refs
+```
+
+The convention is that repositories ending in ‘.git’ are bare repositories. We can see that there is no working directory in the hello.git repo. Essentially it is nothing but the .git directory of a non-bare repo.
+
+## Lab 47: Adding a Remote Repository
+
+Add the bare repository as a remote to our original repository.
+Let’s add the hello.git repo to our original repo.
+
+```shell
+cd hello
+git remote add shared ../hello.git
+```
+
+**NOTE**: Now in the hello repository.
+
+## Lab 48: Pushing a Change
+
+Since bare repositories are usually shared on some sort of network server, it is usually difficult to cd into the repo and pull changes. So we need to push our changes into other repositories.
+
+Let’s start by creating a change to be pushed. Edit the README and commit it
+
+```
+# README
+This is the Hello World example from the git tutorial.
+(Changed in the original and pushed to shared)
+```
+
+```shell
+git checkout main
+git add README
+git commit -m "Added shared comment to readme"
+```
+
+Now push the change to the shared repo.
+
+```shell
+git push shared main
+```
+
+*shared* is the name of the repository receiving the changes we are pushing. (Remember, we added it as a remote in the previous lab.)
+
+```shell
+$ git push shared main
+To ../hello.git
+   5e2d55e..7b4a53a  main -> main
+```
+
+**NOTE**: We had to explicitly name the branch main that was receiving the push. It is possible to set it up automatically, but I never remember the commands to do that. Check out the “Git Remote Branch” gem for easy management of remote branches.
+
+## Lab 49: Pulling Shared Changes
+
+Quick hop over to the clone repository and let’s pull down the changes just pushed to the shared repo.
+
+```shell
+cd ../cloned_hello
+git remote add shared ../hello.git
+git branch --track shared main
+git pull shared main
+cat README
+```
+
+## Lab 50: Hosting your Git Repositories
+
+There are many ways to share git repositories over the network. Here is a quick and dirty way.
+
+**Start up the git server**
 
 
-## Lab 35: References
+```shell
+# (From the work directory)
+git daemon --verbose --export-all --base-path=.
+```
+
+Now, in a separate terminal window, go to your work directory
+
+```shell
+# (From the work directory)
+git clone git://localhost/hello.git network_hello
+cd network_hello
+ls
+```
+
+You should see a copy of hello project.
+
+**Pushing to the Git Daemon**
+
+If you want to push to the git daemon repository, add `--enable=receive-pack` to the git daemon command. Be careful because there is no authentication on this server, anyone could push to your repository.
+
+## References
  - https://gitimmersion.com
