@@ -521,7 +521,7 @@ Now you can refer to the current version of the program as v1.
 
 **Tagging Previous Versions**
 
-Let’s tag the version immediately prior to the current version v1-beta. First we need to checkout the previous version. Rather than look up the hash, we will use the `^` notation to indicate "the parent of v1".
+Let's tag the version immediately prior to the current version v1-beta. First we need to checkout the previous version. Rather than look up the hash, we will use the `^` notation to indicate "the parent of v1".
 
 If the `v1`^ notation gives you any trouble, you can also try `v1~1`, which will reference the same version. This notation means "the first ancestor of v1".
 
@@ -631,11 +631,11 @@ Changes not staged for commit:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
-We see that the `hello.rb` file has been modified, but hasn’t been staged yet.
+We see that the `hello.rb` file has been modified, but hasn't been staged yet.
 
 **Revert the changes in the working directory**
 
-Use the `checkout` command to checkout the repository’s version of the `hello.rb` file.
+Use the `checkout` command to checkout the repository's version of the `hello.rb` file.
 
 ```shell
 $ git checkout hello.rb
@@ -692,7 +692,7 @@ Unstaged changes after reset:
 M	hello.rb
 ```
 
-The `reset` command (by default) doesn’t change the working directory. So the working directory still has the unwanted comment in it. We can use the `checkout` command of the previous lab to remove the unwanted change from the working directory.
+The `reset` command (by default) doesn't change the working directory. So the working directory still has the unwanted comment in it. We can use the `checkout` command of the previous lab to remove the unwanted change from the working directory.
 
 **Note**: You could also have used the `git restore` command to restore just the single file.
 
@@ -771,7 +771,7 @@ This technique will work with any commit (although you may have to resolve confl
 
 The `revert` command of the previous section is a powerful command that lets us undo the effects of any commit in the repository. However, both the original commit and the "undoing" commit are visible in the branch history (using the `git log` command).
 
-Often we make a commit and immediately realize that it was a mistake. It would be nice to have a “take back” command that would allow us to pretend that the incorrect commit never happened. The "take back" command would even prevent the bad commit from showing up the `git log` history. It would be as if the bad commit never happened.
+Often we make a commit and immediately realize that it was a mistake. It would be nice to have a "take back" command that would allow us to pretend that the incorrect commit never happened. The "take back" command would even prevent the bad commit from showing up the `git log` history. It would be as if the bad commit never happened.
 
 **The reset command**
 
@@ -795,10 +795,10 @@ $ git hist
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-We see that we have an "Oops" commit and a "Revert Oops" commit as the last two commits made in this branch. Let’s remove them using reset.
+We see that we have an "Oops" commit and a "Revert Oops" commit as the last two commits made in this branch. Let's remove them using reset.
 
 **First, Mark this Branch**
-But before we remove the commits, let’s mark the latest commit with a tag so we can find it again.
+But before we remove the commits, let's mark the latest commit with a tag so we can find it again.
 
 ```shell
 git tag oops
@@ -806,7 +806,7 @@ git tag oops
 
 **Reset to Before Oops**
 
-Looking at the log history (above), we see that the commit tagged ‘v1’ is the commit right before the bad commit. Let’s reset the branch to that point. Since that branch is tagged, we can use the tag name in the reset command (if it wasn’t tagged, we could just use the hash value).
+Looking at the log history (above), we see that the commit tagged 'v1' is the commit right before the bad commit. Let's reset the branch to that point. Since that branch is tagged, we can use the tag name in the reset command (if it wasn't tagged, we could just use the hash value).
 
 ```shell
 $ git reset --hard v1
@@ -822,7 +822,7 @@ Our main branch now points to the v1 commit and the Oops commit and the Revert O
 
 **Nothing is Ever Lost**
 
-But what happened to the bad commits? It turns out that the commits are still in the repository. In fact, we can still reference them. Remember that at the beginning of this lab we tagged the reverting commit with the tag "oops". Let’s look at all the commits.
+But what happened to the bad commits? It turns out that the commits are still in the repository. In fact, we can still reference them. Remember that at the beginning of this lab we tagged the reverting commit with the tag "oops". Let's look at all the commits.
 
 ```shell
 $ git hist --all
@@ -834,7 +834,7 @@ $ git hist --all
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-Here we see that the bad commits haven’t disappeared. They are still in the repository. It’s just that they are no longer listed in the main branch. If we hadn’t tagged them, they would still be in the repository, but there would be no way to reference them other than using their hash names. Commits that are unreferenced remain in the repository until the system runs the garbage collection software.
+Here we see that the bad commits haven't disappeared. They are still in the repository. It's just that they are no longer listed in the main branch. If we hadn't tagged them, they would still be in the repository, but there would be no way to reference them other than using their hash names. Commits that are unreferenced remain in the repository until the system runs the garbage collection software.
 
 **Dangers of Reset**
 
@@ -846,7 +846,7 @@ However, if the branch is shared on remote repositories, resetting can confuse o
 
 ## Lab 18: Remove the oops tag
 
-The oops tag has served its purpose. Let’s remove it and allow the commits it referenced to be garbage collected.
+The oops tag has served its purpose. Let's remove it and allow the commits it referenced to be garbage collected.
 
 ```shell
 $ git tag -d oops
@@ -880,7 +880,7 @@ git commit -m "Add an author comment"
 
 **Amend the Previous Commit**
 
-We really don’t want a separate commit for just the email. Let’s amend the previous commit to include the email change.
+We really don't want a separate commit for just the email. Let's amend the previous commit to include the email change.
 
 ```shell
 $ git add hello.rb
@@ -901,14 +901,14 @@ $ git hist
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-We can see the original “author” commit is now gone, and it is replaced by the “author/email” commit. You can achieve the same effect by resetting the branch back one commit and then recommitting the new changes.
+We can see the original "author" commit is now gone, and it is replaced by the "author/email" commit. You can achieve the same effect by resetting the branch back one commit and then recommitting the new changes.
 
 
 ## Lab 20: Moving Files
 
 **Move the hello.rb file into a lib directory.**
 
-We are now going to build up the structure of our little repository. Let’s move the program into a lib directory.
+We are now going to build up the structure of our little repository. Let's move the program into a lib directory.
 
 ```shell
 $ mkdir lib
@@ -930,7 +930,7 @@ Both of these bits of information are immediately staged and ready to be committ
 
 One of the nice things about git is that you can forget about source control until the point you are ready to start committing code. What would happen if we used the operating system command to move the file instead of the git command?
 
-It turns out the following set of commands is identical to what we just did. It’s a bit more work, but the result is the same.
+It turns out the following set of commands is identical to what we just did. It's a bit more work, but the result is the same.
 
 We could have done:
 
@@ -943,7 +943,7 @@ git rm hello.rb
 
 **Commit the new directory**
 
-Let’s commit this move.
+Let's commit this move.
 
 ```shell
 git commit -m "Moved hello.rb to lib"
@@ -956,7 +956,7 @@ git commit -m "Moved hello.rb to lib"
 ```shell
 gem install rake
 ```
-Let’s add a Rakefile to our repository. The following one will do nicely.
+Let's add a Rakefile to our repository. The following one will do nicely.
 
 ```ruby
 # Rakefile
@@ -996,7 +996,7 @@ HEAD		description	info		packed-refs
 ORIG_HEAD	hooks		logs		refs
 ```
 
-This is the magic directory where all the git “stuff” is stored. Let’s peek in the objects directory.
+This is the magic directory where all the git "stuff" is stored. Let's peek in the objects directory.
 
 **The Object Store**
 
@@ -1016,7 +1016,7 @@ $ ls -C .git/objects/09
 6b74c56bfc6b40e754fc0725b8c70b2038b91e	9fb6f9d3a104feb32fcac22354c4d0e8a182c1
 ```
 
-Look in one of the two-letter directories. You should see some files with 38-character names. These are the files that contain the objects stored in git. These files are compressed and encoded, so looking at their contents directly won’t be very helpful, but we will take a closer look in a bit.
+Look in one of the two-letter directories. You should see some files with 38-character names. These are the files that contain the objects stored in git. These files are compressed and encoded, so looking at their contents directly won't be very helpful, but we will take a closer look in a bit.
 
 
 **Config File**
@@ -1096,7 +1096,7 @@ This is the dump of the commit object that is at the head of the main branch. It
 
 **Finding the Tree**
 
-We can dump the directory tree referenced in the commit. This should be a description of the (top level) files in our project (for that commit). Use the SHA1 hash from the “tree” line listed above.
+We can dump the directory tree referenced in the commit. This should be a description of the (top level) files in our project (for that commit). Use the SHA1 hash from the "tree" line listed above.
 
 ```shell
 $ git cat-file -p 096b74c
@@ -1111,7 +1111,7 @@ $ git cat-file -p e46f374
 100644 blob c45f26b6fdc7db6ba779fc4c385d9d24fc12cf72	hello.rb
 ```
 
-There’s the hello.rb file.
+There's the hello.rb file.
 
 **Dumping the hello.rb file**
 
@@ -1124,11 +1124,11 @@ name = ARGV.first || "World"
 puts "Hello, #{name}!"
 ```
 
-There you have it. We’ve dumped commit objects, tree objects and blob objects directly from the git repository. That’s all there is to it, blobs, trees and commits.
+There you have it. We've dumped commit objects, tree objects and blob objects directly from the git repository. That's all there is to it, blobs, trees and commits.
 
 ## Lab 24: Creating a Branch
 
-Let’s call our new branch ‘greet’.
+Let's call our new branch 'greet'.
 
 ```shell
 git checkout -b greet
@@ -1228,7 +1228,7 @@ name = ARGV.first || "World"
 
 puts "Hello, #{name}!"
 ```
-You are now on the main branch. You can tell because the hello.rb file doesn’t use the `Greeter` class.
+You are now on the main branch. You can tell because the hello.rb file doesn't use the `Greeter` class.
 
 **Switch Back to the Greet Branch.**
 
@@ -1291,7 +1291,7 @@ $ git hist --all
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-Here is our first chance to see the `--graph` option on `git hist` in action. Adding the `--graph` option to `git log` causes it to draw the commit tree using simple ASCII characters. We can see both branches (greet and main), and that the main branch is the current HEAD. The common ancestor to both branches is the “Added a Rakefile” branch.
+Here is our first chance to see the `--graph` option on `git hist` in action. Adding the `--graph` option to `git log` causes it to draw the commit tree using simple ASCII characters. We can see both branches (greet and main), and that the main branch is the current HEAD. The common ancestor to both branches is the "Added a Rakefile" branch.
 
 The `--all` flag makes sure that we see all the branches. The default is to show only the current branch.
 
@@ -1299,7 +1299,7 @@ The `--all` flag makes sure that we see all the branches. The default is to show
 
 **Merge the branches**
 
-Merging brings the changes in two branches together. Let’s go back to the greet branch and merge main onto greet.
+Merging brings the changes in two branches together. Let's go back to the greet branch and merge main onto greet.
 
 ```shell
 $ git checkout greet
@@ -1374,7 +1374,7 @@ $ git hist --all
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-main at commit “Added README” has been merged to the greet branch, but there is now an additional commit on main that has not been merged back to greet.
+main at commit "Added README" has been merged to the greet branch, but there is now an additional commit on main that has not been merged back to greet.
 
 ## Lab 30: Resolving Conflicts
 
@@ -1440,11 +1440,11 @@ $ git commit -m "Merged main fixed conflict."
 
 **Advanced Merging**
 
-git doesn’t provide any graphical merge tools, but it will gladly work with any third party merge tool you wish to use. See [External Merge and Diff Tools](http://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#External-Merge-and-Diff-Tools) for a description of using the Perforce merge tool with git.
+git doesn't provide any graphical merge tools, but it will gladly work with any third party merge tool you wish to use. See [External Merge and Diff Tools](http://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#External-Merge-and-Diff-Tools) for a description of using the Perforce merge tool with git.
 
 ## Lab 31: Rebasing VS Merging
 
-Let’s explore the differences between merging and rebasing. In order to do so, we need to rewind the repository back in time before the first merge, and then redo the same steps, but using rebasing rather than merging.
+Let's explore the differences between merging and rebasing. In order to do so, we need to rewind the repository back in time before the first merge, and then redo the same steps, but using rebasing rather than merging.
 
 We will make use the of the `reset` command to wind the branches back in time.
 
@@ -1452,7 +1452,7 @@ We will make use the of the `reset` command to wind the branches back in time.
 
 **Reset the greet branch**
 
-Let’s go back in time on the greet branch to the point *before* we merged main onto it. We can **reset** a branch to any commit we want. Essentially this is modifying the branch pointer to point to anywhere in the commit tree.
+Let's go back in time on the greet branch to the point *before* we merged main onto it. We can **reset** a branch to any commit we want. Essentially this is modifying the branch pointer to point to anywhere in the commit tree.
 
 In this case we want to back greet up to the point prior to the merge with main. We need to find the last commit before the merge.
 
@@ -1479,7 +1479,7 @@ $ git hist
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-That’s a bit hard to read, but looking at the data we see that the “Updated Rakefile” commit was the last commit on the greet branch before merging. Let’s reset the greet branch to that commit.
+That's a bit hard to read, but looking at the data we see that the "Updated Rakefile" commit was the last commit on the greet branch before merging. Let's reset the greet branch to that commit.
 
 ```shell
 $ git reset --hard c1a7120
@@ -1510,7 +1510,7 @@ $ git hist --all
 
 **Reset the main branch**
 
-When we added the interactive mode to the main branch, we made a change that conflicted with changes in the greet branch. Let’s rewind the main branch to a point before the conflicting change. This allows us to demonstrate the rebase command without worrying about conflicts.
+When we added the interactive mode to the main branch, we made a change that conflicted with changes in the greet branch. Let's rewind the main branch to a point before the conflicting change. This allows us to demonstrate the rebase command without worrying about conflicts.
 
 ```shell
 $ git checkout main
@@ -1526,7 +1526,7 @@ $ git hist
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-The ‘Added README’ commit is the one directly before the conflicting interactive mode. We will reset the main branch to ‘Added README’ commit.
+The 'Added README' commit is the one directly before the conflicting interactive mode. We will reset the main branch to 'Added README' commit.
 
 ```shell
 git reset --hard <hash>
@@ -1587,7 +1587,7 @@ The final result of the rebase is very similar to the merge. The greet branch no
 
 **When to Rebase, When to Merge?**
 
-Don’t use rebase …
+Don't use rebase …
 
 1. If the branch is public and shared with others. Rewriting publicly shared branches will tend to screw up other members of the team.
 1. When the exact history of the commit branch is important (since rebase rewrites the commit history).
@@ -1596,7 +1596,7 @@ Given the above guidelines, I tend to use rebase for short-lived, local branches
 
 ## Lab 35: Merging Back to Main
 
-We’ve kept our greet branch up to date with main (via rebase), now let’s merge the greet changes back into the main branch.
+We've kept our greet branch up to date with main (via rebase), now let's merge the greet changes back into the main branch.
 
 **Merge greet into main**
 
@@ -1641,7 +1641,7 @@ The greet and main branches are now identical.
 
 Up to this point we have been working with a single git repository. However, git excels at working with multiple repositories. These extra repositories may be stored locally, or may be accessed across a network connection.
 
-In the next section we will create a new repository called “cloned_hello”. We will show how to move changes from one repository to another, and how to handle conflicts when they arise between two repositories.
+In the next section we will create a new repository called "cloned_hello". We will show how to move changes from one repository to another, and how to handle conflicts when they arise between two repositories.
 
 ![git-clone](images/git_clone.png)
 
@@ -1662,11 +1662,11 @@ $ ls
 hello
 ```
 
-At this point you should be in your “work” directory. There should be a single repository here named “hello”.
+At this point you should be in your "work" directory. There should be a single repository here named "hello".
 
 **Create a clone of the hello repository**
 
-Let’s make a clone of the repository.
+Let's make a clone of the repository.
 
 ```shell
 $ git clone hello cloned_hello
@@ -1677,13 +1677,13 @@ cloned_hello
 hello
 ```
 
-There should now be two repositories in your work directory: the original “hello” repository and the newly cloned “cloned_hello” repository.
+There should now be two repositories in your work directory: the original "hello" repository and the newly cloned "cloned_hello" repository.
 
 ## Lab 38: Review the Cloned Repository
 
 **Look at the cloned repository**
 
-Let’s take a look at the cloned repository.
+Let's take a look at the cloned repository.
 
 ```shell
 $ cd cloned_hello
@@ -1715,7 +1715,7 @@ You should now see a list of all the commits in the new repository, and it shoul
 
 **Remote branches**
 
-You should see a **main** branch (along with **HEAD**) in the history list. But you will also have a number of strangely named branches (**origin/main**, **origin/greet** and **origin/HEAD**). We’ll talk about them in a bit.
+You should see a **main** branch (along with **HEAD**) in the history list. But you will also have a number of strangely named branches (**origin/main**, **origin/greet** and **origin/HEAD**). We'll talk about them in a bit.
 
 ## Lab 39: What is Origin?
 
@@ -1724,7 +1724,7 @@ $ git remote
 origin
 ```
 
-We see that the cloned repository knows about a remote repository named origin. Let’s see if we can get more information about origin:
+We see that the cloned repository knows about a remote repository named origin. Let's see if we can get more information about origin:
 
 ```shell
 $ git remote show origin
@@ -1744,18 +1744,18 @@ warning: more than one branch.main.remote
     main pushes to main (up to date)
 ```
 
-Now we see that the remote repository “origin” is simply the original hello repository. Remote repositories typically live on a separate machine, possibly a centralized server. As we can see here, however, they can just as well point to a repository on the same machine. There is nothing particularly special about the name “origin”, however the convention is to use the name “origin” for the primary centralized repository (if there is one).
+Now we see that the remote repository "origin" is simply the original hello repository. Remote repositories typically live on a separate machine, possibly a centralized server. As we can see here, however, they can just as well point to a repository on the same machine. There is nothing particularly special about the name "origin", however the convention is to use the name "origin" for the primary centralized repository (if there is one).
 
 ## Lab 40: Remote Branches
 
-Let’s look at the branches available in our cloned repository.
+Let's look at the branches available in our cloned repository.
 
 ```shell
 $ git branch
 * main
 ```
 
-That’s it, only the main branch is listed. Where is the greet branch? The **git branch** command only lists the local branches by default.
+That's it, only the main branch is listed. Where is the greet branch? The **git branch** command only lists the local branches by default.
 
 **List Remote Branches**
 
@@ -1819,13 +1819,13 @@ $ git hist --all
 * f7c41d3 2023-06-10 | First Commit [Jim Weirich]
 ```
 
-At this point the repository has all the commits from the original repository, but they are not integrated into the cloned repository’s local branches.
+At this point the repository has all the commits from the original repository, but they are not integrated into the cloned repository's local branches.
 
-Find the “Changed README in original repo” commit in the history above. Notice that the commit includes “origin/main” and “origin/HEAD”.
+Find the "Changed README in original repo" commit in the history above. Notice that the commit includes "origin/main" and "origin/HEAD".
 
-Now look at the “Updated Rakefile” commit. You will see that the local main branch points to this commit, not to the new commit that we just fetched.
+Now look at the "Updated Rakefile" commit. You will see that the local main branch points to this commit, not to the new commit that we just fetched.
 
-The upshot of this is that the “git fetch” command will fetch new commits from the remote repository, but it will not merge these commits into the local branches.
+The upshot of this is that the "git fetch" command will fetch new commits from the remote repository, but it will not merge these commits into the local branches.
 
 **Check the README**
 
@@ -1858,11 +1858,11 @@ This is the Hello World example from the git tutorial.
 (changed in original)
 ```
 
-There are the changes. Even though “git fetch” does not merge the changes, we can still manually merge the changes from the remote repository.
+There are the changes. Even though "git fetch" does not merge the changes, we can still manually merge the changes from the remote repository.
 
 ## Lab 44: Pulling Changes
 
-We’re not going to go through the process of creating another change and pulling it again, but we do want you to know that doing:
+We're not going to go through the process of creating another change and pulling it again, but we do want you to know that doing:
 
 ```shell
 git pull
@@ -1877,7 +1877,7 @@ git merge origin/main
 
 ## Lab 45: Adding a Tracking Branch
 
-The branches starting with remotes/origin are branches from the original repo. Notice that you don’t have a branch called greet anymore, but it knows that the original repo had a greet branch.
+The branches starting with remotes/origin are branches from the original repo. Notice that you don't have a branch called greet anymore, but it knows that the original repo had a greet branch.
 
 **Add a local branch that tracks a remote branch.**
 
@@ -1918,12 +1918,12 @@ packed-refs
 refs
 ```
 
-The convention is that repositories ending in ‘.git’ are bare repositories. We can see that there is no working directory in the hello.git repo. Essentially it is nothing but the .git directory of a non-bare repo.
+The convention is that repositories ending in '.git' are bare repositories. We can see that there is no working directory in the hello.git repo. Essentially it is nothing but the .git directory of a non-bare repo.
 
 ## Lab 47: Adding a Remote Repository
 
 Add the bare repository as a remote to our original repository.
-Let’s add the hello.git repo to our original repo.
+Let's add the hello.git repo to our original repo.
 
 ```shell
 cd hello
@@ -1936,7 +1936,7 @@ git remote add shared ../hello.git
 
 Since bare repositories are usually shared on some sort of network server, it is usually difficult to cd into the repo and pull changes. So we need to push our changes into other repositories.
 
-Let’s start by creating a change to be pushed. Edit the README and commit it
+Let's start by creating a change to be pushed. Edit the README and commit it
 
 ```
 # README
@@ -1964,11 +1964,11 @@ To ../hello.git
    5e2d55e..7b4a53a  main -> main
 ```
 
-**NOTE**: We had to explicitly name the branch main that was receiving the push. It is possible to set it up automatically, but I never remember the commands to do that. Check out the “Git Remote Branch” gem for easy management of remote branches.
+**NOTE**: We had to explicitly name the branch main that was receiving the push. It is possible to set it up automatically, but I never remember the commands to do that. Check out the "Git Remote Branch" gem for easy management of remote branches.
 
 ## Lab 49: Pulling Shared Changes
 
-Quick hop over to the clone repository and let’s pull down the changes just pushed to the shared repo.
+Quick hop over to the clone repository and let's pull down the changes just pushed to the shared repo.
 
 ```shell
 cd ../cloned_hello
