@@ -17,7 +17,7 @@
     - [context manager](#context-manager)
     - [args and kwargs](#args-and-kwargs)
     - [dataclass](#dataclass)
-    - [shallow and Deep copy](#shallow-and-deep-copy)
+    - [shallow and deep copy](#shallow-and-deep-copy)
   - [functions and functional features](#functions-and-functional-features)
     - [closure](#closure)
     - [global local and nonlocal](#global-local-and-nonlocal)
@@ -51,7 +51,7 @@
     - [polymorphism](#polymorphism)
     - [abstraction](#abstraction)
     - [class diagram](#class-diagram)
-    - [Method Resolution Order](#method-resolution-order)
+    - [method resolution order](#method-resolution-order)
     - [inheritance vs composition](#inheritance-vs-composition)
     - [staticmethod vs classmethod](#staticmethod-vs-classmethod)
     - [class variable vs instance variable](#class-variable-vs-instance-variable)
@@ -553,7 +553,7 @@ if __name__ == "__main__":
 
 ---
 
-### shallow and Deep copy
+### shallow and deep copy
 
 :bulb: The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
 
@@ -1722,7 +1722,7 @@ In software engineering, a class diagram in the Unified Modeling Language (UML) 
 
 ---
 
-### Method Resolution Order
+### method resolution order
 
 ```python
 class A:
