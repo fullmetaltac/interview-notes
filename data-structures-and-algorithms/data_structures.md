@@ -55,8 +55,10 @@
 
 ## Stacks and queues
 - 📝[Stacks](leetcode/Stacks-and-queues/Stacks.md)
-- 📝[String problems](leetcode/Stacks-and-queues/String-problems.md.md)
-- TODO
+- 📝[String problems](leetcode/Stacks-and-queues/String-problems.md)
+- 💻[Simplify Path](leetcode/Stacks-and-queues/Simplify-Path.md)
+- 💻[Make The String Great](leetcode/Stacks-and-queues/Make-The-String-Great.md)
+- 📝[Queues](leetcode/Stacks-and-queues/Queues.md)
 
 ## Trees and graphs
 - 📝[Binary trees](leetcode/Trees-and-graphs/Binary-trees.md)
