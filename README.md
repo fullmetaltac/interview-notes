@@ -24,3 +24,12 @@
 - [QA](quality-assurance/qa.md)
 - [ISTQB](quality-assurance/istqb.md)
 - ---
+
+<!--
+git checkout --orphan latest
+git add -A
+git commit -m "Initial commit (history squashed)"
+git branch -D master
+git branch -m master
+git push -f origin master
+ -->
