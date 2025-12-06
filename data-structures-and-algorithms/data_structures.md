@@ -59,6 +59,10 @@
 - 💻[Simplify Path](leetcode/Stacks-and-queues/Simplify-Path.md)
 - 💻[Make The String Great](leetcode/Stacks-and-queues/Make-The-String-Great.md)
 - 📝[Queues](leetcode/Stacks-and-queues/Queues.md)
+- 💻[Moving Average from Data Stream](leetcode/Stacks-and-queues/Moving-Average-from-Data-Stream.md)
+- 📝[Monotonic](leetcode/Stacks-and-queues/Monotonic.md)
+- 💻[Next Greater Element I](leetcode/Stacks-and-queues/Next-Greater-Element-I.md)
+- 💻[Online Stock Span](leetcode/Stacks-and-queues/Online-Stock-Span.md)
 
 ## Trees and graphs
 - 📝[Binary trees](leetcode/Trees-and-graphs/Binary-trees.md)
