@@ -67,6 +67,10 @@
 ## Trees and graphs
 - 📝[Binary trees](leetcode/Trees-and-graphs/Binary-trees.md)
 - 📝[Binary trees - DFS](leetcode/Trees-and-graphs/Binary-trees-DFS.md)
+- 💻[Minimum Depth of Binary Tree](leetcode/Trees-and-graphs/Minimum-Depth-of-Binary-Tree.md)
+- 💻[Maximum Difference Between Node and Ancestor](leetcode/Trees-and-graphs/Maximum-Difference-Between-Node-and-Ancestor.md)
+- 💻[Diameter of Binary Tree](leetcode/Trees-and-graphs/Diameter-of-Binary-Tree.md)
+- 📝[Binary trees - BFS](leetcode/Trees-and-graphs/Binary-trees-BFS.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
