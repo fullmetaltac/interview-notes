@@ -71,6 +71,12 @@
 - 💻[Maximum Difference Between Node and Ancestor](leetcode/Trees-and-graphs/Maximum-Difference-Between-Node-and-Ancestor.md)
 - 💻[Diameter of Binary Tree](leetcode/Trees-and-graphs/Diameter-of-Binary-Tree.md)
 - 📝[Binary trees - BFS](leetcode/Trees-and-graphs/Binary-trees-BFS.md)
+- 💻[Deepest Leaves Sum](leetcode/Trees-and-graphs/Deepest-Leaves-Sum.md)
+- 💻[Binary Tree Zigzag Level Order Traversal](leetcode/Trees-and-graphs/Binary-Tree-Zigzag-Level-Order-Traversal.md)
+- 📝[Binary search trees](leetcode/Trees-and-graphs/Binary-search-trees.md)
+- 💻[Insert into a Binary Search Tree](leetcode/Trees-and-graphs/Insert-into-a-Binary-Search-Tree.md)
+- 💻[Closest Binary Search Tree Value](leetcode/Trees-and-graphs/Closest-Binary-Search-Tree-Value.md)
+- 📝[Graphs](leetcode/Trees-and-graphs/Graphs.md)
 
 ## References
 - https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/
